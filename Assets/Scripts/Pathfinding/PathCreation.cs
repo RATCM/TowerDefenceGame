@@ -37,7 +37,6 @@ public class PathCreation : MonoBehaviour
         {
             return Dist(transform.position, x).CompareTo(Dist(transform.position, y));
         });
-
     }
 
     private void Start()
