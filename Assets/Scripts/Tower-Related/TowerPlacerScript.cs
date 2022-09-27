@@ -14,7 +14,7 @@ public class TowerPlacerScript : MonoBehaviour
     private Collider2D newTowerC2;
 
     private bool SkipClickOnce;
-    private bool Placeable = false;
+    //private bool Placeable = false;
 
     private void FixedUpdate()
     {
