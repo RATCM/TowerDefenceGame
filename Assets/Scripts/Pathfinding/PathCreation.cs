@@ -5,19 +5,6 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEditor;
 using System.ComponentModel;
-
-public static class Extensions
-{
-    public static bool IsNullOrEmpty<T>(this IEnumerable<T> list) =>
-        list is null
-        ? true 
-        : list.Count() == 0;
-
-    public static bool Detected(this RaycastHit2D? hit) =>
-        hit is null
-        ? false
-        : hit.Value;
-}
 internal enum PathArgs
 {
     [Description("Weather the object should follow the layer")]
@@ -50,7 +37,6 @@ public class PathCreation : MonoBehaviour
         {
             return Dist(transform.position, x).CompareTo(Dist(transform.position, y));
         });
-
     }
 
     private void Start()

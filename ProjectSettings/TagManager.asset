@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Tower
   layers:
   - Default
   - TransparentFX
@@ -13,6 +14,8 @@ TagManager:
   - UI
   - Obstacle
   - PathTerrain
+  - Unplaceable area for towers
+  - Placeable area for towers
   - 
   - 
   - 
@@ -40,4 +43,16 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 731797101
+    locked: 0
+  - name: Towers
+    uniqueID: 116146579
+    locked: 0
+  - name: UI
+    uniqueID: 2202467675
+    locked: 0
+  - name: PlacedTowers
+    uniqueID: 3512264041
     locked: 0
