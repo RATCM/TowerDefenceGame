@@ -16,6 +16,10 @@ public enum SpriteFolder
 
 public static class UnityManager
 {
+    //public static GameObject GetAllInstancesOfTag(string tag)
+    //{
+        
+    //}
     public static GameObject GetPrefab(string name) => 
         Resources.Load<GameObject>($"Prefabs/{name}");
 
