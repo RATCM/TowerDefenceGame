@@ -12,9 +12,9 @@ using UnityEngine.EventSystems;
 public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
     #region Fields in inspector
-    [HideInInspector] protected float MinimumEnergy = 50f; 
-    [HideInInspector] protected float MaximumEnergy = 100f;
-    [HideInInspector] protected float OptimalEnergy = 50f;
+    [HideInInspector] public float MinimumEnergy = 50f; 
+    [HideInInspector] public float MaximumEnergy = 100f;
+    [HideInInspector] public float OptimalEnergy = 50f;
     [HideInInspector] protected float CurrentTemprature = 0;
     [HideInInspector] protected bool BeamRunning = false;
     [HideInInspector] private GameObject rayPrefab;
@@ -23,22 +23,9 @@ public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEn
 
     [SerializeField] protected float MinimumTemperature = 0;
     [SerializeField] protected float MaximumTemperature = 100;
-    [Range(50f, 100f)] [SerializeField] protected float EnergyUse = 50f;
+    [Range(50f, 100f)] [SerializeField] public float EnergyUse = 50f;
     #endregion
 
-
-    void OnTempeartureChanged()
-    {
-        if(CurrentTemprature > MaximumTemperature)
-        {
-            OnCooldown = true;
-            EndBeam();
-        }
-        else if(!OnCooldown)
-        {
-            StartBeam();
-        }
-    }
     public void StartBeam()
     {
         if (!BeamRunning && !CurrentTargets.IsNullOrEmpty())
@@ -48,7 +35,6 @@ public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEn
             LineRenderer lr = laserRay.GetComponent<LineRenderer>();
 
             lr.SetPositions(new Vector3[] { Vector3.zero, CurrentTargets[0].transform.position - gameObject.transform.position });
-            Debug.Log("Laser fired");
             BeamRunning = true;
         }
     }
@@ -99,7 +85,6 @@ public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEn
             CurrentTargets.Add(enemies[i]);
         }
     }
-
     void UpgradeTower()
     {
         TowerLevel++;
@@ -164,28 +149,20 @@ public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEn
     }
     void Awake()
     {
-        var popup = UnityManager.GetPrefab("TowerInfoPopup");
-        UIPanel = Instantiate(popup, transform);
-        UIPanel.transform.Translate(new Vector2(-3, 0));
+        InstantiateUIPrefab("LaserTowerInfoPopup");
     }
     void Start()
     {
         rayPrefab = UnityManager.GetPrefab("LaserRay");
-        if (WorkerCount < MinimumWorkerCount)
-            IsActive = false;
-        else
-            IsActive = true;
-        Debug.Log($"Workercount: {WorkerCount}");
-        Debug.Log($"Minimum Worker Count: {MinimumWorkerCount}");
-
+        //if (WorkerCount < MinimumWorkerCount)
+        //    IsActive = false;
+        //else
+        //    IsActive = true;
     }
-
-    private GameObject UIPanel;
     void FixedUpdate()
     {
-        if (WorkerCount < MinimumWorkerCount)
+        if (!IsActive)
             return;
-
 
         UpdateTemperature();
         UpdateTargets();
@@ -193,25 +170,10 @@ public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEn
         UpdateLaser();
     }
 
-    void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
-    {
-
-        UIPanel.SetActive(true);
-
-        Debug.Log("Event raised");
-    }
-
-    void IPointerEnterHandler.OnPointerEnter(UnityEngine.EventSystems.PointerEventData eventData)
-    {
-        var spr = gameObject.GetComponent<SpriteRenderer>();
-
-        spr.color = new Color(0.8f, 0.8f, 0.8f);
-    }
-
-    void IPointerExitHandler.OnPointerExit(UnityEngine.EventSystems.PointerEventData eventData)
-    {
-        var spr = gameObject.GetComponent<SpriteRenderer>();
-
-        spr.color = new Color(1f, 1f, 1f);
-    }
+    void IPointerClickHandler.OnPointerClick(PointerEventData eventData) =>
+        UIPanel.SetActive(!UIPanel.activeSelf);
+    void IPointerEnterHandler.OnPointerEnter(UnityEngine.EventSystems.PointerEventData eventData) =>
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
+    void IPointerExitHandler.OnPointerExit(UnityEngine.EventSystems.PointerEventData eventData) =>
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
 }
