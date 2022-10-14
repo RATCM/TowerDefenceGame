@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class ChangeSceneButton : MonoBehaviour, IPointerClickHandler
+public class SceneButton : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] protected string NewSceneName;
-
+    public string NewSceneName = "";
     public void OnPointerClick(PointerEventData eventData)
     {
-        SceneManager.LoadScene(NewSceneName, LoadSceneMode.Single);
+        SceneManager.LoadScene(NewSceneName, LoadSceneMode.Additive);
     }
 }
