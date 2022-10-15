@@ -45,7 +45,9 @@ public class GameController : MonoBehaviour
 
     public void PlaceTower(string towerName)
     {
-        if(!Physics2D.Raycast(TowerPlaceSelector.transform.position, Vector2.zero,10,LayerMask.GetMask("Tower")))
+        var hitInfo = Physics2D.Raycast(TowerPlaceSelector.transform.position, Vector2.zero);
+
+        if (!hitInfo || hitInfo.transform.tag != "Tower")
         {
             var tower = Instantiate(TowerPrefabs[towerName]);
 
