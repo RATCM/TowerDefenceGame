@@ -49,9 +49,6 @@ TagManager:
   - name: Terrain
     uniqueID: 3654752441
     locked: 0
-  - name: Trees
-    uniqueID: 3718399137
-    locked: 0
   - name: Towers
     uniqueID: 1146832199
     locked: 0
