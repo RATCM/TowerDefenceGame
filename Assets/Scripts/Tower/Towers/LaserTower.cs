@@ -58,38 +58,38 @@ public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEn
             CurrentTemprature -= (EnergyUse - OptimalEnergy) * multiplier;
         }
 
-        UpdateBeam();
+        UpdateLaserStatus();
     }
     public void UpdateTargets()
     {
-        // Get all enemies in scene
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
+        //// Get all enemies in scene
+        //var enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
 
-        // Remove all enemies not in view
-        enemies = enemies.Where(x => Vector2.Angle(Direction, gameObject.PointDircetion(x)) <= MaxTargetingAngle).ToList();
+        //// Remove all enemies not in view
+        //enemies = enemies.Where(x => Vector2.Angle(Direction, gameObject.PointDircetion(x)) <= MaxTargetingAngle).ToList();
 
-        enemies = enemies.Where(x => Vector2.Distance(x.transform.position, this.transform.position) <= Range).ToList();
+        //enemies = enemies.Where(x => Vector2.Distance(x.transform.position, this.transform.position) <= Range).ToList();
 
-        // Sort enemies by closest
-        enemies = enemies.SortByClosest(gameObject).ToList();
+        //// Sort enemies by closest
+        //enemies = enemies.SortByClosest(gameObject).ToList();
 
-        // Reset current targets
-        CurrentTargets = new List<GameObject>(); 
+        //// Reset current targets
+        //CurrentTargets = new List<GameObject>(); 
 
-        int total = MaxTargets < enemies.Count()
-            ? MaxTargets
-            : enemies.Count();
+        //int total = MaxTargets < enemies.Count()
+        //    ? MaxTargets
+        //    : enemies.Count();
 
-        for (int i = 0; i < total; i++)
-        {
-            CurrentTargets.Add(enemies[i]);
-        }
+        //for (int i = 0; i < total; i++)
+        //{
+        //    CurrentTargets.Add(enemies[i]);
+        //}
     }
     void UpgradeTower()
     {
         TowerLevel++;
     }
-    void UpdateBeam()
+    void UpdateLaserStatus()
     {
         if (CurrentTemprature <= MinimumTemperature) // Remove cooldown when temperature is at minimum
             OnCooldown = false;
@@ -128,14 +128,20 @@ public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEn
 
                 LineRenderer lr = laserRay.GetComponent<LineRenderer>();
 
-                lr.SetPositions(new Vector3[] { Vector3.zero, CurrentTargets[0].transform.position - gameObject.transform.position });
+                lr.SetPositions(new Vector3[] { Vector3.zero, (CurrentTargets
+                    .GetClosest(gameObject).transform.position - gameObject.transform.position)
+                    .Rotate2D(-transform.eulerAngles.z) });
+
                 BeamRunning = true;
             }
             else // Update laser
             {
                 LineRenderer lr = laserRay.GetComponent<LineRenderer>();
 
-                lr.SetPositions(new Vector3[] { Vector3.zero, CurrentTargets[0].transform.position - gameObject.transform.position }); // Update the position of laser
+                lr.SetPositions(new Vector3[] { Vector3.zero, (CurrentTargets
+                    .GetClosest(gameObject).transform.position - gameObject.transform.position)
+                    .Rotate2D(-transform.eulerAngles.z) }); // Update the position of laser
+
                 var enemy = CurrentTargets[0].GetComponent<EnemyScript>();
 
                 enemy.Health -= DamagePerSecond * 1 / 60f; // remove health of enemy
@@ -147,17 +153,10 @@ public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEn
             laserRay = null;
         }
     }
-    void Awake()
-    {
-        InstantiateUIPrefab("LaserTowerInfoPopup");
-    }
     void Start()
     {
+        InstantiateUIPrefab("LaserTowerInfoPopup");
         rayPrefab = UnityManager.GetPrefab("LaserRay");
-        //if (WorkerCount < MinimumWorkerCount)
-        //    IsActive = false;
-        //else
-        //    IsActive = true;
     }
     void FixedUpdate()
     {
@@ -166,7 +165,7 @@ public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEn
 
         UpdateTemperature();
         UpdateTargets();
-        UpdateBeam();
+        UpdateLaserStatus();
         UpdateLaser();
     }
 

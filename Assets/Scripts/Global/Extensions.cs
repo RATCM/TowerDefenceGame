@@ -57,6 +57,34 @@ public static class Extensions
         return temp;
     }
 
+    /// <summary>
+    /// This method enumerates through a list of GameObjects and
+    /// returns the closest one to the target GameObject
+    /// </summary>
+    /// <param name="list">The list of gameobject to get the closest from</param>
+    /// <param name="target">The GameObject we compare the list to</param>
+    /// <returns>The closest GameObject</returns>
+    public static GameObject GetClosest(this IEnumerable<GameObject> list, GameObject target)
+    {
+        GameObject closest = list.First();
+
+        foreach(var obj in list)
+        {
+            // This is faster than Vector2.Distance since we dont take the square root
+            var v1 = obj.transform.position - target.transform.position;
+            float v1DistSquared = v1.x * v1.x + v1.y * v1.y;
+            var v2 = obj.transform.position - closest.transform.position;
+            float v2DistSquared = v2.x * v2.x + v2.y * v2.y;
+
+            if(v1DistSquared < v2DistSquared)
+            {
+                closest = obj;
+            }
+        }
+
+        return closest;
+    }
+
     public static Vector2 Rotate(this Vector2 v, float degrees)
     {
         float sin = Mathf.Sin(degrees * Mathf.Deg2Rad);

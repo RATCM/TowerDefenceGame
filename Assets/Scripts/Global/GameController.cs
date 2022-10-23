@@ -8,8 +8,8 @@ using UnityEngine.EventSystems;
 
 public class GameController : MonoBehaviour
 {
-    private Dictionary<string, GameObject> TowerPrefabs = new Dictionary<string, GameObject>();
-    private GameObject TowerPlaceSelector;
+    [HideInInspector] private Dictionary<string, GameObject> TowerPrefabs = new Dictionary<string, GameObject>();
+    [HideInInspector] private GameObject TowerPlaceSelector;
     public static List<TowerObject> PlayerTowers 
     {
         get 
@@ -31,6 +31,7 @@ public class GameController : MonoBehaviour
         } 
     }
     public static long AvaliableWorkers { get { return TotalWorkerCount - ActiveWorkers; } }
+    private TowerPlaceSelectorScript SelectorScript;
 
     // Start is called before the first frame update
     void Awake()
@@ -41,29 +42,71 @@ public class GameController : MonoBehaviour
             TowerPrefabs.Add(tower.name, tower);
 
         TowerPlaceSelector = Instantiate(UnityManager.GetPrefab("Selector"));
+
+        SelectorScript = TowerPlaceSelector.GetComponent<TowerPlaceSelectorScript>();
+
+        //SelectorScript.SelectedTower = TowerPrefabs["ShootTower"].GetComponent<TowerObject>();
+
     }
 
     public void PlaceTower(string towerName)
     {
         var hitInfo = Physics2D.Raycast(TowerPlaceSelector.transform.position, Vector2.zero);
 
+        ulong towerPrice = TowerPrefabs[towerName].GetComponent<TowerObject>().Price;
+
+        if (towerPrice > PlayerInfo.Money)
+            return;
+
         if (!hitInfo || hitInfo.transform.tag != "Tower")
         {
             var tower = Instantiate(TowerPrefabs[towerName]);
 
+            PlayerInfo.Money -= towerPrice;
+
             tower.transform.position = TowerPlaceSelector.transform.position;
+            tower.transform.rotation = TowerPlaceSelector.transform.rotation;
         }
     }
-
     void Update()
     {
-        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+#if DEBUG
+        if (Input.GetKeyDown(KeyCode.S))
+            Global.RoundInProgress = true;
+#endif
 
-        TowerPlaceSelector.transform.position = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y) ,0);
+        if (Input.GetKeyDown(KeyCode.R))
+            TowerPlaceSelector.transform.Rotate(new Vector3(0, 0, 90));
 
-        if (Input.GetMouseButtonDown((int)MouseButton.Left))
+        if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            PlaceTower("ShootTower");
+            SelectorScript.SetNextTower();
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            SelectorScript.SetPreviousTower();
+
+        }
+
+        if (!Global.RoundInProgress)
+        {
+            if(!TowerPlaceSelector.activeSelf)
+                TowerPlaceSelector.SetActive(true);
+
+            // Tower placement
+            var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            TowerPlaceSelector.transform.position = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y) ,0);
+
+            if (Input.GetMouseButtonDown((int)MouseButton.Left))
+            {
+                PlaceTower(SelectorScript.SelectedTower.gameObject.name);
+            }
+        }
+        else
+        {
+            if(TowerPlaceSelector.activeSelf)
+                TowerPlaceSelector.SetActive(false);
         }
     }
 }
