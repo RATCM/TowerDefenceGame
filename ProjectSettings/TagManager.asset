@@ -43,3 +43,21 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Background
+    uniqueID: 988411007
+    locked: 0
+  - name: Terrain 1
+    uniqueID: 3654752441
+    locked: 0
+  - name: Terrain 2
+    uniqueID: 2485599143
+    locked: 0
+  - name: Terrain 3
+    uniqueID: 3729768559
+    locked: 0
+  - name: Towers
+    uniqueID: 1146832199
+    locked: 0
+  - name: UI
+    uniqueID: 3691906087
+    locked: 0
