@@ -34,8 +34,6 @@ public class TowerPlaceSelectorScript : MonoBehaviour
             lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(-((DefenceTower)SelectedTower).MaxTargetingAngle/2) });
         }
     }
-
-
     public void SetNextTower()
     {
         if (prefabIndex == TowerPrefabs.Count-1)

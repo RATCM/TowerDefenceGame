@@ -96,7 +96,7 @@ public class GameController : MonoBehaviour
             // Tower placement
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            TowerPlaceSelector.transform.position = new Vector3(Mathf.Round(mousePos.x), Mathf.Round(mousePos.y) ,0);
+            TowerPlaceSelector.transform.position = new Vector3(Mathf.Round(mousePos.x+0.5f), Mathf.Round(mousePos.y+0.5f) ,0) - new Vector3(0.5f,0.5f,0);
 
             if (Input.GetMouseButtonDown((int)MouseButton.Left))
             {

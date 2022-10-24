@@ -22,16 +22,39 @@ public abstract class TowerObject : MonoBehaviour, ITower
     [HideInInspector] public int TowerLevel = 1;
     [HideInInspector] protected GameObject UIPanel;
     
-    public virtual void InstantiateUIPrefab(string name) // Always use this Method when implementing TowerObject
+    /// <summary>
+    /// This method should always be called in the Start() method of all inheited Towers inhereited from TowerObject
+    /// </summary>
+    /// <param name="name"></param>
+    public virtual void InstantiateUIPrefab(string name) // Always call this method when implementing TowerObject
     {
         var popup = UnityManager.GetPrefab(name);
         UIPanel = Instantiate(popup, transform);
 
-        UIPanel.transform.Translate(new Vector2(-3, 0), Space.World);
+        float camWidth = Camera.main.orthographicSize * 2f;
+
+        if(UIPanel.transform.position.x < 0)
+        {
+            UIPanel.transform.Translate(new Vector2(3, 0), Space.World);
+        }
+        else
+        {
+            UIPanel.transform.Translate(new Vector2(-3, 0), Space.World);
+        }
+
         UIPanel.transform.rotation = Quaternion.identity;
     }
+
+    /// <summary>
+    /// This method changes the worker count for each tower with the value of the value in the parameter
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns>Boolean indicating weather the value was changed</returns>
     public bool ChangeWorkerCount(long value)
     {
+        if (WorkerCount + value < 0) // Dont decreese workercount if the result is less than 0
+            return false;
+
         if(GameController.AvaliableWorkers - value >= 0)
         {
             WorkerCount += value;

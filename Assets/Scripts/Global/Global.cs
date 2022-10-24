@@ -18,5 +18,5 @@ public static class PlayerInfo
     public static string Name = "Player Name";
     public static int CurrentRound = 1;
     public static ulong Population = 10;
-    public static ulong Money = 100;
+    public static ulong Money = 500;
 }
