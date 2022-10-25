@@ -31,15 +31,33 @@ public abstract class TowerObject : MonoBehaviour, ITower
         var popup = UnityManager.GetPrefab(name);
         UIPanel = Instantiate(popup, transform);
 
-        float camWidth = Camera.main.orthographicSize * 2f;
+        float camHeight = Camera.main.orthographicSize * 2f;
 
-        if(UIPanel.transform.position.x < 0)
+        float camWidth = camHeight * Camera.main.aspect;
+
+        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
+
+        var canvas = UIPanel.GetComponentInChildren<Canvas>();
+
+        var rectTransform = canvas.GetComponent<RectTransform>();
+
+        var canvasWidth = rectTransform.lossyScale.x * rectTransform.sizeDelta.x;
+
+        var canvasHeight = rectTransform.lossyScale.y * rectTransform.sizeDelta.y;
+
+        if(UIPanel.transform.position.x + canvasWidth/2 + 3 > camWidth/2)
         {
-            UIPanel.transform.Translate(new Vector2(3, 0), Space.World);
+            UIPanel.transform.Translate(new Vector2(-3, 0), Space.World);
         }
         else
         {
-            UIPanel.transform.Translate(new Vector2(-3, 0), Space.World);
+            UIPanel.transform.Translate(new Vector2(3, 0), Space.World);
+        }
+
+        if (UIPanel.transform.position.y/2 + canvasHeight/2 > camHeight/2 || UIPanel.transform.position.y/2 - canvasHeight/2 < -camHeight/2)
+        {
+            var posY = camHeight/2 - UIPanel.transform.position.y/2 - canvasHeight/2;
+            UIPanel.transform.Translate(new Vector2(0,posY), Space.World);
         }
 
         UIPanel.transform.rotation = Quaternion.identity;
