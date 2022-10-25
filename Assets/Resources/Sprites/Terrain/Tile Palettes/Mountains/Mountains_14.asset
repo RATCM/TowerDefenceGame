@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: Backgrounds_0
+  m_Name: Mountains_14
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -862895611, guid: d5fc05a7e2c30724881b75238f3c5578, type: 3}
+  m_Sprite: {fileID: 181304396, guid: 5e00b0181ddc5d84395d5ac9cabfc6b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
