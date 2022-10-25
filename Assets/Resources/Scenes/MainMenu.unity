@@ -2972,9 +2972,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Options
-
-'
+  m_text: 'Options'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d1c4ba03f8aaffc409800be5c9b4a305, type: 2}
   m_sharedMaterial: {fileID: -2479641542315790173, guid: d1c4ba03f8aaffc409800be5c9b4a305, type: 2}
@@ -4258,7 +4256,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0
 --- !u!1001 &1933571860
 PrefabInstance:
   m_ObjectHideFlags: 0
