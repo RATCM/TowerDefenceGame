@@ -15,8 +15,7 @@ public class ShootTower : DefenceTower, IPointerClickHandler, IPointerEnterHandl
     [HideInInspector] private float LastShotTime;
     [HideInInspector] private GameObject Gun;
     [HideInInspector] private Vector3 GunInitPos;
-
-    void Awake()
+    void Start()
     {
         InstantiateUIPrefab("ShootTowerInfoPopup");
         LastShotTime = Time.realtimeSinceStartup;
@@ -26,6 +25,9 @@ public class ShootTower : DefenceTower, IPointerClickHandler, IPointerEnterHandl
 
     void FixedUpdate()
     {
+        if (!IsActive)
+            return;
+
         if (CanShoot())
             Shoot();
 
@@ -34,22 +36,14 @@ public class ShootTower : DefenceTower, IPointerClickHandler, IPointerEnterHandl
 
     void LookAtTarget()
     {
-        var enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
-
-        enemies = enemies.Where(x => Vector2.Angle(Direction, gameObject.PointDircetion(x)) <= MaxTargetingAngle).ToList();
-
-        enemies = enemies.Where(x => Vector2.Distance(x.transform.position, this.transform.position) <= Range).ToList();
-
-        if (enemies.Count() == 0)
+        if (CurrentTargets.Count == 0)
         {
-            Gun.transform.rotation = Quaternion.identity;
+            Gun.transform.rotation = transform.rotation;
             Gun.transform.localPosition = GunInitPos;
             return;
         }
 
-        enemies = enemies.SortByClosest(gameObject).ToList();
-
-        var dir = gameObject.PointDircetion(enemies[0]);
+        var dir = gameObject.PointDircetion(CurrentTargets.GetClosest(gameObject));
 
         // https://answers.unity.com/questions/585035/lookat-2d-equivalent-.html
         Quaternion rotation = Quaternion.LookRotation
@@ -57,11 +51,14 @@ public class ShootTower : DefenceTower, IPointerClickHandler, IPointerEnterHandl
 
         Gun.transform.rotation = new Quaternion(0, 0, rotation.z,rotation.w);
 
-        Gun.transform.localPosition = GunInitPos.Rotate2D(Gun.transform.rotation.eulerAngles.z);
+        Gun.transform.localPosition = GunInitPos.Rotate2D(Gun.transform.localEulerAngles.z);
     }
 
     bool CanShoot()
     {
+        if (CurrentTargets.Count == 0)
+            return false;
+
         if (BulletCount == 0){
             return LastShotTime + ReloadTime <= Time.realtimeSinceStartup;
         }
@@ -75,7 +72,7 @@ public class ShootTower : DefenceTower, IPointerClickHandler, IPointerEnterHandl
 
         var script = instance.GetComponent<BulletScript>();
 
-        script.SetValues(Vector2.up.Rotate(Gun.transform.rotation.eulerAngles.z), 0.3f, DamagePerSecond/60 * 1/WaitTime, "Enemy", 2);
+        script.SetValues(Vector2.up.Rotate(Gun.transform.localEulerAngles.z), 0.3f, DamagePerSecond/60 * 1/WaitTime, "Enemy", 2);
 
         BulletCount--;
         LastShotTime = Time.realtimeSinceStartup;

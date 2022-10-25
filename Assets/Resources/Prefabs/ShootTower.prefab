@@ -108,7 +108,7 @@ MonoBehaviour:
   TowerLevel: 1
   DamagePerSecond: 10
   Range: 100
-  MaxTargetingAngle: 360
+  MaxTargetingAngle: 110
   MaxTargets: 1
   MagazineSize: 10
   ReloadTime: 0.5
