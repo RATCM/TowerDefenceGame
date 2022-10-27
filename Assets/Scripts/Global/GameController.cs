@@ -74,30 +74,32 @@ public class GameController : MonoBehaviour
         }
     }
 
-    void Update()
+    void TowerPlacement()
     {
 #if DEBUG
         if (Input.GetKeyDown(KeyCode.S))
             Global.RoundInProgress = true;
 #endif
 
+
         if (!Global.RoundInProgress)
         {
+            if (!TowerPlaceSelector.activeSelf)
+                return;
+
+
             if (Input.GetKeyDown(KeyCode.R))
                 TowerPlaceSelector.transform.Rotate(new Vector3(0, 0, 90));
 
-            if (Input.GetKeyDown(KeyCode.RightArrow))
-                SelectorScript.SetNextTower();
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
-                SelectorScript.SetPreviousTower();
-
-            if(!TowerPlaceSelector.activeSelf)
-                TowerPlaceSelector.SetActive(true);
+            //if (!TowerPlaceSelector.activeSelf)
+                //TowerPlaceSelector.SetActive(true);
 
             // Tower placement
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            SelectorScript.Move(new Vector3(Mathf.Round(mousePos.x + 0.5f) - 0.5f, Mathf.Round(mousePos.y + 0.5f) - 0.5f, 0));
+            float gridSize = 1;
+
+            SelectorScript.Move(new Vector3((Mathf.Round(mousePos.x * gridSize + gridSize/2) - gridSize/2)/gridSize, (Mathf.Round(mousePos.y*gridSize + gridSize/2) - gridSize/2)/gridSize, 0));
 
             if (Input.GetMouseButtonDown((int)MouseButton.Left))
             {
@@ -106,8 +108,29 @@ public class GameController : MonoBehaviour
         }
         else
         {
-            if(TowerPlaceSelector.activeSelf)
+            if (TowerPlaceSelector.activeSelf)
                 TowerPlaceSelector.SetActive(false);
         }
+    }
+
+    void TowerSelection()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+            TowerPlaceSelector.SetActive(!TowerPlaceSelector.activeSelf);
+
+        if (!TowerPlaceSelector.activeSelf)
+            return;
+
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+            SelectorScript.SetNextTower();
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            SelectorScript.SetPreviousTower();
+
+    }
+
+    void Update()
+    {
+        TowerPlacement();
+        TowerSelection();
     }
 }

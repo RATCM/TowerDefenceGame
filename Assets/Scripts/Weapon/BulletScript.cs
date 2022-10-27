@@ -34,7 +34,7 @@ public class BulletScript : MonoBehaviour
             return;
         }
 
-        transform.Translate(Direction * Speed);
+        transform.Translate(Direction * Speed * Time.fixedDeltaTime);
         
         var box = GetComponent<BoxCollider2D>();
 
@@ -53,20 +53,6 @@ public class BulletScript : MonoBehaviour
 
             enemy.Health -= Damage;
         }
-        //Debug.Log(count);
-    //    if (count > 0)
-    //    {
-    //        var instance = results[0].gameObject;
-
-    //        if (EnemiesHit.Contains(instance))
-    //            return;
-
-    //        EnemiesHit.Add(instance);
-
-    //        var enemy = instance.GetComponent<EnemyScript>();
-
-    //        enemy.Health -= Damage;
-    //    }
     }
 
     private void OnBecameInvisible()

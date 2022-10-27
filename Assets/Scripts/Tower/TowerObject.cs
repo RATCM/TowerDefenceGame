@@ -79,8 +79,11 @@ public abstract class TowerObject : MonoBehaviour, ITower
         return false;
     }
 
+    // The Update() method should only be used here
     void Update()
     {
+        // This is nessecary due to a unity bug where the OnMouse events are not invoked properly
+        // The issue is probably described here http://t-machine.org/index.php/2015/03/14/fix-unity3ds-broken-onmousedown/
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var hits = Physics2D.RaycastAll(mousePos, Vector2.zero);
         
@@ -89,10 +92,6 @@ public abstract class TowerObject : MonoBehaviour, ITower
             UIPanel.SetActive(!UIPanel.activeSelf);
         }
     }
-    //This turns off/on the UIPanel if left mouse is clicked
-    //void OnMouseDown() => // Cool boolean xor stuff that works because of weird computer magic
-        //UIPanel.SetActive(UIPanel.activeSelf ^ Input.GetMouseButtonDown((int)MouseButton.LeftMouse));
-
 
     void OnMouseEnter() =>
         gameObject.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);

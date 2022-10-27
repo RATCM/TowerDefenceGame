@@ -11,8 +11,8 @@ public class ShootTowerInfoController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tower = GetComponentInParent<TowerObject>();
-        var buttons = GetComponentsInChildren<Button>();
+        tower = GetComponentInParent<TowerObject>(true);
+        var buttons = GetComponentsInChildren<Button>(true);
         buttons.ToList().ForEach(x => x.onClick.AddListener(delegate { OnButtonClicked(x); }));
     }
 

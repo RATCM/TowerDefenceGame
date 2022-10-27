@@ -60,7 +60,7 @@ public class TowerPlaceSelectorScript : MonoBehaviour
         lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(((DefenceTower)SelectedTower).MaxTargetingAngle/2)});
         lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(-((DefenceTower)SelectedTower).MaxTargetingAngle/2)});
 
-
+        Debug.Log(SelectedTower.gameObject.name);
     }
 
     public void UpdateSprite()

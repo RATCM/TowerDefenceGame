@@ -9,6 +9,7 @@ public class PathFinding : MonoBehaviour
     [HideInInspector] private List<Vector2> CurrentWaypoints;
     [HideInInspector] private float Speed;
     [HideInInspector] private EnemyScript enemyScript;
+    [HideInInspector] public Vector2 CurrentDirection;
 
     // Start is called before the first frame update
     void Start()
@@ -32,9 +33,11 @@ public class PathFinding : MonoBehaviour
 
         var dir = (CurrentWaypoints.First()-(Vector2)transform.position);
 
+        CurrentDirection = dir.normalized;
+
         if(dir.magnitude <= 0.2f)
             CurrentWaypoints.RemoveAt(0);
 
-        transform.Translate(dir.normalized * 0.01f * Speed);
+        transform.Translate(CurrentDirection * Time.fixedDeltaTime * Speed);
     }
 }

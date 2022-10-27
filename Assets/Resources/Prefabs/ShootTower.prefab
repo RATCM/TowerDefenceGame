@@ -110,8 +110,10 @@ MonoBehaviour:
   Range: 100
   MaxTargets: 1
   MagazineSize: 10
-  ReloadTime: 0.5
-  WaitTime: 0.1
+  ReloadTime: 1
+  WaitTime: 0.5
+  WaitTimeMultiplier: 0.5
+  BulletSpeed: 18
 --- !u!61 &3912619980820063972
 BoxCollider2D:
   m_ObjectHideFlags: 0
