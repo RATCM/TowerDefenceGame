@@ -35,8 +35,6 @@ public abstract class TowerObject : MonoBehaviour, ITower
 
         float camWidth = camHeight * Camera.main.aspect;
 
-        Plane[] planes = GeometryUtility.CalculateFrustumPlanes(Camera.main);
-
         var canvas = UIPanel.GetComponentInChildren<Canvas>();
 
         var rectTransform = canvas.GetComponent<RectTransform>();
@@ -80,6 +78,28 @@ public abstract class TowerObject : MonoBehaviour, ITower
         }
         return false;
     }
+
+    void Update()
+    {
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var hits = Physics2D.RaycastAll(mousePos, Vector2.zero);
+        
+        if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse) && hits.Any(x => x.collider.gameObject == gameObject))
+        {
+            UIPanel.SetActive(!UIPanel.activeSelf);
+        }
+    }
+    //This turns off/on the UIPanel if left mouse is clicked
+    //void OnMouseDown() => // Cool boolean xor stuff that works because of weird computer magic
+        //UIPanel.SetActive(UIPanel.activeSelf ^ Input.GetMouseButtonDown((int)MouseButton.LeftMouse));
+
+
+    void OnMouseEnter() =>
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
+
+    void OnMouseExit() =>
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
+    
 }
 
 public abstract class DefenceTower : TowerObject, IDefenceTower

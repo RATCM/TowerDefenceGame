@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using static UnityEngine.GraphicsBuffer;
 
-public class ShootTower : DefenceTower, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class ShootTower : DefenceTower
 {
     [HideInInspector] protected ulong BulletCount = 0;
     [SerializeField] protected ulong MagazineSize = 10;
@@ -77,11 +77,4 @@ public class ShootTower : DefenceTower, IPointerClickHandler, IPointerEnterHandl
         BulletCount--;
         LastShotTime = Time.realtimeSinceStartup;
     }
-
-    public void OnPointerClick(PointerEventData eventData) => 
-        UIPanel.SetActive(!UIPanel.activeSelf);
-    public void OnPointerEnter(PointerEventData eventData) =>
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
-    public void OnPointerExit(PointerEventData eventData) =>
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
 }

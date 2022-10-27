@@ -53,12 +53,15 @@ public class GameController : MonoBehaviour
     {
         var hitInfo = Physics2D.Raycast(TowerPlaceSelector.transform.position, Vector2.zero);
 
+        var hitInfos = Physics2D.RaycastAll(TowerPlaceSelector.transform.position, Vector2.zero);
+
         ulong towerPrice = TowerPrefabs[towerName].GetComponent<TowerObject>().Price;
 
         if (towerPrice > PlayerInfo.Money)
             return;
 
-        if (!hitInfo || hitInfo.transform.tag != "Tower")
+
+        if (hitInfos.Length > 0 && hitInfos.Any(x => x.collider.name == "Placable Area") && !hitInfos.Any(x => x.collider.tag == "Tower"))
         {
             var tower = Instantiate(TowerPrefabs[towerName]);
 
@@ -66,8 +69,11 @@ public class GameController : MonoBehaviour
 
             tower.transform.position = TowerPlaceSelector.transform.position;
             tower.transform.rotation = TowerPlaceSelector.transform.rotation;
+
+            SelectorScript.UpdateSprite();
         }
     }
+
     void Update()
     {
 #if DEBUG
@@ -75,28 +81,23 @@ public class GameController : MonoBehaviour
             Global.RoundInProgress = true;
 #endif
 
-        if (Input.GetKeyDown(KeyCode.R))
-            TowerPlaceSelector.transform.Rotate(new Vector3(0, 0, 90));
-
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            SelectorScript.SetNextTower();
-        }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            SelectorScript.SetPreviousTower();
-
-        }
-
         if (!Global.RoundInProgress)
         {
+            if (Input.GetKeyDown(KeyCode.R))
+                TowerPlaceSelector.transform.Rotate(new Vector3(0, 0, 90));
+
+            if (Input.GetKeyDown(KeyCode.RightArrow))
+                SelectorScript.SetNextTower();
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+                SelectorScript.SetPreviousTower();
+
             if(!TowerPlaceSelector.activeSelf)
                 TowerPlaceSelector.SetActive(true);
 
             // Tower placement
             var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            TowerPlaceSelector.transform.position = new Vector3(Mathf.Round(mousePos.x+0.5f), Mathf.Round(mousePos.y+0.5f) ,0) - new Vector3(0.5f,0.5f,0);
+            SelectorScript.Move(new Vector3(Mathf.Round(mousePos.x + 0.5f) - 0.5f, Mathf.Round(mousePos.y + 0.5f) - 0.5f, 0));
 
             if (Input.GetMouseButtonDown((int)MouseButton.Left))
             {

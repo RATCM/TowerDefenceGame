@@ -9,7 +9,7 @@ using TMPro.EditorUtilities;
 using UnityEngine.UIElements;
 using UnityEngine.EventSystems;
 
-public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
+public class LaserTower : DefenceTower, ILaser
 {
     #region Fields in inspector
     [HideInInspector] public float MinimumEnergy = 50f; 
@@ -168,11 +168,4 @@ public class LaserTower : DefenceTower, ILaser, IPointerClickHandler, IPointerEn
         UpdateLaserStatus();
         UpdateLaser();
     }
-
-    void IPointerClickHandler.OnPointerClick(PointerEventData eventData) =>
-        UIPanel.SetActive(!UIPanel.activeSelf);
-    void IPointerEnterHandler.OnPointerEnter(UnityEngine.EventSystems.PointerEventData eventData) =>
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
-    void IPointerExitHandler.OnPointerExit(UnityEngine.EventSystems.PointerEventData eventData) =>
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
 }
