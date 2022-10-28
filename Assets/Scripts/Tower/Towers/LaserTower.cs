@@ -19,6 +19,7 @@ public class LaserTower : DefenceTower, ILaser
     [HideInInspector] protected bool BeamRunning = false;
     [HideInInspector] private GameObject rayPrefab;
     [HideInInspector] private GameObject laserRay;
+    [HideInInspector] private GameObject Gun;
     [HideInInspector] protected bool OnCooldown = false;
 
     [Tooltip("The the lowest temperature the tower can be at one time")]
@@ -143,11 +144,23 @@ public class LaserTower : DefenceTower, ILaser
             {
                 LineRenderer lr = laserRay.GetComponent<LineRenderer>();
 
-                lr.SetPositions(new Vector3[] { Vector3.zero, (CurrentTargets
-                    .GetClosest(gameObject).transform.position - gameObject.transform.position)
-                    .Rotate2D(-transform.eulerAngles.z) }); // Update the position of laser
 
                 var enemy = CurrentTargets[0].GetComponent<EnemyScript>();
+
+                var dir = enemy.transform.position - transform.position;
+
+                // https://answers.unity.com/questions/585035/lookat-2d-equivalent-.html
+                Quaternion rotation = Quaternion.LookRotation
+                    (dir, transform.TransformDirection(Vector3.back));
+
+                Gun.transform.rotation = new Quaternion(0, 0, rotation.z, rotation.w);
+
+                //Debug.Log(size);
+                lr.SetPositions(
+                    new Vector3[] {
+                        Vector3.zero,
+                        (enemy.transform.position - transform.position)
+                        .Rotate2D(-transform.rotation.eulerAngles.z)} ); // Update the position of laser
 
                 enemy.Health -= DamagePerSecond * 1 / 60f; // remove health of enemy
             }
@@ -156,12 +169,15 @@ public class LaserTower : DefenceTower, ILaser
         {
             Destroy(laserRay);
             laserRay = null;
+
+            Gun.transform.rotation = transform.rotation;
         }
     }
     void Start()
     {
         InstantiateUIPrefab("LaserTowerInfoPopup");
         rayPrefab = UnityManager.GetPrefab("LaserRay");
+        Gun = GetComponentsInChildren<Transform>().ToList().First(x => x.name == "Gun").gameObject;
     }
     void FixedUpdate()
     {
