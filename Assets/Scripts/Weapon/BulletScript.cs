@@ -14,6 +14,9 @@ public class BulletScript : MonoBehaviour
     [HideInInspector] private string TargetTag;
     [HideInInspector] private int HitsToGoThrough;
     [HideInInspector] private List<GameObject> EnemiesHit = new List<GameObject>();
+
+    [SerializeField] private GameObject MuzzleFlash;
+    [SerializeField] private GameObject BulletImpact;
     public void SetValues(Vector2 direction,float speed, float damage, string targetTag = "Enemy", int hitsToGoThrough = 1)
     {
         Direction = direction.normalized;
@@ -23,6 +26,12 @@ public class BulletScript : MonoBehaviour
         HitsToGoThrough = hitsToGoThrough;
         ValuesSet = true;
     }
+    private void Start()
+    {
+        GameObject effect = Instantiate(MuzzleFlash, transform.position, Quaternion.identity);
+        effect.transform.localScale = Vector3.one;
+        Destroy(effect, 10);
+    }
     void FixedUpdate()
     {
         if (!ValuesSet)
@@ -31,16 +40,21 @@ public class BulletScript : MonoBehaviour
         if (EnemiesHit.Count == HitsToGoThrough)
         {
             Destroy(gameObject);
+            GameObject effect = Instantiate(BulletImpact, transform.position, Quaternion.identity);
+            //var particleSystem = effect.GetComponent<ParticleSystem>();
+            //particleSystem.main.simulationSpeed = 5;
+            effect.transform.localScale = Vector3.one;
+            Destroy(effect, 10);
             return;
         }
 
-        transform.Translate(Direction * Speed);
+        transform.Translate(Direction * Speed * Time.fixedDeltaTime);
         
         var box = GetComponent<BoxCollider2D>();
 
-        var hit = Physics2D.BoxCast(transform.position, box.size, 0f, Vector3.zero);
+        var hit = Physics2D.BoxCast(transform.position, box.size * 0.5f, 0f, Vector3.zero, 0, LayerMask.GetMask("Enemy"));
 
-        if(hit && hit.collider.tag == TargetTag)
+        if(hit)
         {
             var instance = hit.collider.gameObject;
 
@@ -53,20 +67,6 @@ public class BulletScript : MonoBehaviour
 
             enemy.Health -= Damage;
         }
-        //Debug.Log(count);
-    //    if (count > 0)
-    //    {
-    //        var instance = results[0].gameObject;
-
-    //        if (EnemiesHit.Contains(instance))
-    //            return;
-
-    //        EnemiesHit.Add(instance);
-
-    //        var enemy = instance.GetComponent<EnemyScript>();
-
-    //        enemy.Health -= Damage;
-    //    }
     }
 
     private void OnBecameInvisible()

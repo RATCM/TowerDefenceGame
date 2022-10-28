@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1146832199
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -104,15 +104,16 @@ MonoBehaviour:
   Price: 100
   MinimumWorkerCount: 1
   MaximumWorkerCount: 10
-  Direction: {x: 1, y: 0}
   TowerLevel: 1
   DamagePerSecond: 10
-  Range: 100
   MaxTargetingAngle: 110
+  Range: 100
   MaxTargets: 1
   MagazineSize: 10
-  ReloadTime: 0.5
-  WaitTime: 0.1
+  ReloadTime: 1
+  WaitTime: 0.5
+  WaitTimeMultiplier: 0.5
+  BulletSpeed: 18
 --- !u!61 &3912619980820063972
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -209,8 +210,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1146832199
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
   m_Color: {r: 0, g: 0, b: 0, a: 1}

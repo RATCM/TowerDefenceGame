@@ -14,7 +14,7 @@ internal enum PathArgs
     [Description("Weather the object should avoid the layer")]
     Avoid,
 }
-[Obsolete]
+[Obsolete("Use PathFinding instead")]
 public class PathCreation : MonoBehaviour
 {
     [SerializeField] private float speed;

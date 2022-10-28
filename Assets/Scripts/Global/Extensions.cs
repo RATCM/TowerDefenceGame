@@ -44,7 +44,7 @@ public static class Extensions
     }
 
     public static Vector2 PointDircetion(this GameObject from, GameObject to) =>
-        to.transform.position - from.transform.position;
+        (to.transform.position - from.transform.position).normalized;
 
     public static IEnumerable<GameObject> SortByClosest(this IEnumerable<GameObject> list, GameObject target)
     {
@@ -108,4 +108,7 @@ public static class Extensions
         v.y = (sin * tx) + (cos * ty);
         return v;
     }
+
+    public static float Distance2D(this GameObject self, GameObject target) =>
+        Vector2.Distance(self.transform.position, target.transform.position);
 }

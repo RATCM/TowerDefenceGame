@@ -13,10 +13,12 @@ public abstract class TowerObject : MonoBehaviour, ITower
 {
     [SerializeField] public string TowerName = "[Generic Tower Name]";
     [SerializeField] public string TowerDescription = "[Generic Tower Description]";
+
+    [Tooltip("The base price of the tower")]
     [SerializeField] public ulong Price = 100;
-    [HideInInspector] public long WorkerCount { get; protected set; } = 0;
-    [HideInInspector] public long MinimumWorkerCount = 1;
-    [HideInInspector] public long MaximumWorkerCount = 10;
+    [HideInInspector] public ulong WorkerCount { get; protected set; } = 0;
+    [HideInInspector] public ulong MinimumWorkerCount = 1;
+    [HideInInspector] public ulong MaximumWorkerCount = 10;
     [HideInInspector] public bool IsActive { get { return WorkerCount >= MinimumWorkerCount; } }
     [HideInInspector] public Vector2 Direction{ get { return Vector2.up.Rotate(transform.rotation.eulerAngles.z); } }
     [HideInInspector] public int TowerLevel = 1;
@@ -31,15 +33,31 @@ public abstract class TowerObject : MonoBehaviour, ITower
         var popup = UnityManager.GetPrefab(name);
         UIPanel = Instantiate(popup, transform);
 
-        float camWidth = Camera.main.orthographicSize * 2f;
+        float camHeight = Camera.main.orthographicSize * 2f;
 
-        if(UIPanel.transform.position.x < 0)
+        float camWidth = camHeight * Camera.main.aspect;
+
+        var canvas = UIPanel.GetComponentInChildren<Canvas>();
+
+        var rectTransform = canvas.GetComponent<RectTransform>();
+
+        var canvasWidth = rectTransform.lossyScale.x * rectTransform.sizeDelta.x;
+
+        var canvasHeight = rectTransform.lossyScale.y * rectTransform.sizeDelta.y;
+
+        if(UIPanel.transform.position.x + canvasWidth/2 + 3 > camWidth/2)
         {
-            UIPanel.transform.Translate(new Vector2(3, 0), Space.World);
+            UIPanel.transform.Translate(new Vector2(-3, 0), Space.World);
         }
         else
         {
-            UIPanel.transform.Translate(new Vector2(-3, 0), Space.World);
+            UIPanel.transform.Translate(new Vector2(3, 0), Space.World);
+        }
+
+        if (UIPanel.transform.position.y/2 + canvasHeight/2 > camHeight/2 || UIPanel.transform.position.y/2 - canvasHeight/2 < -camHeight/2)
+        {
+            var posY = camHeight/2 - UIPanel.transform.position.y/2 - canvasHeight/2;
+            UIPanel.transform.Translate(new Vector2(0,posY), Space.World);
         }
 
         UIPanel.transform.rotation = Quaternion.identity;
@@ -52,23 +70,51 @@ public abstract class TowerObject : MonoBehaviour, ITower
     /// <returns>Boolean indicating weather the value was changed</returns>
     public bool ChangeWorkerCount(long value)
     {
-        if (WorkerCount + value < 0) // Dont decreese workercount if the result is less than 0
+        if ((long)WorkerCount + value < 0) // Dont decreese workercount if the result is less than 0
             return false;
 
-        if(GameController.AvaliableWorkers - value >= 0)
+        if((long)GameController.AvaliableWorkers - value >= 0)
         {
-            WorkerCount += value;
+            WorkerCount = (ulong)((long)WorkerCount + value);
             return true;
         }
         return false;
     }
+
+    // The Update() method should only be used here
+    void Update()
+    {
+        // This is nessecary due to a unity bug where the OnMouse events are not invoked properly
+        // The issue is probably described here http://t-machine.org/index.php/2015/03/14/fix-unity3ds-broken-onmousedown/
+        var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        var hits = Physics2D.RaycastAll(mousePos, Vector2.zero);
+        
+        if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse) && hits.Any(x => x.collider.gameObject == gameObject))
+        {
+            UIPanel.SetActive(!UIPanel.activeSelf);
+        }
+    }
+
+    void OnMouseEnter() =>
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
+
+    void OnMouseExit() =>
+        gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
+    
 }
 
 public abstract class DefenceTower : TowerObject, IDefenceTower
 {
+    [Tooltip("The base DPS caused by the tower on enemies")]
     [SerializeField] public float DamagePerSecond = 100f;
+
+    [Tooltip("The angle the tower can attack anemies")]
     [SerializeField] public float MaxTargetingAngle = 360f;
+
+    [Tooltip("The range of the tower")]
     [SerializeField] protected float Range = 100f;
+
+    [Tooltip("The amount of targets the tower can have at once")]
     [SerializeField] protected int MaxTargets = 1;
     [HideInInspector] protected List<GameObject> CurrentTargets
     {
