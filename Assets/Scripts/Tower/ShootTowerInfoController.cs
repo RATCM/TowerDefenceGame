@@ -8,23 +8,43 @@ using UnityEngine.UI;
 public class ShootTowerInfoController : MonoBehaviour
 {
     private TowerObject tower;
+
+    private List<Toggle> toggles;
+    private List<Button> buttons;
     // Start is called before the first frame update
     void Start()
     {
         tower = GetComponentInParent<TowerObject>(true);
-        var buttons = GetComponentsInChildren<Button>(true);
-        buttons.ToList().ForEach(x => x.onClick.AddListener(delegate { OnButtonClicked(x); }));
+        buttons = GetComponentsInChildren<Button>(true).ToList();
+        buttons.ForEach(x => x.onClick.AddListener(delegate { OnButtonClicked(x); }));
+
+        toggles = GetComponentsInChildren<Toggle>(true).ToList();
+        toggles.ForEach(x => x.onValueChanged.AddListener(delegate { OnToggleClicked(x); }));
+    }
+
+    void OnToggleClicked(Toggle toggle)
+    {
+        var toggleIsOn = toggle.isOn;
+        toggles.ForEach(x => x.SetIsOnWithoutNotify(false));
+        toggle.SetIsOnWithoutNotify(toggleIsOn);
+
+        Debug.Log(toggleIsOn);
+
+        bool anyIsOn = toggles.Any(x => x.isOn);
+
+        buttons.ForEach(x => x.enabled = anyIsOn);
     }
 
     void OnButtonClicked(Button btn)
     {
+        var val = int.Parse(toggles.FirstOrDefault(x => x.isOn).name.Replace("ToggleTimes",""));
         switch (btn.name)
         {
             case "ButtonUp":
-                UpdateWorkerCount(1);
+                UpdateWorkerCount(val);
                 break;
             case "ButtonDown":
-                UpdateWorkerCount(-1);
+                UpdateWorkerCount(-val);
                 break;
         }
     }

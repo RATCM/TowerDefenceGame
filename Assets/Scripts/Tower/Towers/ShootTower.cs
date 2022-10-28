@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.WebSockets;
 using TowerTypes;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -74,24 +75,29 @@ public class ShootTower : DefenceTower
         if (closest == null)
             return Vector2.down;
 
-        //var dist = gameObject.Distance2D(closest);
-
-
-        //var bulletTravelTime = BulletSpeed * dist; // In seconds
-
         var enemyScript = closest.GetComponent<EnemyScript>();
         var pathFindingScript = closest.GetComponent<PathFinding>();
 
         Vector2 delta = (closest.transform.position - gameObject.transform.position);
 
-        Vector2 vr = pathFindingScript.CurrentDirection * enemyScript.CurrentSpeed;
+        Vector2 dir;
+        if(closest.transform.position.x < 2.5f)
+        {
+            dir = pathFindingScript.CurrentDirection;
+        }
+        else
+        {
+            dir = new Vector2(1, -1).normalized;
+        }
+
+        Vector2 vr = dir * enemyScript.CurrentSpeed;
 
         var t = CalculateBulletTravelTime(delta, vr, BulletSpeed);
 
-        if (t == -1f)
+        if (t < 0f)
             return Vector2.down;
 
-        var enemyEndPos = (Vector2)closest.transform.position + pathFindingScript.CurrentDirection * enemyScript.CurrentSpeed * t;
+        var enemyEndPos = (Vector2)closest.transform.position + dir * enemyScript.CurrentSpeed * t;
 
         return (enemyEndPos - (Vector2)gameObject.transform.position).normalized;
     }

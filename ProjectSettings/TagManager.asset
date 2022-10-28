@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tower
   - Enemy
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -60,4 +61,7 @@ TagManager:
     locked: 0
   - name: Bullets
     uniqueID: 2509401749
+    locked: 0
+  - name: Effects
+    uniqueID: 1746670033
     locked: 0
