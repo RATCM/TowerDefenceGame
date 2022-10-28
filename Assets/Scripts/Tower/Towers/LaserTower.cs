@@ -21,8 +21,13 @@ public class LaserTower : DefenceTower, ILaser
     [HideInInspector] private GameObject laserRay;
     [HideInInspector] protected bool OnCooldown = false;
 
+    [Tooltip("The the lowest temperature the tower can be at one time")]
     [SerializeField] protected float MinimumTemperature = 0;
+
+    [Tooltip("The maximum temperature the tower can be, before it has to cool down")]
     [SerializeField] protected float MaximumTemperature = 100;
+
+    [Tooltip("The energy used by the tower, the lowest value wont increese the temperature while also causing the least damage")]
     [Range(50f, 100f)] [SerializeField] public float EnergyUse = 50f;
     #endregion
 

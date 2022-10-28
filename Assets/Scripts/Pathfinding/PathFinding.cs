@@ -25,8 +25,9 @@ public class PathFinding : MonoBehaviour
     void FixedUpdate()
     {
         Speed = enemyScript.CurrentSpeed;
-        if (CurrentWaypoints.Count == 0)
+        if (CurrentWaypoints.Count == 0) // Enemy has reached destination
         {
+            PlayerInfo.Population -= enemyScript.Damage;
             Destroy(gameObject);
             return;
         }

@@ -31,11 +31,11 @@ public class CannonBallScript : MonoBehaviour
 
         transform.Translate(Direction * Speed * Time.fixedDeltaTime);
 
-        var box = GetComponent<CircleCollider2D>();
+        var circle = GetComponent<CircleCollider2D>();
 
-        var hit = Physics2D.CircleCast(transform.position, box.radius, Vector3.zero);
+        var hit = Physics2D.CircleCast(transform.position, circle.radius, Vector3.zero,0,LayerMask.GetMask("Enemy"));
 
-        if (hit && hit.collider.tag == TargetTag)
+        if (hit)
         {
             var enemies = Physics2D.CircleCastAll(hit.transform.position, Radius, Vector2.zero,0,LayerMask.GetMask("Enemy"));
 
@@ -46,13 +46,12 @@ public class CannonBallScript : MonoBehaviour
                 enemyScript.Health -= Damage;
             }
 
+            // Explosion effect
+            GameObject effect = Instantiate(ExplosionEffect, transform.position, Quaternion.identity);
+            effect.transform.localScale = Vector3.one * Radius * 0.5f;
+            Destroy(effect, 10);
+
             Destroy(gameObject);
         }
-    }
-
-    private void OnDestroy() // explosion
-    {
-        GameObject effect = Instantiate(ExplosionEffect, transform.position, Quaternion.identity);
-        Destroy(effect, 10);
     }
 }

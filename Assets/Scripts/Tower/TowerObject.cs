@@ -13,10 +13,12 @@ public abstract class TowerObject : MonoBehaviour, ITower
 {
     [SerializeField] public string TowerName = "[Generic Tower Name]";
     [SerializeField] public string TowerDescription = "[Generic Tower Description]";
+
+    [Tooltip("The base price of the tower")]
     [SerializeField] public ulong Price = 100;
-    [HideInInspector] public long WorkerCount { get; protected set; } = 0;
-    [HideInInspector] public long MinimumWorkerCount = 1;
-    [HideInInspector] public long MaximumWorkerCount = 10;
+    [HideInInspector] public ulong WorkerCount { get; protected set; } = 0;
+    [HideInInspector] public ulong MinimumWorkerCount = 1;
+    [HideInInspector] public ulong MaximumWorkerCount = 10;
     [HideInInspector] public bool IsActive { get { return WorkerCount >= MinimumWorkerCount; } }
     [HideInInspector] public Vector2 Direction{ get { return Vector2.up.Rotate(transform.rotation.eulerAngles.z); } }
     [HideInInspector] public int TowerLevel = 1;
@@ -68,12 +70,12 @@ public abstract class TowerObject : MonoBehaviour, ITower
     /// <returns>Boolean indicating weather the value was changed</returns>
     public bool ChangeWorkerCount(long value)
     {
-        if (WorkerCount + value < 0) // Dont decreese workercount if the result is less than 0
+        if ((long)WorkerCount + value < 0) // Dont decreese workercount if the result is less than 0
             return false;
 
-        if(GameController.AvaliableWorkers - value >= 0)
+        if((long)GameController.AvaliableWorkers - value >= 0)
         {
-            WorkerCount += value;
+            WorkerCount = (ulong)((long)WorkerCount + value);
             return true;
         }
         return false;
@@ -103,9 +105,16 @@ public abstract class TowerObject : MonoBehaviour, ITower
 
 public abstract class DefenceTower : TowerObject, IDefenceTower
 {
+    [Tooltip("The base DPS caused by the tower on enemies")]
     [SerializeField] public float DamagePerSecond = 100f;
+
+    [Tooltip("The angle the tower can attack anemies")]
     [SerializeField] public float MaxTargetingAngle = 360f;
+
+    [Tooltip("The range of the tower")]
     [SerializeField] protected float Range = 100f;
+
+    [Tooltip("The amount of targets the tower can have at once")]
     [SerializeField] protected int MaxTargets = 1;
     [HideInInspector] protected List<GameObject> CurrentTargets
     {

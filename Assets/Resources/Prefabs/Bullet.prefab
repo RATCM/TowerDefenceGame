@@ -98,6 +98,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 22c230571371c24409a80f3a144c68cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MuzzleFlash: {fileID: 100006, guid: 0661276422528d74d8c9894abad93242, type: 3}
+  BulletImpact: {fileID: 100002, guid: ac1aa04288fad804ba1cd769f4377aaf, type: 3}
 --- !u!61 &-1006771793656540129
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -12,7 +12,6 @@ public class TowerPlaceSelectorScript : MonoBehaviour
     [HideInInspector] private (GameObject,GameObject) Lines;
     [HideInInspector] private List<GameObject> TowerPrefabs;
     [HideInInspector] private int prefabIndex = 0;
-
     [HideInInspector] private (LineRenderer, LineRenderer) lineRenderers;
     void Start()
     {

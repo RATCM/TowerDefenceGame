@@ -9,10 +9,19 @@ using static UnityEngine.GraphicsBuffer;
 public class ShootTower : DefenceTower
 {
     [HideInInspector] protected ulong BulletCount = 0;
+    [Tooltip("The amount of bullets of the magazine of the gun before having to reload")]
     [SerializeField] protected ulong MagazineSize = 10;
+
+    [Tooltip("The time it takes to reload the gun in seconds")]
     [SerializeField] protected float ReloadTime = 3f;
+
+    [Tooltip("The time it takes between each shot in the gun")]
     [SerializeField] protected float WaitTime = 1f;
+
+    [Tooltip("The amound of time to decreese the WaitTime by with each new worker")]
     [SerializeField] protected float WaitTimeMultiplier = 0.1f;
+
+    [Tooltip("The speed of the bullets in units/second")]
     [SerializeField] protected float BulletSpeed = 18f;
     [HideInInspector] protected float currentWaitTime { get { return 1f / (1f / (ReloadTime) + WaitTimeMultiplier * (WorkerCount - MinimumWorkerCount)); } }
     [HideInInspector] private float LastShotTime;
@@ -22,7 +31,7 @@ public class ShootTower : DefenceTower
     void Start()
     {
         InstantiateUIPrefab("ShootTowerInfoPopup");
-        LastShotTime = Time.realtimeSinceStartup;
+        LastShotTime = Time.time;
         Gun = GetComponentsInChildren<Transform>().ToList().First(x => x.name == "Gun").gameObject;
         GunInitPos = Gun.transform.localPosition;
     }
@@ -112,9 +121,9 @@ public class ShootTower : DefenceTower
             return false;
 
         if (BulletCount <= 0){
-            return LastShotTime + ReloadTime <= Time.realtimeSinceStartup;
+            return LastShotTime + ReloadTime <= Time.time;
         }
-        return LastShotTime + currentWaitTime <= Time.realtimeSinceStartup;
+        return LastShotTime + currentWaitTime <= Time.time;
     }
 
     void Shoot()
@@ -127,9 +136,9 @@ public class ShootTower : DefenceTower
 
         var script = instance.GetComponent<BulletScript>();
 
-        script.SetValues(Vector2.up.Rotate(Gun.transform.localEulerAngles.z), BulletSpeed, DamagePerSecond/currentWaitTime, "Enemy", 2);
+        script.SetValues(Vector2.up.Rotate(Gun.transform.localEulerAngles.z), BulletSpeed, DamagePerSecond/currentWaitTime, "Enemy", 1);
 
         BulletCount--;
-        LastShotTime = Time.realtimeSinceStartup;
+        LastShotTime = Time.time;
     }
 }
