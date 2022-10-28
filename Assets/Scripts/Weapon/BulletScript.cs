@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class BulletScript : MonoBehaviour
 {
-
     [HideInInspector] private bool ValuesSet = false;
     [HideInInspector] private Vector2 Direction;
     [HideInInspector] private float Speed;
@@ -25,12 +24,16 @@ public class BulletScript : MonoBehaviour
         TargetTag = targetTag;
         HitsToGoThrough = hitsToGoThrough;
         ValuesSet = true;
+
+        GameObject effect = Instantiate(MuzzleFlash, transform.position + (Vector3)Direction*0.3f, Quaternion.identity);
+        effect.transform.localScale = Vector3.one * 0.5f;
+        
+
+        //effect.transform.localScale = Vector3.one;
+        Destroy(effect, 0.2f);
     }
     private void Start()
     {
-        GameObject effect = Instantiate(MuzzleFlash, transform.position, Quaternion.identity);
-        effect.transform.localScale = Vector3.one;
-        Destroy(effect, 10);
     }
     void FixedUpdate()
     {
@@ -41,14 +44,12 @@ public class BulletScript : MonoBehaviour
         {
             Destroy(gameObject);
             GameObject effect = Instantiate(BulletImpact, transform.position, Quaternion.identity);
-            //var particleSystem = effect.GetComponent<ParticleSystem>();
-            //particleSystem.main.simulationSpeed = 5;
             effect.transform.localScale = Vector3.one;
             Destroy(effect, 10);
             return;
         }
 
-        transform.Translate(Direction * Speed * Time.fixedDeltaTime);
+        transform.Translate(Direction * Speed * Time.fixedDeltaTime, Space.World);
         
         var box = GetComponent<BoxCollider2D>();
 

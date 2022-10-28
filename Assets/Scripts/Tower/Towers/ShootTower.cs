@@ -138,11 +138,11 @@ public class ShootTower : DefenceTower
             BulletCount = MagazineSize;
 
         var bullet = UnityManager.GetPrefab("Bullet");
-        var instance = Instantiate(bullet, transform);
+        var instance = Instantiate(bullet, Gun.transform.position,Gun.transform.rotation);
 
         var script = instance.GetComponent<BulletScript>();
 
-        script.SetValues(Vector2.up.Rotate(Gun.transform.localEulerAngles.z), BulletSpeed, DamagePerSecond/currentWaitTime, "Enemy", 1);
+        script.SetValues(Vector2.up.Rotate(Gun.transform.rotation.eulerAngles.z), BulletSpeed, DamagePerSecond/currentWaitTime, "Enemy", 1);
 
         BulletCount--;
         LastShotTime = Time.time;
