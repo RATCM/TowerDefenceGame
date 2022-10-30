@@ -57,6 +57,17 @@ public static class Extensions
         return temp;
     }
 
+    public static void TryRemoveEffect(this List<EnemyEffect> list, Func<EnemyEffect, bool> predicate)
+    {
+        foreach(var effect in list)
+        {
+            if (predicate(effect))
+            {
+                list.Remove(effect);
+            }
+        }
+    }
+
     /// <summary>
     /// This method enumerates through a list of GameObjects and
     /// returns the closest one to the target GameObject
@@ -70,13 +81,15 @@ public static class Extensions
 
         foreach(var obj in list)
         {
-            // This is faster than Vector2.Distance since we dont take the square root
-            var v1 = obj.transform.position - target.transform.position;
-            float v1DistSquared = v1.x * v1.x + v1.y * v1.y;
-            var v2 = obj.transform.position - closest.transform.position;
-            float v2DistSquared = v2.x * v2.x + v2.y * v2.y;
 
-            if(v1DistSquared < v2DistSquared)
+            // this is faster than taking the actual magnitude since we dont take the square root
+            var v1 = obj.transform.position - target.transform.position;
+            float v1Dist = v1.x * v1.x + v1.y * v1.y;
+
+            var v2 = closest.transform.position - target.transform.position;
+            float v2Dist = v2.x * v2.x + v2.y * v2.y;
+
+            if(v1Dist < v2Dist)
             {
                 closest = obj;
             }

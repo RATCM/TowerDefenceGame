@@ -9,8 +9,15 @@ using Mono.Cecil.Cil;
 using System.IO;
 using Microsoft.CodeAnalysis;
 using System.Linq;
+
 public abstract class TowerObject : MonoBehaviour, ITower
 {
+
+    protected enum TowerUIPrefab
+    {
+        ShootTower,
+        LaserTower,
+    }
     [SerializeField] public string TowerName = "[Generic Tower Name]";
     [SerializeField] public string TowerDescription = "[Generic Tower Description]";
 
@@ -19,7 +26,7 @@ public abstract class TowerObject : MonoBehaviour, ITower
     [HideInInspector] public ulong WorkerCount { get; protected set; } = 0;
     [HideInInspector] public ulong MinimumWorkerCount = 1;
     [HideInInspector] public ulong MaximumWorkerCount = 10;
-    [HideInInspector] public bool IsActive { get { return WorkerCount >= MinimumWorkerCount; } }
+    [HideInInspector] public bool IsActive { get { return WorkerCount >= MinimumWorkerCount && Global.RoundInProgress; } }
     [HideInInspector] public Vector2 Direction{ get { return Vector2.up.Rotate(transform.rotation.eulerAngles.z); } }
     [HideInInspector] public int TowerLevel = 1;
     [HideInInspector] protected GameObject UIPanel;
@@ -28,7 +35,7 @@ public abstract class TowerObject : MonoBehaviour, ITower
     /// This method should always be called in the Start() method of all inheited Towers inhereited from TowerObject
     /// </summary>
     /// <param name="name"></param>
-    public virtual void InstantiateUIPrefab(string name) // Always call this method when implementing TowerObject
+    protected virtual void InstantiateUIPrefab(string name) // Always call this method when implementing TowerObject
     {
         var popup = UnityManager.GetPrefab(name);
         UIPanel = Instantiate(popup, transform);
@@ -61,6 +68,11 @@ public abstract class TowerObject : MonoBehaviour, ITower
         }
 
         UIPanel.transform.rotation = Quaternion.identity;
+    }
+
+    protected virtual void InstantiateUIPrefab(TowerUIPrefab prefab)
+    {
+        InstantiateUIPrefab(prefab.ToString() + "InfoPopup");
     }
 
     /// <summary>

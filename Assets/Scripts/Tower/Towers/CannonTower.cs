@@ -106,7 +106,7 @@ public class CannonTower : DefenceTower
     }
 
     bool CanShoot() =>
-        CurrentTargets.Count > 0 && LastShotTime + currentReloadTime <= Time.time;
+        IsActive && CurrentTargets.Count > 0 && LastShotTime + currentReloadTime <= Time.time;
 
     void Shoot()
     {
@@ -123,9 +123,6 @@ public class CannonTower : DefenceTower
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!IsActive || !Global.RoundInProgress)
-            return;
-
         if (CanShoot())
             Shoot();
 

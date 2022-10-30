@@ -39,9 +39,6 @@ public class ShootTower : DefenceTower
 
     void FixedUpdate()
     {
-        if (!IsActive)
-            return;
-
         if (CanShoot())
             Shoot();
 
@@ -123,7 +120,7 @@ public class ShootTower : DefenceTower
 
     bool CanShoot()
     {
-        if (CurrentTargets.Count == 0)
+        if (!IsActive || CurrentTargets.Count == 0)
             return false;
 
         if (BulletCount <= 0){

@@ -17,10 +17,19 @@ public class EnemyScript : MonoBehaviour
     [Tooltip("The damage caused by the enemy")]
     [SerializeField] public ulong Damage = 5;
 
+    [HideInInspector] public float InitSpeed { get; private set; }
+
+    [HideInInspector] public List<EnemyEffect> CurrentEffects = new List<EnemyEffect>();
+
     /// <summary>
     /// CurrentSpeed is in units per second
     /// </summary>
     [HideInInspector] public float CurrentSpeed = 5; // Change this for tower that slows enemies down
+
+    private void Start()
+    {
+        InitSpeed = DefaultSpeed;
+    }
     void Update()
     {
         if (Health <= 0)
@@ -28,7 +37,6 @@ public class EnemyScript : MonoBehaviour
             Destroy(gameObject);
             PlayerInfo.Money += MoneyDrop;
         }
-
         // Movement is controlled in the PathFinding script attached to the Enemy prefab
     }
 }
