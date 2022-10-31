@@ -54,9 +54,11 @@ public class EnemyController : MonoBehaviour
     bool NextEnemyReadyToSpawn() =>
         timePassed >= NextEnemies[PlayerInfo.CurrentRound - 1].Enemies[0].WaitTime;
 
-    // TODO refactor
     void FixedUpdate()
     {
+        if(!Global.RoundInProgress)
+            return;
+
         CheckIfRoundIsOver();
 
         if (NoEnemiesLeftInQueue()) // Dont spawn new enemies if there are none left in the queue

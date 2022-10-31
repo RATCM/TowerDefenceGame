@@ -7,14 +7,7 @@ public class FreezeTower : DefenceTower
 {
     [HideInInspector] FreezeGunScript Gun;
     [HideInInspector] Vector3 GunInitPos;
-    //protected new List<GameObject> CurrentTargets
-    //{
-    //    get
-    //    {
-    //        return base.CurrentTargets.Where(x => !x.GetComponent<EnemyScript>().CurrentEffects.Any(x => x is TempFreeze)).ToList();
-    //    }
-    //}
-    // Start is called before the first frame update
+    [HideInInspector] protected override DamageType damageType { get => DamageType.Freeze; }
     void Start()
     {
         InstantiateUIPrefab(TowerUIPrefab.ShootTower);

@@ -124,7 +124,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
 
     void UpdateStatus()
     {
-        population.text = ((long)PlayerInfo.Population).ToString();
+        population.text = $"{((long)PlayerInfo.Population)} in total\n{(long)PlayerInfo.Civilians} avaliable";
         money.text = PlayerInfo.Money.ToString() + "$";
         day.text = $"Day {PlayerInfo.CurrentRound}";
     }

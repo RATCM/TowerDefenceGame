@@ -37,7 +37,7 @@ public class TowerPlaceSelectorScript : MonoBehaviour
         }
     }
 
-    public void UpdateTower(TowerObject? tower)
+    public void UpdateTower(TowerObject tower)
     {
         SelectedTower = tower;
     }

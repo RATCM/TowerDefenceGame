@@ -28,7 +28,9 @@ public class ShootTower : DefenceTower
     [HideInInspector] private float LastShotTime;
     [HideInInspector] private GameObject Gun;
     [HideInInspector] private Vector3 GunInitPos;
-    
+    [HideInInspector] protected override DamageType damageType { get => DamageType.Projectiles; }
+
+
     void Start()
     {
         InstantiateUIPrefab("ShootTowerInfoPopup");

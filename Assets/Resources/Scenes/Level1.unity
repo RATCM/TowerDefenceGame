@@ -2760,6 +2760,23 @@ MonoBehaviour:
       WaitTime: 1
     - Enemy: {fileID: 1346183334745165369, guid: 7aa8c4c023cd0d247a8508c6bf3e60db, type: 3}
       WaitTime: 1
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
 --- !u!4 &814677218
 Transform:
   m_ObjectHideFlags: 0

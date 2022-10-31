@@ -112,6 +112,7 @@ MonoBehaviour:
   MinimumEnergy: 50
   MaximumEnergy: 100
   OptimalEnergy: 50
+  SmokeEffect: {fileID: 100000, guid: 4ecfa3d3919108f4fbff80d1c4d920a1, type: 3}
   MinimumTemperature: 0
   MaximumTemperature: 100
   EnergyUse: 50

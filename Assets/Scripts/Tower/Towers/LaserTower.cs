@@ -20,6 +20,8 @@ public class LaserTower : DefenceTower, ILaser
     [HideInInspector] private GameObject laserRay;
     [HideInInspector] private GameObject Gun;
     [HideInInspector] protected bool OnCooldown = false;
+    [HideInInspector] protected override DamageType damageType { get => DamageType.Laser; }
+    [SerializeField] GameObject SmokeEffect;
 
     [Tooltip("The the lowest temperature the tower can be at one time")]
     [SerializeField] protected float MinimumTemperature = 0;
@@ -65,7 +67,7 @@ public class LaserTower : DefenceTower, ILaser
         {
             CurrentTemprature -= (EnergyUse - OptimalEnergy) * multiplier;
         }
-
+        GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.red, CurrentTemprature / MaximumTemperature);
         UpdateLaserStatus();
     }
     void UpdateLaserStatus()
@@ -78,6 +80,16 @@ public class LaserTower : DefenceTower, ILaser
         else if(CurrentTemprature >= MaximumTemperature) // Activates cooldown when the temperature exeeds the max temperature
         {
             OnCooldown = true;
+            var ins = Instantiate(SmokeEffect, transform.position, Quaternion.identity);
+            ins.transform.localScale = Vector3.one * 0.25f;
+
+            var ps = ins.GetComponentsInChildren<ParticleSystem>().ToList();
+            ps.ForEach(x => x.Stop());
+            var main = ps.Select(x => x.main).ToList();
+            main.ForEach(x => x.duration = (MaximumTemperature - MinimumTemperature) * 0.025f);
+            ps.ForEach(x => x.Play());
+
+            Destroy(ins, (MaximumTemperature - MinimumTemperature)*0.075f);
             return;
         }
     }

@@ -5,6 +5,14 @@ using System.Linq;
 using System.Net.Http.Headers;
 using UnityEngine;
 
+[System.Flags]
+public enum DamageType
+{
+    Laser = 1,
+    Projectiles = 1 << 1,
+    Explosion = 1 << 2,
+    Freeze = 1 << 3,
+}
 public class EnemyScript : MonoBehaviour
 {
     [Tooltip("The health of the enemy")]
@@ -18,6 +26,9 @@ public class EnemyScript : MonoBehaviour
 
     [Tooltip("The damage caused by the enemy")]
     [SerializeField] public ulong Damage = 5;
+
+    [Tooltip("This indicates which damage types this enemy is immune to")]
+    [SerializeField] public DamageType Immunities;
 
     [HideInInspector] public float InitSpeed { get; private set; }
 

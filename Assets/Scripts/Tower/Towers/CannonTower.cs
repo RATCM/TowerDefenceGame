@@ -13,6 +13,8 @@ public class CannonTower : DefenceTower
     [HideInInspector] private float LastShotTime = 0;
     [HideInInspector] private GameObject Gun;
     [HideInInspector] private Vector3 GunInitPos;
+    [HideInInspector] protected override DamageType damageType { get => DamageType.Explosion; }
+
     // Start is called before the first frame update
     void Start()
     {

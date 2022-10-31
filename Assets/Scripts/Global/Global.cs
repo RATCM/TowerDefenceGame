@@ -16,7 +16,7 @@ public static class Global
     {
         RoundInProgress = false;
         PlayerInfo.CurrentRound++;
-        if(PlayerInfo.CurrentRound % 5 == 0)
+        if(PlayerInfo.CurrentRound % 1 == 0)
             PlayerInfo.Population = PlayerInfo.Population * PlayerInfo.PopulationMultiplier;
         Debug.Log(PlayerInfo.Population);
     }
