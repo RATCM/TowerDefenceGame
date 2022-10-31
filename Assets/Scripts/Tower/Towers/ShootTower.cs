@@ -39,10 +39,10 @@ public class ShootTower : DefenceTower
 
     void FixedUpdate()
     {
+        LookAtTarget();
+
         if (CanShoot())
             Shoot();
-
-        LookAtTarget();
     }
     // Code for this is from https://www.gamedeveloper.com/programming/shooting-a-moving-target
     float CalculateBulletTravelTime(Vector2 delta, Vector2 vr, float muzzleV)
@@ -139,7 +139,7 @@ public class ShootTower : DefenceTower
 
         var script = instance.GetComponent<BulletScript>();
 
-        script.SetValues(Vector2.up.Rotate(Gun.transform.rotation.eulerAngles.z), BulletSpeed, DamagePerSecond/60f, "Enemy", 1);
+        script.SetValues(Vector2.up.Rotate(Gun.transform.rotation.eulerAngles.z), BulletSpeed, DamagePerSecond * WaitTime, "Enemy", 1);
 
         BulletCount--;
         LastShotTime = Time.time;

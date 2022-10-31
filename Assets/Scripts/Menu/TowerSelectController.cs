@@ -16,6 +16,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
 
     private TMP_Text population;
     private TMP_Text money;
+    private TMP_Text day;
     void Awake()
     {
         buttons = GetComponentsInChildren<Button>().ToList();
@@ -34,13 +35,15 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
 
         population = GetComponentsInChildren<TMP_Text>(true).First(x => x.gameObject.name == "Populaton Label");
         money = GetComponentsInChildren<TMP_Text>(true).First(x => x.gameObject.name == "Money Label");
+        day = GetComponentsInChildren<TMP_Text>(true).First(x => x.gameObject.name == "Day Label");
 
         UpdateStatus();
-
     }
 
     void onClick(Button btn)
     {
+        if (Global.RoundInProgress) return;
+
         try
         {
             selectorScript.UpdateTower(towers[btn.name.Split(' ')[0]].GetComponent<TowerObject>());
@@ -85,7 +88,6 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
             if (!selector.activeSelf)
                 return;
 
-
             if (Input.GetKeyDown(KeyCode.R))
                 selector.transform.Rotate(new Vector3(0, 0, 90));
 
@@ -116,6 +118,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             selector.SetActive(false);
             selectorScript.UpdateTower(null);
+            buttons.ForEach(x => x.GetComponent<Image>().color = Color.white);
         }
     }
 
@@ -123,6 +126,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
     {
         population.text = ((long)PlayerInfo.Population).ToString();
         money.text = PlayerInfo.Money.ToString() + "$";
+        day.text = $"Day {PlayerInfo.CurrentRound}";
     }
     void Update()
     {

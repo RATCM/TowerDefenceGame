@@ -16,7 +16,6 @@ public class LaserTower : DefenceTower, ILaser
     [HideInInspector] public float MaximumEnergy = 100f;
     [HideInInspector] public float OptimalEnergy = 50f;
     [HideInInspector] protected float CurrentTemprature = 0;
-    [HideInInspector] protected bool BeamRunning = false;
     [HideInInspector] private GameObject rayPrefab;
     [HideInInspector] private GameObject laserRay;
     [HideInInspector] private GameObject Gun;
@@ -30,34 +29,37 @@ public class LaserTower : DefenceTower, ILaser
 
     [Tooltip("The energy used by the tower, the lowest value wont increese the temperature while also causing the least damage")]
     [Range(50f, 100f)] [SerializeField] public float EnergyUse = 50f;
+
+
     #endregion
+    void Start()
+    {
+        InstantiateUIPrefab("LaserTowerInfoPopup");
+        rayPrefab = UnityManager.GetPrefab("LaserRay");
+        Gun = GetComponentsInChildren<Transform>().ToList().First(x => x.name == "Gun").gameObject;
+
+        laserRay = Instantiate(rayPrefab, Gun.transform);
+        laserRay.SetActive(false);
+    }
+
+    bool CanShoot() =>
+        IsActive && CurrentTargets.Count > 0 && !OnCooldown;
 
     public void StartBeam()
     {
-        if (!BeamRunning && !CurrentTargets.IsNullOrEmpty())
-        {
-            laserRay = Instantiate(rayPrefab, gameObject.transform);
-
-            LineRenderer lr = laserRay.GetComponent<LineRenderer>();
-
-            lr.SetPositions(new Vector3[] { Vector3.zero, CurrentTargets[0].transform.position - gameObject.transform.position });
-            BeamRunning = true;
-        }
+        laserRay.SetActive(true);
     }
     public void EndBeam()
     {
-        BeamRunning = false;
-
-        if(laserRay != null)
-            Destroy(laserRay);
+        laserRay.SetActive(false);
     }
 
     public void UpdateTemperature()
     {
-        const float multiplier = 0.005f;
-        if (BeamRunning)
+        float multiplier = 0.005f;
+        if (laserRay.activeSelf)
         {
-            CurrentTemprature += (EnergyUse - OptimalEnergy) * multiplier;
+            CurrentTemprature += (EnergyUse - OptimalEnergy) * multiplier/(WorkerCount - MinimumWorkerCount + 1); // more workers makes the temperature increese more slowly
         }
         else
         {
@@ -66,127 +68,57 @@ public class LaserTower : DefenceTower, ILaser
 
         UpdateLaserStatus();
     }
-    public void UpdateTargets()
-    {
-        //// Get all enemies in scene
-        //var enemies = GameObject.FindGameObjectsWithTag("Enemy").ToList();
-
-        //// Remove all enemies not in view
-        //enemies = enemies.Where(x => Vector2.Angle(Direction, gameObject.PointDircetion(x)) <= MaxTargetingAngle).ToList();
-
-        //enemies = enemies.Where(x => Vector2.Distance(x.transform.position, this.transform.position) <= Range).ToList();
-
-        //// Sort enemies by closest
-        //enemies = enemies.SortByClosest(gameObject).ToList();
-
-        //// Reset current targets
-        //CurrentTargets = new List<GameObject>(); 
-
-        //int total = MaxTargets < enemies.Count()
-        //    ? MaxTargets
-        //    : enemies.Count();
-
-        //for (int i = 0; i < total; i++)
-        //{
-        //    CurrentTargets.Add(enemies[i]);
-        //}
-    }
-    void UpgradeTower()
-    {
-        TowerLevel++;
-    }
     void UpdateLaserStatus()
     {
-        if (CurrentTemprature <= MinimumTemperature) // Remove cooldown when temperature is at minimum
+        if (CurrentTemprature <= MinimumTemperature)// Remove cooldown when temperature is at minimum
+        {
             OnCooldown = false;
-
-        if (OnCooldown) // Asserts that the beam is off during cooldown
-        {
-            BeamRunning = false;
-
             return;
         }
-
-        if (CurrentTargets.IsNullOrEmpty()) // Asserts that beam is off is there is no avaliable targets
-        {
-            BeamRunning = false;
-            return;
-        }
-
-        if(CurrentTemprature > MaximumEnergy) // Activates cooldown when the temperature exeeds the max temperature
+        else if(CurrentTemprature >= MaximumTemperature) // Activates cooldown when the temperature exeeds the max temperature
         {
             OnCooldown = true;
+            return;
+        }
+    }
 
+    void AimAtTarget()
+    {
+        if (!CanShoot())
+        {
+            Gun.transform.rotation = transform.rotation;
             return;
         }
 
-        BeamRunning = true;
+        LineRenderer lr = laserRay.GetComponent<LineRenderer>();
 
+        var enemy = CurrentTargets.GetClosest(gameObject).GetComponent<EnemyScript>();
+
+        var dir = enemy.transform.position - transform.position;
+
+        // https://answers.unity.com/questions/585035/lookat-2d-equivalent-.html
+        Quaternion rotation = Quaternion.LookRotation
+            (dir, transform.TransformDirection(Vector3.back));
+
+        Gun.transform.rotation = new Quaternion(0, 0, rotation.z, rotation.w);
+
+        lr.SetPositions(
+            new Vector3[] {
+                    Vector3.zero,
+                    Vector3.up * (transform.position-enemy.transform.position).magnitude}); // Update the position of laser
+
+        enemy.Health -= DamagePerSecond / 60f * (EnergyUse / MinimumEnergy); // damage enemy
     }
-    void UpdateLaser()
-    {
-        if (BeamRunning)
-        {
-            // Instantiate laser
-            if(laserRay  == null)
-            {
-                laserRay = Instantiate(rayPrefab, gameObject.transform);
 
-                LineRenderer lr = laserRay.GetComponent<LineRenderer>();
-
-                lr.SetPositions(new Vector3[] { Vector3.zero, (CurrentTargets
-                    .GetClosest(gameObject).transform.position - gameObject.transform.position)
-                    .Rotate2D(-transform.eulerAngles.z) });
-
-                BeamRunning = true;
-            }
-            else // Update laser
-            {
-                LineRenderer lr = laserRay.GetComponent<LineRenderer>();
-
-
-                var enemy = CurrentTargets[0].GetComponent<EnemyScript>();
-
-                var dir = enemy.transform.position - transform.position;
-
-                // https://answers.unity.com/questions/585035/lookat-2d-equivalent-.html
-                Quaternion rotation = Quaternion.LookRotation
-                    (dir, transform.TransformDirection(Vector3.back));
-
-                Gun.transform.rotation = new Quaternion(0, 0, rotation.z, rotation.w);
-
-                //Debug.Log(size);
-                lr.SetPositions(
-                    new Vector3[] {
-                        Vector3.zero,
-                        (enemy.transform.position - transform.position)
-                        .Rotate2D(-transform.rotation.eulerAngles.z)} ); // Update the position of laser
-
-                enemy.Health -= DamagePerSecond * 1 / 60f; // remove health of enemy
-            }
-        }
-        else if(laserRay != null) // Destroy the laser
-        {
-            Destroy(laserRay);
-            laserRay = null;
-
-            Gun.transform.rotation = transform.rotation;
-        }
-    }
-    void Start()
-    {
-        InstantiateUIPrefab("LaserTowerInfoPopup");
-        rayPrefab = UnityManager.GetPrefab("LaserRay");
-        Gun = GetComponentsInChildren<Transform>().ToList().First(x => x.name == "Gun").gameObject;
-    }
     void FixedUpdate()
     {
-        if (!IsActive)
-            return;
+        if (CanShoot())
+            StartBeam();
+        else
+            EndBeam();
 
+        AimAtTarget();
         UpdateTemperature();
-        UpdateTargets();
         UpdateLaserStatus();
-        UpdateLaser();
     }
 }

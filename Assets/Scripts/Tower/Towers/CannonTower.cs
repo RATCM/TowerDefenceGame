@@ -112,10 +112,11 @@ public class CannonTower : DefenceTower
     {
         var bullet = UnityManager.GetPrefab("CannonBall");
         var instance = Instantiate(bullet, transform);
+        instance.transform.position = Gun.transform.position;
 
         var script = instance.GetComponent<CannonBallScript>();
 
-        script.SetValues(Vector2.up.Rotate(Gun.transform.localEulerAngles.z), ProjectileSpeed, DamagePerSecond / currentReloadTime, DamageRadius, "Enemy");
+        script.SetValues(Vector2.up.Rotate(Gun.transform.localEulerAngles.z), ProjectileSpeed, DamagePerSecond * ReloadTime, DamageRadius, "Enemy");
 
         LastShotTime = Time.time;
     }
@@ -123,9 +124,10 @@ public class CannonTower : DefenceTower
     // Update is called once per frame
     void FixedUpdate()
     {
+        LookAtTarget();
+
         if (CanShoot())
             Shoot();
 
-        LookAtTarget();
     }
 }
