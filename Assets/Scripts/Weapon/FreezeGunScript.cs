@@ -16,7 +16,7 @@ public class FreezeGunScript : MonoBehaviour
 
         var enemy = closest.GetComponent<EnemyScript>();
 
-        enemy.CurrentEffects.Add(new TempFreeze(SlowDownValue, SlowDownDuration, enemy.gameObject));
+        enemy.AddEffect(new TempFreeze(SlowDownValue, SlowDownDuration, enemy.gameObject));
     }
     public void UnActivate()
     {

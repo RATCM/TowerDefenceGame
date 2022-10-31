@@ -11,6 +11,9 @@ public class ShootTowerInfoController : MonoBehaviour
 
     private List<Toggle> toggles;
     private List<Button> buttons;
+
+    private TMP_Text Count;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +23,8 @@ public class ShootTowerInfoController : MonoBehaviour
 
         toggles = GetComponentsInChildren<Toggle>(true).ToList();
         toggles.ForEach(x => x.onValueChanged.AddListener(delegate { OnToggleClicked(x); }));
+
+        Count = GetComponentsInChildren<TMP_Text>(true).First(x => x.name == "WorkerCount");
     }
 
     void OnToggleClicked(Toggle toggle)
@@ -52,13 +57,12 @@ public class ShootTowerInfoController : MonoBehaviour
     void UpdateWorkerCount(long value)
     {
         tower.ChangeWorkerCount(value);
-        var text = GetComponentsInChildren<TMP_Text>().First(x => x.name == "WorkerCount");
-        text.text = $"Worker count: {tower.WorkerCount}";
+        Count.text = $"Worker count: {tower.WorkerCount}";
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        UpdateWorkerCount(0);
     }
 }

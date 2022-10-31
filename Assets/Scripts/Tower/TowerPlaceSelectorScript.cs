@@ -6,18 +6,15 @@ using UnityEngine;
 
 public class TowerPlaceSelectorScript : MonoBehaviour
 {
-    [HideInInspector] public TowerObject SelectedTower;
+    [HideInInspector] public TowerObject SelectedTower { get; private set; }
     [HideInInspector] public float TowerAngle;
     [HideInInspector] private GameObject LinePrefab;
     [HideInInspector] private (GameObject,GameObject) Lines;
-    [HideInInspector] private List<GameObject> TowerPrefabs;
-    [HideInInspector] private int prefabIndex = 0;
     [HideInInspector] private (LineRenderer, LineRenderer) lineRenderers;
+
     void Start()
     {
         LinePrefab = UnityManager.GetPrefab("LaserRay");
-        TowerPrefabs = UnityManager.GetAllPrefabsOfTag("Tower").ToList();
-        SelectedTower = TowerPrefabs[0].GetComponent<TowerObject>();
     }
     void CreateAngleLaser()
     {
@@ -33,33 +30,16 @@ public class TowerPlaceSelectorScript : MonoBehaviour
             lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(((DefenceTower)SelectedTower).MaxTargetingAngle/2) });
             lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(-((DefenceTower)SelectedTower).MaxTargetingAngle/2) });
         }
-    }
-    public void SetNextTower()
-    {
-        if (prefabIndex == TowerPrefabs.Count-1)
-            prefabIndex = 0;
-        else
-            prefabIndex++;
-        UpdateTower();
+        else // update lines
+        {
+            lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(((DefenceTower)SelectedTower).MaxTargetingAngle / 2) });
+            lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(-((DefenceTower)SelectedTower).MaxTargetingAngle / 2) });
+        }
     }
 
-    public void SetPreviousTower()
+    public void UpdateTower(TowerObject? tower)
     {
-        if (prefabIndex == 0)
-            prefabIndex = TowerPrefabs.Count-1;
-        else
-            prefabIndex--;
-        UpdateTower();
-    }
-
-    void UpdateTower()
-    {
-        SelectedTower = TowerPrefabs[prefabIndex].GetComponent<TowerObject>();
-
-        lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(((DefenceTower)SelectedTower).MaxTargetingAngle/2)});
-        lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(-((DefenceTower)SelectedTower).MaxTargetingAngle/2)});
-
-        Debug.Log(SelectedTower.gameObject.name);
+        SelectedTower = tower;
     }
 
     public void UpdateSprite()
@@ -92,7 +72,7 @@ public class TowerPlaceSelectorScript : MonoBehaviour
         if (SelectedTower == null)
             return;
 
-        if (SelectedTower is DefenceTower && Lines.Item1 == null)
+        if (SelectedTower is DefenceTower )
             CreateAngleLaser();
     }
 }

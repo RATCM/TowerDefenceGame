@@ -37,9 +37,18 @@ public static class PlayerInfo
         {
             _population = value;
 
-            if(_population <= 0)
+
+            if((long)_population <= 0)
             {
                 Debug.Log("Game Over!");
+                return;
+            }
+
+            Debug.Log("Civilians: " + Civilians);
+
+            while (GameController.ActiveWorkers > _population)
+            {
+                GameController.PlayerTowers.OrderByDescending(x => x.WorkerCount).First().RemoveWorkers(1);
             }
         }
     }
@@ -50,5 +59,5 @@ public static class PlayerInfo
 
     //public static ulong WorkerCount { get => (ulong)GameObject.FindGameObjectsWithTag("Tower").Sum(x => x.GetComponent<TowerObject>().WorkerCount); }
 
-    public static ulong Civilians { get => (ulong)_population - (ulong)GameController.ActiveWorkers; }
+    public static float Civilians { get => _population - (long)GameController.ActiveWorkers; }
 }

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http.Headers;
 using UnityEngine;
 
@@ -21,6 +23,8 @@ public class EnemyScript : MonoBehaviour
 
     [HideInInspector] public List<EnemyEffect> CurrentEffects = new List<EnemyEffect>();
 
+
+
     /// <summary>
     /// CurrentSpeed is in units per second
     /// </summary>
@@ -29,6 +33,21 @@ public class EnemyScript : MonoBehaviour
     private void Start()
     {
         InitSpeed = DefaultSpeed;
+    }
+
+    public void AddEffect(EnemyEffect effect)
+    {
+        var first = CurrentEffects.FirstOrDefault(x => x.GetType() == effect.GetType());
+        if (first == null)
+        {
+            CurrentEffects.Add(effect);
+            effect.ApplyEffect();
+        }
+        else
+        {
+            first.UpdateEffects(effect);
+            first.ApplyEffect();
+        }
     }
     void Update()
     {

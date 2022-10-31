@@ -93,6 +93,15 @@ public abstract class TowerObject : MonoBehaviour, ITower
         return false;
     }
 
+    public void RemoveWorkers(ulong value)
+    {
+        if ((long)WorkerCount - (long)value < 0) // Dont decreese workercount if the result is less than 0
+            return;
+
+        WorkerCount -= value;
+
+    }
+
     // The Update() method should only be used here
     void Update()
     {

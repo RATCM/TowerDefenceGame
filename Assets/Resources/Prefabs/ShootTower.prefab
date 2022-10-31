@@ -105,7 +105,7 @@ MonoBehaviour:
   MinimumWorkerCount: 1
   MaximumWorkerCount: 10
   TowerLevel: 1
-  DamagePerSecond: 10
+  DamagePerSecond: 100
   MaxTargetingAngle: 110
   Range: 100
   MaxTargets: 1

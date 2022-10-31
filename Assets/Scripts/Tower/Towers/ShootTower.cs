@@ -139,7 +139,7 @@ public class ShootTower : DefenceTower
 
         var script = instance.GetComponent<BulletScript>();
 
-        script.SetValues(Vector2.up.Rotate(Gun.transform.rotation.eulerAngles.z), BulletSpeed, DamagePerSecond/currentWaitTime, "Enemy", 1);
+        script.SetValues(Vector2.up.Rotate(Gun.transform.rotation.eulerAngles.z), BulletSpeed, DamagePerSecond/60f, "Enemy", 1);
 
         BulletCount--;
         LastShotTime = Time.time;
