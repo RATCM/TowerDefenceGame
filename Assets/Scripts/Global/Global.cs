@@ -11,7 +11,7 @@ public static class Global
     public static string PointerState;
     public static bool RoundInProgress = false;
     public static List<Vector2> SpawnLocations = new List<Vector2>() { new Vector2(-10,0.5f) };
-    public static int MaxRounds = 9;
+    public static int MaxRounds = 5;
 
     public static void EndRound()
     {
