@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 16112247}
   - component: {fileID: 16112246}
   m_Layer: 5
-  m_Name: Generator Button
+  m_Name: MoneyTower Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -582,6 +582,10 @@ PrefabInstance:
     - target: {fileID: 7335029220821281335, guid: a3eb01b64816b104babe6a03eb43e1cb, type: 3}
       propertyPath: m_Name
       value: Speed Panel
+      objectReference: {fileID: 0}
+    - target: {fileID: 7335029220821281335, guid: a3eb01b64816b104babe6a03eb43e1cb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3eb01b64816b104babe6a03eb43e1cb, type: 3}

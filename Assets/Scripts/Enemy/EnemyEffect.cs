@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 using UnityEngine;
@@ -15,7 +13,7 @@ public abstract class EnemyEffect
 public abstract class FreezeEffect : EnemyEffect
 {
     /// <summary>
-    /// The value to decreese the speed by, where 0 is no change and 1 is full stop
+    /// The value to decreese the speed by, where 1 is no change and 0 is full stop
     /// </summary>
     public abstract float Value { get; set; }
 }
@@ -56,7 +54,7 @@ public class TempFreeze : FreezeEffect
         if (timer == null)
             InitTimer();
 
-        Enemy.CurrentSpeed = (1-Value) * Enemy.DefaultSpeed;
+        Enemy.CurrentSpeed = Value * Enemy.DefaultSpeed;
     }
 
     public override void UpdateEffects(EnemyEffect effect)
@@ -80,13 +78,13 @@ public class PermaFreeze : FreezeEffect
         Value = value;
         Enemy = enemy.GetComponent<EnemyScript>();
 
-        if(!Enemy.CurrentEffects.Any(x => x is PermaFreeze && ((PermaFreeze)x).Value < Value))
+        if(!Enemy.CurrentEffects.Any(x => x.GetType() == typeof(PermaFreeze) && ((PermaFreeze)x).Value < Value))
             ApplyEffect();
     }
 
     public override void ApplyEffect()
     {
-        Enemy.CurrentEffects.TryRemoveEffect(x => x is PermaFreeze);
+        Enemy.CurrentEffects.TryRemoveEffect(x => x.GetType() == typeof(PermaFreeze));
 
         Enemy.CurrentEffects.Add(this);
 

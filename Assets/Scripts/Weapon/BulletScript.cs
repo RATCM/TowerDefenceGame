@@ -1,7 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class BulletScript : MonoBehaviour
@@ -49,7 +46,7 @@ public class BulletScript : MonoBehaviour
             return;
         }
 
-        transform.Translate(Direction * Speed * Time.fixedDeltaTime, Space.World);
+        transform.Translate(Direction * Speed/60f, Space.World);
         
         var box = GetComponent<BoxCollider2D>();
 

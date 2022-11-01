@@ -1,11 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
-using TowerTypes;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using static UnityEngine.GraphicsBuffer;
 
 public class ShootTower : DefenceTower
 {
@@ -29,7 +24,7 @@ public class ShootTower : DefenceTower
     [HideInInspector] private GameObject Gun;
     [HideInInspector] private Vector3 GunInitPos;
     [HideInInspector] protected override DamageType damageType { get => DamageType.Projectiles; }
-
+    [HideInInspector] public override List<TowerUpgradePath> upgradePath { get; set; } = new List<TowerUpgradePath>();
 
     void Start()
     {
@@ -37,6 +32,24 @@ public class ShootTower : DefenceTower
         LastShotTime = Time.time;
         Gun = GetComponentsInChildren<Transform>().ToList().First(x => x.name == "Gun").gameObject;
         GunInitPos = Gun.transform.localPosition;
+
+        upgradePath.Add(new TowerUpgradePath(
+            new TowerUpgrade("(1) +25 Range", this, 200, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(2) +25 Range", this, 400, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(3) +25 Range", this, 800, delegate { Range *= 1.25f; })
+            ));
+
+        upgradePath.Add(new TowerUpgradePath(
+            new TowerUpgrade("(1) +25% DPS", this, 1000, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("(2) +25% DPS", this, 2000, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("(3) +25% DPS", this, 4000, delegate { DamagePerSecond *= 1.25f; })
+            ));
+
+        upgradePath.Add(new TowerUpgradePath(
+            new TowerUpgrade("(1) -25% Upkeep", this, 100, delegate { UpkeepPerWorker *= 0.75f; }),
+            new TowerUpgrade("(2) -25% Upkeep", this, 200, delegate { UpkeepPerWorker *= 0.75f; }),
+            new TowerUpgrade("(3) -25% Upkeep", this, 400, delegate { UpkeepPerWorker *= 0.75f; })
+            ));
     }
 
     void FixedUpdate()

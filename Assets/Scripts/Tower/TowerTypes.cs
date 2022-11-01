@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 // Reference https://love2d.org/forums/viewtopic.php?t=85229
 namespace TowerTypes
 {
