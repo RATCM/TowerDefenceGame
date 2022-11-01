@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Tower
   - Enemy
+  - FxTemporaire
   layers:
   - Default
   - TransparentFX
@@ -13,9 +14,9 @@ TagManager:
   - 
   - Water
   - UI
+  - Path
   - 
-  - 
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -42,4 +43,31 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 988411007
+    locked: 0
+  - name: Terrain
+    uniqueID: 3654752441
+    locked: 0
+  - name: Enemies
+    uniqueID: 2278950949
+    locked: 0
+  - name: Towers
+    uniqueID: 1146832199
+    locked: 0
+  - name: Bullets
+    uniqueID: 2509401749
+    locked: 0
+  - name: Gun
+    uniqueID: 2932600185
+    locked: 0
+  - name: Enemies
+    uniqueID: 933151251
+    locked: 0
+  - name: Effects
+    uniqueID: 1746670033
+    locked: 0
+  - name: UI
+    uniqueID: 3691906087
     locked: 0

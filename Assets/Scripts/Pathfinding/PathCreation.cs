@@ -5,6 +5,8 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEditor;
 using System.ComponentModel;
+using System;
+
 internal enum PathArgs
 {
     [Description("Weather the object should follow the layer")]
@@ -12,6 +14,7 @@ internal enum PathArgs
     [Description("Weather the object should avoid the layer")]
     Avoid,
 }
+[Obsolete("Use PathFinding instead")]
 public class PathCreation : MonoBehaviour
 {
     [SerializeField] private float speed;
@@ -28,11 +31,14 @@ public class PathCreation : MonoBehaviour
     void Awake()
     {
         var waypoints = Path.GetComponentsInChildren<Transform>().Where(x => x != Path.transform).ToList();
+        if (EndWaypoint == null)
+            EndWaypoint = waypoints.First().gameObject;
+
         waypoints.Remove(EndWaypoint.transform);
 
         waypoints.ForEach(x => _waypoints.Add(x.position));
 
-        // Sort list by distance to player
+        // Sort list by distance from GameObject to waypoint
         _waypoints.Sort(delegate (Vector2 x, Vector2 y)
         {
             return Dist(transform.position, x).CompareTo(Dist(transform.position, y));
@@ -42,6 +48,8 @@ public class PathCreation : MonoBehaviour
     private void Start()
     {
         totalPath = CalcTotalPath();
+
+        Debug.Log(totalPath.Count);
     }
     private bool IsAboveLayers(Vector2 pos)
     {
