@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public static class Global
 {
@@ -10,7 +11,7 @@ public static class Global
     public static string PointerState;
     public static bool RoundInProgress = false;
     public static List<Vector2> SpawnLocations = new List<Vector2>() { new Vector2(-10,0.5f) };
-    public static int MaxRounds = 1;
+    public static int MaxRounds = 9;
 
     public static void EndRound()
     {
@@ -19,6 +20,12 @@ public static class Global
         if(PlayerInfo.CurrentRound % 1 == 0)
             PlayerInfo.Population = PlayerInfo.Population * PlayerInfo.PopulationMultiplier;
         Debug.Log(PlayerInfo.Population);
+       if (PlayerInfo.CurrentRound > MaxRounds)
+        {
+            Debug.Log("Game Over!");
+            SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+            return;
+        }
     }
 }
 
@@ -41,6 +48,7 @@ public static class PlayerInfo
             if((long)_population <= 0)
             {
                 Debug.Log("Game Over!");
+                SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
                 return;
             }
 

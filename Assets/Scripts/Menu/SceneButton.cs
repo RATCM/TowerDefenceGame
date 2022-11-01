@@ -10,6 +10,6 @@ public class SceneButton : MonoBehaviour, IPointerClickHandler
     public string NewSceneName = "";
     public void OnPointerClick(PointerEventData eventData)
     {
-        SceneManager.LoadScene(NewSceneName, LoadSceneMode.Additive);
+        SceneManager.LoadScene(NewSceneName, LoadSceneMode.Single);
     }
 }
