@@ -205,7 +205,7 @@ public abstract class DefenceTower : TowerObject, IDefenceTower
         {
             return GameObject.FindGameObjectsWithTag("Enemy")
                 .Where(x => (x.GetComponent<EnemyScript>().Immunities & damageType) == 0) // Dont include enemies which are immune
-                .Where(x => Vector2.Angle(Direction, gameObject.PointDircetion(x)) <= MaxTargetingAngle/2) // Remove targets outside of tower view
+                .Where(x => Vector2.Angle(Direction, gameObject.PointDirection(x)) <= MaxTargetingAngle/2) // Remove targets outside of tower view
                 .Where(x => Vector2.Distance(x.transform.position, this.transform.position) <= Range).ToList(); // Remove targets outside of tower range
         }
     }
