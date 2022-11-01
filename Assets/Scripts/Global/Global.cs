@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public static class Global
 {
@@ -9,7 +11,7 @@ public static class Global
     public static string PointerState;
     public static bool RoundInProgress = false;
     public static List<Vector2> SpawnLocations = new List<Vector2>() { new Vector2(-10,0.5f) };
-    public static int MaxRounds = 1;
+    public static int MaxRounds = 5;
 
     public static void EndRound()
     {
@@ -26,7 +28,12 @@ public static class Global
 
         RoundInProgress = false;
         PlayerInfo.CurrentRound++;
-
+       if (PlayerInfo.CurrentRound > MaxRounds)
+        {
+            Debug.Log("Game Over!");
+            SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
+            return;
+        }
         var populationIncrease = PlayerInfo.Population + PlayerInfo.Civilians * PlayerInfo.PopulationMultiplier;
 
         if(!moneyTowers.IsNullOrEmpty())
@@ -64,7 +71,7 @@ public static class PlayerInfo
             {
                 Debug.Log("Game Over!");
                 Global.ResetValues();
-                SceneLoader.LoadScene("MainMenu");
+                SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
                 return;
             }
 
