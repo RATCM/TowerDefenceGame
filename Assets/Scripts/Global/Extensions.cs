@@ -44,7 +44,7 @@ public static class Extensions
     }
 
     public static Vector2 PointDircetion(this GameObject from, GameObject to) =>
-        to.transform.position - from.transform.position;
+        (to.transform.position - from.transform.position).normalized;
 
     public static IEnumerable<GameObject> SortByClosest(this IEnumerable<GameObject> list, GameObject target)
     {
@@ -55,6 +55,17 @@ public static class Extensions
         });
 
         return temp;
+    }
+
+    public static void TryRemoveEffect(this List<EnemyEffect> list, Func<EnemyEffect, bool> predicate)
+    {
+        foreach(var effect in list)
+        {
+            if (predicate(effect))
+            {
+                list.Remove(effect);
+            }
+        }
     }
 
     /// <summary>
@@ -70,13 +81,15 @@ public static class Extensions
 
         foreach(var obj in list)
         {
-            // This is faster than Vector2.Distance since we dont take the square root
-            var v1 = obj.transform.position - target.transform.position;
-            float v1DistSquared = v1.x * v1.x + v1.y * v1.y;
-            var v2 = obj.transform.position - closest.transform.position;
-            float v2DistSquared = v2.x * v2.x + v2.y * v2.y;
 
-            if(v1DistSquared < v2DistSquared)
+            // this is faster than taking the actual magnitude since we dont take the square root
+            var v1 = obj.transform.position - target.transform.position;
+            float v1Dist = v1.x * v1.x + v1.y * v1.y;
+
+            var v2 = closest.transform.position - target.transform.position;
+            float v2Dist = v2.x * v2.x + v2.y * v2.y;
+
+            if(v1Dist < v2Dist)
             {
                 closest = obj;
             }
@@ -108,4 +121,7 @@ public static class Extensions
         v.y = (sin * tx) + (cos * ty);
         return v;
     }
+
+    public static float Distance2D(this GameObject self, GameObject target) =>
+        Vector2.Distance(self.transform.position, target.transform.position);
 }
