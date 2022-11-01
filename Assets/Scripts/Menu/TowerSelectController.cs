@@ -117,7 +117,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             selector.SetActive(false);
             selectorScript.UpdateTower(null);
-            buttons.ForEach(x => x.GetComponent<Image>().color = Color.white);
+            buttons.ForEach(x => x.GetComponent<Image>().color = new Color(0f, 1f, 0f, 0.7f));
 
             GameController.PlayerTowers
                 .Select(x => x.GetComponentInChildren<TowerInfoController>(true).gameObject)
