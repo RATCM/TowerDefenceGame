@@ -188,7 +188,7 @@ MonoBehaviour:
   TowerDescription: This tower shoots cannon balls at enemies
   UpkeepPerWorker: 1
   TowerUpkeep: 10
-  Price: 60
+  Price: 100
   MinimumWorkerCount: 1
   MaximumWorkerCount: 10
   TowerLevel: 1
@@ -217,7 +217,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
