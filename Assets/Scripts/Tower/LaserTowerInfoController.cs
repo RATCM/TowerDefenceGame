@@ -1,11 +1,10 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public sealed class LaserTowerInfoController : MonoBehaviour
+public sealed class LaserTowerInfoController : TowerInfoController
 {
     private List<Toggle> toggles;
     private List<Button> buttons;
@@ -31,6 +30,9 @@ public sealed class LaserTowerInfoController : MonoBehaviour
     void OnButtonClicked(Button btn)
     {
         var val = int.Parse(toggles.FirstOrDefault(x => x.isOn).name.Replace("ToggleTimes", ""));
+
+        var b = buttons.Where(x => x.name.Contains("ButtonUpgrade")).OrderByDescending(x => x.GetComponent<RectTransform>().position.y).ToList();
+
         switch (btn.name)
         {
             case "ButtonUp":
@@ -39,7 +41,37 @@ public sealed class LaserTowerInfoController : MonoBehaviour
             case "ButtonDown":
                 UpdateWorkerCount(-val);
                 break;
+            case "ButtonSell":
+                tower.Sell();
+                break;
+            case "ButtonUpgrade1":
+                tower.upgradePath[0].ApplyUpgrade();
+                goto default;
+            case "ButtonUpgrade2":
+                tower.upgradePath[1].ApplyUpgrade();
+                goto default;
+            case "ButtonUpgrade3":
+                tower.upgradePath[2].ApplyUpgrade();
+                goto default;
+            default:
+                var btnIndex = b.IndexOf(btn);
+                if (tower.upgradePath[btnIndex].GetNext() == null)
+                {
+                    btn.enabled = false;
+                    btn.GetComponent<Image>().color = new Color(0.7f, 0.7f, 0.7f);
+                }
+                UpdateButtonText(btn, btnIndex);
+                break;
         }
+    }
+
+    void UpdateButtonText(Button btn, int index)
+    {
+        var txt = btn.GetComponentInChildren<TMP_Text>();
+        txt.text = tower.upgradePath[index].GetNext()?.UpgradeName ?? "Maxed out";
+
+        if (txt.text != "Maxed out")
+            txt.text += $"\n{tower.upgradePath[index].GetNext().UpgradePrice}$";
     }
 
     void OnToggleClicked(Toggle toggle)

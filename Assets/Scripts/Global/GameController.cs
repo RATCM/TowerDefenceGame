@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
@@ -16,4 +15,9 @@ public class GameController : MonoBehaviour
 
     //public static long TotalWorkerCount;
     public static ulong AvaliableWorkers { get => (ulong)PlayerInfo.Population - ActiveWorkers; }
+
+    private void Awake()
+    {
+        Global.ResetValues();
+    }
 }

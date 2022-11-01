@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -15,17 +15,39 @@ public static class Global
 
     public static void EndRound()
     {
+        var towers = GameController.PlayerTowers;
+        var sum = -(long)towers.Where(x => x.IsActive).Sum(x => x.TowerUpkeep + x.UpkeepPerWorker * x.WorkerCount);
+
+        var moneyTowers = towers.Where(x => x.GetType() == typeof(MoneyTower)).Where(x => x.IsActive) as List<MoneyTower>;
+
+        if(!moneyTowers.IsNullOrEmpty())
+            sum += (long)moneyTowers.Sum(x => (x as MoneyTower).MoneyPerWorkerPerRound * x.WorkerCount);
+
+        PlayerInfo.Money += sum;
+
+
         RoundInProgress = false;
         PlayerInfo.CurrentRound++;
-        if(PlayerInfo.CurrentRound % 1 == 0)
-            PlayerInfo.Population = PlayerInfo.Population * PlayerInfo.PopulationMultiplier;
-        Debug.Log(PlayerInfo.Population);
        if (PlayerInfo.CurrentRound > MaxRounds)
         {
             Debug.Log("Game Over!");
             SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
             return;
         }
+        var populationIncrease = PlayerInfo.Population + PlayerInfo.Civilians * PlayerInfo.PopulationMultiplier;
+
+        if(!moneyTowers.IsNullOrEmpty())
+            populationIncrease += moneyTowers.Sum(x => x.WorkerCount * x.PopulationPerRoundMultiplier);
+
+        PlayerInfo.Population += populationIncrease;
+    }
+
+    public static void ResetValues()
+    {
+        PlayerInfo.CurrentRound = 1;
+        PlayerInfo.Population = 10;
+        PlayerInfo.Money = 500;
+        RoundInProgress = false;
     }
 }
 
@@ -48,6 +70,7 @@ public static class PlayerInfo
             if((long)_population <= 0)
             {
                 Debug.Log("Game Over!");
+                Global.ResetValues();
                 SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
                 return;
             }
@@ -60,10 +83,11 @@ public static class PlayerInfo
             }
         }
     }
-    public static ulong Money = 500;
-    public static float PopulationMultiplier = 1.1f; // The amount the population is increesed by every round
+    public static long Money = 500;
 
     private static float _population = 10;
+
+    public const float PopulationMultiplier = 1.1f; // The amount the population is increesed by every round
 
     //public static ulong WorkerCount { get => (ulong)GameObject.FindGameObjectsWithTag("Tower").Sum(x => x.GetComponent<TowerObject>().WorkerCount); }
 

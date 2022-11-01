@@ -238,7 +238,7 @@ GameObject:
   - component: {fileID: 16112247}
   - component: {fileID: 16112246}
   m_Layer: 5
-  m_Name: Generator Button
+  m_Name: MoneyTower Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -6,6 +5,9 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Unity.VisualScripting;
 using TMPro;
+using System.Runtime.CompilerServices;
+
+public partial class TowerInfoController : MonoBehaviour { } // This makes things easier, trust me
 
 public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
@@ -64,7 +66,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
 
         ulong towerPrice = towers[towerName].GetComponent<TowerObject>().Price;
 
-        if (towerPrice > PlayerInfo.Money)
+        if ((long)towerPrice > PlayerInfo.Money)
             return;
 
 
@@ -72,7 +74,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             var tower = Instantiate(towers[towerName]);
 
-            PlayerInfo.Money -= towerPrice;
+            PlayerInfo.Money -= (long)towerPrice;
 
             tower.transform.position = selector.transform.position;
             tower.transform.rotation = selector.transform.rotation;
@@ -111,14 +113,16 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
 
     void TowerSelection()
     {
-        if (Global.RoundInProgress)
-            return;
-
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             selector.SetActive(false);
             selectorScript.UpdateTower(null);
             buttons.ForEach(x => x.GetComponent<Image>().color = new Color(0f, 1f, 0f, 0.7f));
+
+            GameController.PlayerTowers
+                .Select(x => x.GetComponentInChildren<TowerInfoController>(true).gameObject)
+                .ToList()
+                .ForEach(x => x.SetActive(false));
         }
     }
 
@@ -135,11 +139,12 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
         if (Input.GetKeyDown(KeyCode.S))
             Global.RoundInProgress = true;
 
+        TowerSelection();
+
         if (selectorScript.SelectedTower == null || pointerOverUI)
             return;
 
         TowerPlacement();
-        TowerSelection();
     }
 
     bool pointerOverUI = false;

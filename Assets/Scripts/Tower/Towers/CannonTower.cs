@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,7 +13,8 @@ public class CannonTower : DefenceTower
     [HideInInspector] private GameObject Gun;
     [HideInInspector] private Vector3 GunInitPos;
     [HideInInspector] protected override DamageType damageType { get => DamageType.Explosion; }
-
+    [HideInInspector] public override List<TowerUpgradePath> upgradePath { get; set; } = new List<TowerUpgradePath>();
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -25,6 +25,23 @@ public class CannonTower : DefenceTower
         Gun = GetComponentsInChildren<Transform>().ToList().First(x => x.name == "Gun").gameObject;
         GunInitPos = Gun.transform.localPosition;
 
+        upgradePath.Add(new TowerUpgradePath(
+            new TowerUpgrade("(1) Upgrade range 25%", this, 400, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(2) Upgrade range 25%", this, 800, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(3) Upgrade range 25%", this, 1600, delegate { Range *= 1.25f; })
+            ));
+
+        upgradePath.Add(new TowerUpgradePath(
+            new TowerUpgrade("(1) +25% DPS", this, 2000, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("(2) +25% DPS", this, 4000, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("(3) +25% DPS", this, 8000, delegate { DamagePerSecond *= 1.25f; })
+            ));
+
+        upgradePath.Add(new TowerUpgradePath(
+            new TowerUpgrade("(1) +25% Maximum worker count", this, 500, delegate { MaximumWorkerCount = (ulong)(MaximumWorkerCount * 1.25f); }),
+            new TowerUpgrade("(2) +25% Maximum worker count", this, 1000, delegate { MaximumWorkerCount = (ulong)(MaximumWorkerCount * 1.25f); }),
+            new TowerUpgrade("(3) +25% Maximum worker count", this, 2000, delegate { MaximumWorkerCount = (ulong)(MaximumWorkerCount * 1.25f); })
+            ));
     }
 
     float CalculateBulletTravelTime(Vector2 delta, Vector2 vr, float muzzleV)
