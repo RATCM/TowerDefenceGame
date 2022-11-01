@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 public class FreezeTower : DefenceTower
 {
@@ -64,8 +61,8 @@ public class FreezeTower : DefenceTower
             Gun.ResetPosition();
         }
     }
-    protected override void Update()
-    {
-        base.Update();
-    }
+    //protected override void Update()
+    //{
+    //    base.Update();
+    //}
 }

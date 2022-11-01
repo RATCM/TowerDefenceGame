@@ -1,15 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TowerTypes;
-using Unity.VisualScripting.Dependencies.NCalc;
 using UnityEngine.UIElements;
-using System;
-using Mono.Cecil.Cil;
-using System.IO;
-using Microsoft.CodeAnalysis;
 using System.Linq;
-using UnityEditor.Search;
+using System;
 
 public class TowerUpgrade
 {
@@ -82,6 +76,7 @@ public abstract class TowerObject : MonoBehaviour, ITower
     [HideInInspector] public Vector2 Direction{ get { return Vector2.up.Rotate(transform.rotation.eulerAngles.z); } }
     [HideInInspector] public int TowerLevel = 1;
     [HideInInspector] protected GameObject UIPanel;
+
     /// <summary>
     /// This method should always be called in the Start() method of all inheited Towers inhereited from TowerObject
     /// </summary>
@@ -121,10 +116,8 @@ public abstract class TowerObject : MonoBehaviour, ITower
         UIPanel.transform.rotation = Quaternion.identity;
     }
 
-    protected virtual void InstantiateUIPrefab(TowerUIPrefab prefab)
-    {
+    protected virtual void InstantiateUIPrefab(TowerUIPrefab prefab) =>
         InstantiateUIPrefab(prefab.ToString() + "InfoPopup");
-    }
 
     /// <summary>
     /// This method changes the worker count for each tower with the value of the value in the parameter
@@ -168,13 +161,11 @@ public abstract class TowerObject : MonoBehaviour, ITower
             UIPanel.SetActive(!UIPanel.activeSelf);
         }
     }
-
-    void OnMouseEnter() =>
+    protected virtual void OnMouseEnter() =>
         gameObject.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
 
-    void OnMouseExit() =>
+    protected virtual void OnMouseExit() =>
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
-    
 }
 
 public abstract class DefenceTower : TowerObject, IDefenceTower
@@ -202,6 +193,33 @@ public abstract class DefenceTower : TowerObject, IDefenceTower
     }
 
 
+    [HideInInspector] private Transform RangeIndicator;
+    protected override void InstantiateUIPrefab(string name)
+    {
+        base.InstantiateUIPrefab(name);
+        RangeIndicator = GetComponentsInChildren<Transform>(true).First(x => x.name == "RangeIndicator");
+    }
+    protected override void InstantiateUIPrefab(TowerUIPrefab prefab)
+    {
+        base.InstantiateUIPrefab(prefab);
+        RangeIndicator = GetComponentsInChildren<Transform>(true).First(x => x.name == "RangeIndicator");
+    }
+    protected override void Update()
+    {
+        base.Update();
+        RangeIndicator.localScale = Vector2.one * Range;
+    }
+    protected override void OnMouseEnter()
+    {
+        base.OnMouseEnter();
+        RangeIndicator.gameObject.SetActive(true);
+    }
+
+    protected override void OnMouseExit()
+    {
+        base.OnMouseExit();
+        RangeIndicator.gameObject.SetActive(false);
+    }
 
     protected abstract DamageType damageType { get; }
 }

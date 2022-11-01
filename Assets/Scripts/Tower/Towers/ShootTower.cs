@@ -1,11 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.WebSockets;
-using TowerTypes;
 using UnityEngine;
-using UnityEngine.EventSystems;
-using static UnityEngine.GraphicsBuffer;
 
 public class ShootTower : DefenceTower
 {
