@@ -43,7 +43,7 @@ public static class Extensions
         return attributes.Length > 0 ? attributes[0].Value : value.ToString();
     }
 
-    public static Vector2 PointDircetion(this GameObject from, GameObject to) =>
+    public static Vector2 PointDirection(this GameObject from, GameObject to) =>
         (to.transform.position - from.transform.position).normalized;
 
     public static IEnumerable<GameObject> SortByClosest(this IEnumerable<GameObject> list, GameObject target)

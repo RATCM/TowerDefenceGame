@@ -48,8 +48,8 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             selectorScript.UpdateTower(towers[btn.name.Split(' ')[0]].GetComponent<TowerObject>());
 
-            buttons.ForEach(x => x.GetComponent<Image>().color = Color.white);
-            btn.GetComponent<Image>().color = Color.green;
+            buttons.ForEach(x => x.GetComponent<Image>().color = new Color(1f,1f,1f,0.4f));
+            btn.GetComponent<Image>().color = new Color(0f, 1f, 0f, 0.7f);
         }
         catch
         {

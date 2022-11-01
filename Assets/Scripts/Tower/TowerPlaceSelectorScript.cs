@@ -47,9 +47,9 @@ public class TowerPlaceSelectorScript : MonoBehaviour
         var hit = Physics2D.RaycastAll(gameObject.transform.position, Vector2.zero);
 
         Color green = Color.green;
-        green.a = 0.5f;
+        green.a = 0.4f;
         Color red = Color.red;
-        red.a = 0.5f;
+        red.a = 0.4f;
         // The colors alpha is adjusted to make it transparent
 
         if (hit.Any(x => x.collider.gameObject.tag == "Tower") || !hit.Any(x => x.collider.gameObject.name == "Placable Area"))

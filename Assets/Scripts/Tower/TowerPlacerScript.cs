@@ -64,7 +64,7 @@ public class TowerPlacerScript : MonoBehaviour
             }
             else
             {
-                newTowerSR.color = new Color(1f, 1f, 1f, 1f);
+                newTowerSR.color = new Color(1f, 1f, 1f, 0.4f);
                 newTowerSR.sortingLayerName = "Towers";
                 newTower = null;
                 newTowerSR = null;
@@ -81,7 +81,7 @@ public class TowerPlacerScript : MonoBehaviour
         newTower = Instantiate(Global.SelectedTower, new Vector3(0, 0, 0), Quaternion.identity);
 
         newTowerSR = newTower.GetComponent<SpriteRenderer>();
-        newTowerSR.color = new Color(1f, 1f, 1f, 0.745f);
+        newTowerSR.color = new Color(1f, 1f, 1f, 0.4f);
         newTowerSR.sortingLayerName = "PlacedTowers";
 
         newTowerC2 = newTower.GetComponent<Collider2D>();
