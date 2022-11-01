@@ -8,6 +8,9 @@ public class MoneyTower : WorkerTower
 
     [HideInInspector] private float MoneyGainedThisRound = 0;
     [HideInInspector] private int CurrentRound = PlayerInfo.CurrentRound;
+
+    [HideInInspector] public override List<TowerUpgradePath> upgradePath { get => throw new System.NotImplementedException(); set => throw new System.NotImplementedException(); }
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -25,7 +28,7 @@ public class MoneyTower : WorkerTower
         if(CurrentRound != PlayerInfo.CurrentRound)
         {
             CurrentRound = PlayerInfo.CurrentRound;
-            PlayerInfo.Money += (ulong)MoneyGainedThisRound;
+            PlayerInfo.Money += (long)MoneyGainedThisRound;
         }
     }
 }

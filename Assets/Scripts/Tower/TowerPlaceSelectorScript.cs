@@ -11,10 +11,12 @@ public class TowerPlaceSelectorScript : MonoBehaviour
     [HideInInspector] private GameObject LinePrefab;
     [HideInInspector] private (GameObject,GameObject) Lines;
     [HideInInspector] private (LineRenderer, LineRenderer) lineRenderers;
+    [HideInInspector] private GameObject RangeIndicator;
 
     void Start()
     {
         LinePrefab = UnityManager.GetPrefab("LaserRay");
+        RangeIndicator = GetComponentsInChildren<Transform>().First(x => x.name == "RadiusIndicator").gameObject;
     }
     void CreateAngleLaser()
     {
@@ -35,6 +37,11 @@ public class TowerPlaceSelectorScript : MonoBehaviour
             lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(((DefenceTower)SelectedTower).MaxTargetingAngle / 2) });
             lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(-((DefenceTower)SelectedTower).MaxTargetingAngle / 2) });
         }
+    }
+
+    void CreateRangeIndicator()
+    {
+        RangeIndicator.transform.localScale = Vector3.one * (SelectedTower as DefenceTower).Range;
     }
 
     public void UpdateTower(TowerObject tower)
@@ -72,7 +79,10 @@ public class TowerPlaceSelectorScript : MonoBehaviour
         if (SelectedTower == null)
             return;
 
-        if (SelectedTower is DefenceTower )
+        if (SelectedTower.GetType().IsSubclassOf(typeof(DefenceTower)))
+        {
             CreateAngleLaser();
+            CreateRangeIndicator();
+        }
     }
 }

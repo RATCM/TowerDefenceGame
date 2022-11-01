@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TowerName: '[Generic Tower Name]'
   TowerDescription: '[Generic Tower Description]'
-  Price: 100
+  Price: 60
   MinimumWorkerCount: 1
   MaximumWorkerCount: 10
   TowerLevel: 1
@@ -233,4 +233,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SlowDownValue: 0.5
+  SlowDownDuration: 2
   freezeEffect: {fileID: 100002, guid: eec5d74b7005e934f8bfc1f7b4c3e2c3, type: 3}

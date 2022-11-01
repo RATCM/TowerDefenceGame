@@ -21,7 +21,7 @@ public class EnemyScript : MonoBehaviour
     [Tooltip("The base speed of the enemy")]
     [SerializeField] public float DefaultSpeed = 5; // Only change this if speed is slowed down permanentley
 
-    [Tooltip("THe amount of money the enemy drops when dead")]
+    [Tooltip("The amount of money the enemy drops when dead")]
     [SerializeField] public ulong MoneyDrop = 5;
 
     [Tooltip("The damage caused by the enemy")]
@@ -33,8 +33,6 @@ public class EnemyScript : MonoBehaviour
     [HideInInspector] public float InitSpeed { get; private set; }
 
     [HideInInspector] public List<EnemyEffect> CurrentEffects = new List<EnemyEffect>();
-
-
 
     /// <summary>
     /// CurrentSpeed is in units per second
@@ -65,7 +63,7 @@ public class EnemyScript : MonoBehaviour
         if (Health <= 0)
         {
             Destroy(gameObject);
-            PlayerInfo.Money += MoneyDrop;
+            PlayerInfo.Money += (long)MoneyDrop;
         }
         // Movement is controlled in the PathFinding script attached to the Enemy prefab
     }

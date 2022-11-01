@@ -9,20 +9,72 @@ using Mono.Cecil.Cil;
 using System.IO;
 using Microsoft.CodeAnalysis;
 using System.Linq;
+using UnityEditor.Search;
+
+public class TowerUpgrade
+{
+    public delegate void UpgradeAction();
+    public string UpgradeName;
+    public TowerObject Tower;
+    public ulong UpgradePrice;
+    private UpgradeAction Action;
+
+    public TowerUpgrade(string upgradeName, TowerObject tower, ulong upgradePrice, UpgradeAction action)
+    {
+        UpgradeName = upgradeName;
+        Tower = tower;
+        UpgradePrice = upgradePrice;
+        Action = action;
+    }
+    internal bool _applyUpgrade()
+    {
+        if ((long)UpgradePrice < PlayerInfo.Money)
+        {
+            Action.Invoke();
+            PlayerInfo.Money -= (long)UpgradePrice;
+            return true;
+        }
+        return false;
+    }
+}
+
+public class TowerUpgradePath
+{
+    private Queue<TowerUpgrade> Upgrades = new Queue<TowerUpgrade>();
+    public TowerUpgradePath(IEnumerable<TowerUpgrade> upgradePath) =>
+        upgradePath.ToList().ForEach(x => Upgrades.Enqueue(x));
+    public TowerUpgradePath(params TowerUpgrade[] upgradePath) =>
+        upgradePath.ToList().ForEach(x => Upgrades.Enqueue(x));
+
+    public TowerUpgrade GetNext()
+    {
+        Upgrades.TryPeek(out var result);
+        return result;
+    }
+    public void ApplyUpgrade()
+    {
+        var check = Upgrades.Peek()._applyUpgrade();
+
+        if(check) Upgrades.Dequeue();
+    }
+}
 
 public abstract class TowerObject : MonoBehaviour, ITower
 {
-
     protected enum TowerUIPrefab
     {
         ShootTower,
         LaserTower,
     }
+
     [SerializeField] public string TowerName = "[Generic Tower Name]";
     [SerializeField] public string TowerDescription = "[Generic Tower Description]";
+    [SerializeField] public float UpkeepPerWorker = 1f;
+    [SerializeField] public float TowerUpkeep = 10f;
 
     [Tooltip("The base price of the tower")]
     [SerializeField] public ulong Price = 100;
+    [HideInInspector] public abstract List<TowerUpgradePath> upgradePath { get; set; }
     [HideInInspector] public ulong WorkerCount { get; protected set; } = 0;
     [HideInInspector] public ulong MinimumWorkerCount = 1;
     [HideInInspector] public ulong MaximumWorkerCount = 10;
@@ -30,7 +82,6 @@ public abstract class TowerObject : MonoBehaviour, ITower
     [HideInInspector] public Vector2 Direction{ get { return Vector2.up.Rotate(transform.rotation.eulerAngles.z); } }
     [HideInInspector] public int TowerLevel = 1;
     [HideInInspector] protected GameObject UIPanel;
-    
     /// <summary>
     /// This method should always be called in the Start() method of all inheited Towers inhereited from TowerObject
     /// </summary>
@@ -85,6 +136,9 @@ public abstract class TowerObject : MonoBehaviour, ITower
         if ((long)WorkerCount + value < 0) // Dont decreese workercount if the result is less than 0
             return false;
 
+        if (PlayerInfo.Money < 0 && value > 0) // can't increse workers when you are in debt
+            return false;
+
         if((long)GameController.AvaliableWorkers - value >= 0)
         {
             WorkerCount = (ulong)((long)WorkerCount + value);
@@ -101,9 +155,8 @@ public abstract class TowerObject : MonoBehaviour, ITower
         WorkerCount -= value;
 
     }
-
-    // The Update() method should only be used here
-    void Update()
+    // The Update() method should genereally only be used here, if overriding, call base.Update()
+    protected virtual void Update()
     {
         // This is nessecary due to a unity bug where the OnMouse events are not invoked properly
         // The issue is probably described here http://t-machine.org/index.php/2015/03/14/fix-unity3ds-broken-onmousedown/
@@ -133,7 +186,7 @@ public abstract class DefenceTower : TowerObject, IDefenceTower
     [SerializeField] public float MaxTargetingAngle = 360f;
 
     [Tooltip("The range of the tower")]
-    [SerializeField] protected float Range = 100f;
+    [SerializeField] public float Range = 100f;
 
     [Tooltip("The amount of targets the tower can have at once")]
     [SerializeField] protected int MaxTargets = 1;
@@ -148,8 +201,9 @@ public abstract class DefenceTower : TowerObject, IDefenceTower
         }
     }
 
-    protected abstract DamageType damageType { get; }
 
+
+    protected abstract DamageType damageType { get; }
 }
 
 /// <summary>

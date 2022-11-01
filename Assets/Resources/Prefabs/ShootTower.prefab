@@ -101,13 +101,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TowerName: '[Generic Tower Name]'
   TowerDescription: '[Generic Tower Description]'
-  Price: 100
+  Price: 60
   MinimumWorkerCount: 1
   MaximumWorkerCount: 10
   TowerLevel: 1
   DamagePerSecond: 100
   MaxTargetingAngle: 110
-  Range: 100
+  Range: 10
   MaxTargets: 1
   MagazineSize: 10
   ReloadTime: 1

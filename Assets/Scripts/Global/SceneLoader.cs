@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public static class SceneLoader
 {
-    static bool LoadScene(string name)
+    public static bool LoadScene(string name)
     {
         bool sucess = true;
         try

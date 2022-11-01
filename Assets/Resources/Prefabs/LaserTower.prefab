@@ -101,7 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TowerName: '[Generic Tower Name]'
   TowerDescription: '[Generic Tower Description]'
-  Price: 100
+  Price: 60
   MinimumWorkerCount: 1
   MaximumWorkerCount: 10
   TowerLevel: 1

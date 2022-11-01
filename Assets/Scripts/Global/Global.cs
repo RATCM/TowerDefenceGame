@@ -14,11 +14,14 @@ public static class Global
 
     public static void EndRound()
     {
+        var towers = GameController.PlayerTowers;
+        var sum = (long)towers.Where(x => x.IsActive).Sum(x => x.TowerUpkeep + x.UpkeepPerWorker * x.WorkerCount);
+        PlayerInfo.Money -= sum;
+
         RoundInProgress = false;
         PlayerInfo.CurrentRound++;
         if(PlayerInfo.CurrentRound % 1 == 0)
             PlayerInfo.Population = PlayerInfo.Population * PlayerInfo.PopulationMultiplier;
-        Debug.Log(PlayerInfo.Population);
     }
 }
 
@@ -40,6 +43,7 @@ public static class PlayerInfo
 
             if((long)_population <= 0)
             {
+                SceneLoader.LoadScene("MainMenu");
                 Debug.Log("Game Over!");
                 return;
             }
@@ -52,7 +56,7 @@ public static class PlayerInfo
             }
         }
     }
-    public static ulong Money = 500;
+    public static long Money = 500;
     public static float PopulationMultiplier = 1.1f; // The amount the population is increesed by every round
 
     private static float _population = 10;

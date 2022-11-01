@@ -101,13 +101,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TowerName: Cannon Tower
   TowerDescription: This tower shoots cannon balls at enemies
-  Price: 100
+  Price: 60
   MinimumWorkerCount: 1
   MaximumWorkerCount: 10
   TowerLevel: 1
   DamagePerSecond: 50
   MaxTargetingAngle: 90
-  Range: 100
+  Range: 10
   MaxTargets: 1
   DamageRadius: 2
   ReloadTime: 1

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class FreezeGunScript : MonoBehaviour
 {
-    [SerializeField] float SlowDownValue = 0.5f;
-    [SerializeField] float SlowDownDuration = 2f;
+    [SerializeField] public float SlowDownValue = 0.5f;
+    [SerializeField] public float SlowDownDuration = 2f;
     [SerializeField] GameObject freezeEffect;
     [HideInInspector] GameObject freezeEffectInstance;
     [HideInInspector] Vector3 InitialPos;

@@ -11,7 +11,6 @@ using UnityEngine.EventSystems;
 
 public class LaserTower : DefenceTower, ILaser
 {
-    #region Fields in inspector
     [HideInInspector] public float MinimumEnergy = 50f; 
     [HideInInspector] public float MaximumEnergy = 100f;
     [HideInInspector] public float OptimalEnergy = 50f;
@@ -21,6 +20,8 @@ public class LaserTower : DefenceTower, ILaser
     [HideInInspector] private GameObject Gun;
     [HideInInspector] protected bool OnCooldown = false;
     [HideInInspector] protected override DamageType damageType { get => DamageType.Laser; }
+    [HideInInspector] public override List<TowerUpgradePath> upgradePath { get; set; } = new List<TowerUpgradePath>();
+
     [SerializeField] GameObject SmokeEffect;
 
     [Tooltip("The the lowest temperature the tower can be at one time")]
@@ -31,9 +32,6 @@ public class LaserTower : DefenceTower, ILaser
 
     [Tooltip("The energy used by the tower, the lowest value wont increese the temperature while also causing the least damage")]
     [Range(50f, 100f)] [SerializeField] public float EnergyUse = 50f;
-
-
-    #endregion
     void Start()
     {
         InstantiateUIPrefab("LaserTowerInfoPopup");
@@ -42,6 +40,24 @@ public class LaserTower : DefenceTower, ILaser
 
         laserRay = Instantiate(rayPrefab, Gun.transform);
         laserRay.SetActive(false);
+
+        upgradePath.Add(new TowerUpgradePath(
+            new TowerUpgrade("Upgrade range 25%", this, 50, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("Upgrade range 25%", this, 100, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("Upgrade range 25%", this, 200, delegate { Range *= 1.25f; })
+            ));
+
+        upgradePath.Add(new TowerUpgradePath(
+            new TowerUpgrade("Upgrade DPS 25%", this, 100, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("Upgrade DPS 25%", this, 200, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("Upgrade DPS 25%", this, 400, delegate { DamagePerSecond *= 1.25f; })
+            ));
+
+        upgradePath.Add(new TowerUpgradePath(
+            new TowerUpgrade("Upgrade tempearture capacity 50%", this, 100, delegate { MaximumTemperature *= 1.5f; }),
+            new TowerUpgrade("Upgrade tempearture capacity 50%", this, 200, delegate { MaximumTemperature *= 1.5f; }),
+            new TowerUpgrade("Upgrade tempearture capacity 50%", this, 400, delegate { MaximumTemperature *= 1.5f; })
+            ));
     }
 
     bool CanShoot() =>
@@ -58,14 +74,26 @@ public class LaserTower : DefenceTower, ILaser
 
     public void UpdateTemperature()
     {
-        float multiplier = 0.005f;
+        var freezeTowers = GameController.PlayerTowers
+            .Where(x => x.GetType() == typeof(FreezeTower))
+            .Where(x => x.IsActive)
+            .Where(x => Vector2.Distance(x.transform.position, transform.position) < ((FreezeTower)x).Range);
+
+        float decreseMultiplier = 0.005f;
+        decreseMultiplier *= freezeTowers.Count() + 1;
+
+        // more workers makes the temperature increese more slowly
+        // This could divide by zero but it wont matter in this case
+        float increseMultiplier = decreseMultiplier / (WorkerCount - MinimumWorkerCount + 1);
+        increseMultiplier *= 1 / (freezeTowers.Count() + 1);
+        
         if (laserRay.activeSelf)
         {
-            CurrentTemprature += (EnergyUse - OptimalEnergy) * multiplier/(WorkerCount - MinimumWorkerCount + 1); // more workers makes the temperature increese more slowly
+            CurrentTemprature += (EnergyUse - OptimalEnergy) * increseMultiplier;
         }
         else
         {
-            CurrentTemprature -= (EnergyUse - OptimalEnergy) * multiplier;
+            CurrentTemprature -= (EnergyUse - OptimalEnergy) * decreseMultiplier;
         }
         GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.red, CurrentTemprature / MaximumTemperature);
         UpdateLaserStatus();

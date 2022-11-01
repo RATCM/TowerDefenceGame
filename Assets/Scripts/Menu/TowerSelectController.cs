@@ -64,7 +64,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
 
         ulong towerPrice = towers[towerName].GetComponent<TowerObject>().Price;
 
-        if (towerPrice > PlayerInfo.Money)
+        if ((long)towerPrice > PlayerInfo.Money)
             return;
 
 
@@ -72,7 +72,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             var tower = Instantiate(towers[towerName]);
 
-            PlayerInfo.Money -= towerPrice;
+            PlayerInfo.Money -= (long)towerPrice;
 
             tower.transform.position = selector.transform.position;
             tower.transform.rotation = selector.transform.rotation;

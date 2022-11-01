@@ -103,6 +103,7 @@ MonoBehaviour:
   DefaultSpeed: 10
   MoneyDrop: 100
   Damage: 1
+  Immunities: 11
   CurrentSpeed: 5
 --- !u!114 &1042343316597341689
 MonoBehaviour:
