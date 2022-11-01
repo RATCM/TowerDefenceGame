@@ -583,6 +583,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Speed Panel
       objectReference: {fileID: 0}
+    - target: {fileID: 7335029220821281335, guid: a3eb01b64816b104babe6a03eb43e1cb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3eb01b64816b104babe6a03eb43e1cb, type: 3}
 --- !u!224 &193084109 stripped
@@ -3068,6 +3072,216 @@ MonoBehaviour:
     - Enemy: {fileID: 1346183334745165369, guid: 7aa8c4c023cd0d247a8508c6bf3e60db, type: 3}
       WaitTime: 1
   - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      WaitTime: 1.5
     - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
       WaitTime: 1.5
     - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
