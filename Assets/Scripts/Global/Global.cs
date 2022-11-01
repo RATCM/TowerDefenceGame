@@ -18,7 +18,8 @@ public static class Global
 
         var moneyTowers = towers.Where(x => x.GetType() == typeof(MoneyTower)).Where(x => x.IsActive) as List<MoneyTower>;
 
-        sum += (long)moneyTowers.Sum(x => (x as MoneyTower).MoneyPerWorkerPerRound * x.WorkerCount);
+        if(!moneyTowers.IsNullOrEmpty())
+            sum += (long)moneyTowers.Sum(x => (x as MoneyTower).MoneyPerWorkerPerRound * x.WorkerCount);
 
         PlayerInfo.Money += sum;
 
@@ -28,7 +29,8 @@ public static class Global
 
         var populationIncrease = PlayerInfo.Population + PlayerInfo.Civilians * PlayerInfo.PopulationMultiplier;
 
-        populationIncrease += moneyTowers.Sum(x => x.WorkerCount * x.PopulationPerRoundMultiplier);
+        if(!moneyTowers.IsNullOrEmpty())
+            populationIncrease += moneyTowers.Sum(x => x.WorkerCount * x.PopulationPerRoundMultiplier);
 
         PlayerInfo.Population += populationIncrease;
     }

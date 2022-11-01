@@ -27,7 +27,7 @@ public class CannonBallScript : MonoBehaviour
         if (!ValuesSet)
             return;
 
-        transform.Translate(Direction * Speed * Time.fixedDeltaTime);
+        transform.Translate(Direction * Speed/60f);
 
         var circle = GetComponent<CircleCollider2D>();
 

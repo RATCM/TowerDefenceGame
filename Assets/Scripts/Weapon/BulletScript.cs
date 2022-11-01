@@ -46,7 +46,7 @@ public class BulletScript : MonoBehaviour
             return;
         }
 
-        transform.Translate(Direction * Speed * Time.fixedDeltaTime, Space.World);
+        transform.Translate(Direction * Speed/60f, Space.World);
         
         var box = GetComponent<BoxCollider2D>();
 
