@@ -34,21 +34,21 @@ public class ShootTower : DefenceTower
         GunInitPos = Gun.transform.localPosition;
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Upgrade range 25%", this, 200, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("Upgrade range 25%", this, 400, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("Upgrade range 25%", this, 800, delegate { Range *= 1.25f; })
+            new TowerUpgrade("(1) +25 Range", this, 200, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(2) +25 Range", this, 400, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(3) +25 Range", this, 800, delegate { Range *= 1.25f; })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Upgrade DPS 25%", this, 1000, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("Upgrade DPS 25%", this, 2000, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("Upgrade DPS 25%", this, 4000, delegate { DamagePerSecond *= 1.25f; })
+            new TowerUpgrade("(1) +25% DPS", this, 1000, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("(2) +25% DPS", this, 2000, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("(3) +25% DPS", this, 4000, delegate { DamagePerSecond *= 1.25f; })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Decrese upkeep 25%", this, 100, delegate { UpkeepPerWorker *= 0.75f; }),
-            new TowerUpgrade("Decrese upkeep 25%", this, 200, delegate { UpkeepPerWorker *= 0.75f; }),
-            new TowerUpgrade("Decrese upkeep 25%", this, 400, delegate { UpkeepPerWorker *= 0.75f; })
+            new TowerUpgrade("(1) -25% Upkeep", this, 100, delegate { UpkeepPerWorker *= 0.75f; }),
+            new TowerUpgrade("(2) -25% Upkeep", this, 200, delegate { UpkeepPerWorker *= 0.75f; }),
+            new TowerUpgrade("(3) -25% Upkeep", this, 400, delegate { UpkeepPerWorker *= 0.75f; })
             ));
     }
 

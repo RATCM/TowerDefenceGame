@@ -49,12 +49,25 @@ public class TowerUpgradePath
     {
         var check = Upgrades.Peek()._applyUpgrade();
 
-        if(check) Upgrades.Dequeue();
+        var tower = Upgrades.Peek().Tower;
+
+        if (check) tower.currentUpgrades.Add(Upgrades.Dequeue());
     }
 }
 
 public abstract class TowerObject : MonoBehaviour, ITower
 {
+    public void Sell()
+    {
+        if (Global.RoundInProgress) return;
+
+        // Calculate value of tower
+        var value = Price + currentUpgrades.Sum(x => (float)x.UpgradePrice);
+
+        PlayerInfo.Money += (long)(value/2); // Only give 50% of actual value back when selling
+
+        Destroy(gameObject);
+    }
     protected enum TowerUIPrefab
     {
         ShootTower,
@@ -68,7 +81,9 @@ public abstract class TowerObject : MonoBehaviour, ITower
 
     [Tooltip("The base price of the tower")]
     [SerializeField] public ulong Price = 100;
+
     [HideInInspector] public abstract List<TowerUpgradePath> upgradePath { get; set; }
+    [HideInInspector] public List<TowerUpgrade> currentUpgrades = new List<TowerUpgrade>();
     [HideInInspector] public ulong WorkerCount { get; protected set; } = 0;
     [HideInInspector] public ulong MinimumWorkerCount = 1;
     [HideInInspector] public ulong MaximumWorkerCount = 10;
@@ -127,6 +142,9 @@ public abstract class TowerObject : MonoBehaviour, ITower
     public bool ChangeWorkerCount(long value)
     {
         if ((long)WorkerCount + value < 0) // Dont decreese workercount if the result is less than 0
+            return false;
+
+        if (value > 0 && WorkerCount + (ulong)value > MaximumWorkerCount)
             return false;
 
         if (PlayerInfo.Money < 0 && value > 0) // can't increse workers when you are in debt

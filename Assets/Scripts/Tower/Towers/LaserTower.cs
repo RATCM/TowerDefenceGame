@@ -37,21 +37,21 @@ public class LaserTower : DefenceTower, ILaser
         laserRay.SetActive(false);
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Upgrade range 25%", this, 50, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("Upgrade range 25%", this, 100, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("Upgrade range 25%", this, 200, delegate { Range *= 1.25f; })
+            new TowerUpgrade("(1) +25% Range", this, 50, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(2) +25% Range", this, 100, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(3) +25% Range", this, 200, delegate { Range *= 1.25f; })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Upgrade DPS 25%", this, 100, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("Upgrade DPS 25%", this, 200, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("Upgrade DPS 25%", this, 400, delegate { DamagePerSecond *= 1.25f; })
+            new TowerUpgrade("(1) +25% DPS", this, 100, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("(2) +25% DPS", this, 200, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("(3) +25% DPS", this, 400, delegate { DamagePerSecond *= 1.25f; })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Upgrade tempearture capacity 50%", this, 100, delegate { MaximumTemperature *= 1.5f; }),
-            new TowerUpgrade("Upgrade tempearture capacity 50%", this, 200, delegate { MaximumTemperature *= 1.5f; }),
-            new TowerUpgrade("Upgrade tempearture capacity 50%", this, 400, delegate { MaximumTemperature *= 1.5f; })
+            new TowerUpgrade("(1) +50% Tempearture capacity 50%", this, 100, delegate { MaximumTemperature *= 1.5f; }),
+            new TowerUpgrade("(2) +50% Tempearture capacity 50%", this, 200, delegate { MaximumTemperature *= 1.5f; }),
+            new TowerUpgrade("(3) +50% Tempearture capacity 50%", this, 400, delegate { MaximumTemperature *= 1.5f; })
             ));
     }
 

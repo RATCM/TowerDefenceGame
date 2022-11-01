@@ -13,4 +13,9 @@ public class GameController : MonoBehaviour
 
     //public static long TotalWorkerCount;
     public static ulong AvaliableWorkers { get => (ulong)PlayerInfo.Population - ActiveWorkers; }
+
+    private void Awake()
+    {
+        Global.ResetValues();
+    }
 }

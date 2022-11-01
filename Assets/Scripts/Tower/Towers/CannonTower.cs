@@ -26,21 +26,21 @@ public class CannonTower : DefenceTower
         GunInitPos = Gun.transform.localPosition;
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Upgrade range 25%", this, 400, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("Upgrade range 25%", this, 800, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("Upgrade range 25%", this, 1600, delegate { Range *= 1.25f; })
+            new TowerUpgrade("(1) Upgrade range 25%", this, 400, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(2) Upgrade range 25%", this, 800, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(3) Upgrade range 25%", this, 1600, delegate { Range *= 1.25f; })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Upgrade DPS 25%", this, 2000, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("Upgrade DPS 25%", this, 4000, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("Upgrade DPS 25%", this, 8000, delegate { DamagePerSecond *= 1.25f; })
+            new TowerUpgrade("(1) +25% DPS", this, 2000, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("(2) +25% DPS", this, 4000, delegate { DamagePerSecond *= 1.25f; }),
+            new TowerUpgrade("(3) +25% DPS", this, 8000, delegate { DamagePerSecond *= 1.25f; })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Decrese upkeep 25%", this, 200, delegate { UpkeepPerWorker *= 0.75f; }),
-            new TowerUpgrade("Decrese upkeep 25%", this, 400, delegate { UpkeepPerWorker *= 0.75f; }),
-            new TowerUpgrade("Decrese upkeep 25%", this, 800, delegate { UpkeepPerWorker *= 0.75f; })
+            new TowerUpgrade("(1) +25% Maximum worker count", this, 500, delegate { MaximumWorkerCount = (ulong)(MaximumWorkerCount * 1.25f); }),
+            new TowerUpgrade("(2) +25% Maximum worker count", this, 1000, delegate { MaximumWorkerCount = (ulong)(MaximumWorkerCount * 1.25f); }),
+            new TowerUpgrade("(3) +25% Maximum worker count", this, 2000, delegate { MaximumWorkerCount = (ulong)(MaximumWorkerCount * 1.25f); })
             ));
     }
 

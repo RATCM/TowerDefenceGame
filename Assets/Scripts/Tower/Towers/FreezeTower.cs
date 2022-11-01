@@ -15,20 +15,21 @@ public class FreezeTower : DefenceTower
         GunInitPos = Gun.gameObject.transform.localPosition;
 
         upgradePath.Add(new TowerUpgradePath(
-           new TowerUpgrade("Upgrade Range 25%", this, 50, delegate { Range *= 1.25f; }),
-           new TowerUpgrade("Upgrade Range 25%", this, 100, delegate { Range *= 1.25f; }),
-           new TowerUpgrade("Upgrade Range 25%", this, 200, delegate { Range *= 1.25f; })));
+           new TowerUpgrade("(1) +25% Range", this, 50, delegate { Range *= 1.25f; }),
+           new TowerUpgrade("(2) +25% Range", this, 100, delegate { Range *= 1.25f; }),
+           new TowerUpgrade("(3) +25% Range", this, 200, delegate { Range *= 1.25f; })
+           ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Upgrade duration 25%", this, 50, delegate { Gun.SlowDownDuration *= 1.25f; }),
-            new TowerUpgrade("Upgrade duration 25%", this, 100, delegate { Gun.SlowDownDuration *= 1.25f; }),
-            new TowerUpgrade("Upgrade duration 25%", this, 200, delegate { Gun.SlowDownDuration *= 1.25f; })
+            new TowerUpgrade("(1) +15% Duration", this, 50, delegate { Gun.SlowDownDuration *= 1.15f; }),
+            new TowerUpgrade("(2) +15% Duration", this, 100, delegate { Gun.SlowDownDuration *= 1.15f; }),
+            new TowerUpgrade("(3) +15% Duration", this, 200, delegate { Gun.SlowDownDuration *= 1.15f; })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("Upgrade slowdown 25%", this, 50, delegate { Gun.SlowDownValue *= 0.75f; }),
-            new TowerUpgrade("Upgrade slowdown 25%", this, 100, delegate { Gun.SlowDownValue *= 0.75f; }),
-            new TowerUpgrade("Upgrade slowdown 25%", this, 200, delegate { Gun.SlowDownValue *= 0.75f; })
+            new TowerUpgrade("(1) +10% Slowdown", this, 50, delegate { Gun.SlowDownValue *= 0.9f; }),
+            new TowerUpgrade("(2) +10% Slowdown", this, 100, delegate { Gun.SlowDownValue *= 0.9f; }),
+            new TowerUpgrade("(3) +10% Slowdown", this, 200, delegate { Gun.SlowDownValue *= 0.9f; })
             ));
     }
 

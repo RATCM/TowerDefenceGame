@@ -5,7 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShootTowerInfoController : MonoBehaviour
+public class ShootTowerInfoController : TowerInfoController
 {
     private TowerObject tower;
 
@@ -56,6 +56,9 @@ public class ShootTowerInfoController : MonoBehaviour
             case "ButtonDown":
                 UpdateWorkerCount(-val);
                 break;
+            case "ButtonSell":
+                tower.Sell();
+                break;
             case "ButtonUpgrade1":
                 tower.upgradePath[0].ApplyUpgrade();
                 goto default;
@@ -75,13 +78,17 @@ public class ShootTowerInfoController : MonoBehaviour
                 UpdateButtonText(btn, btnIndex);
                 break;
         }
-
-        Debug.Log(((DefenceTower)tower).Range);
     }
+
     void UpdateButtonText(Button btn, int index)
     {
-        btn.GetComponentInChildren<TMP_Text>().text = tower.upgradePath[index].GetNext()?.UpgradeName ?? "Maxed out";
+        var txt = btn.GetComponentInChildren<TMP_Text>();
+        txt.text = tower.upgradePath[index].GetNext()?.UpgradeName ?? "Maxed out";
+
+        if (txt.text != "Maxed out")
+            txt.text += $"\n{tower.upgradePath[index].GetNext().UpgradePrice}$";
     }
+
     void UpdateWorkerCount(long value)
     {
         if (!Global.RoundInProgress)
