@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Bson;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,31 +27,49 @@ public class EnemyController : MonoBehaviour
         Global.MaxRounds = NextEnemies.Count;
     }
 
-    // TODO refactor
+    void CheckIfRoundIsOver()
+    {
+        if (NoEnemiesLeftInQueue() && NoEnemiesInScene())
+            Global.EndRound();
+    }
+
+    bool NoEnemiesLeftInQueue() =>
+        NextEnemies[(PlayerInfo.CurrentRound - 1) % (Global.MaxRounds)].Enemies.Count == 0;
+    bool NoEnemiesInScene() =>
+        GameObject.FindGameObjectsWithTag("Enemy").Length == 0;
+
+    void SpawnEnemy()
+    {
+        var enemy = Instantiate(NextEnemies[PlayerInfo.CurrentRound - 1].Enemies[0].Enemy);
+
+        enemy.transform.position = Global.SpawnLocations[0];
+        NextEnemies[PlayerInfo.CurrentRound - 1].Enemies.RemoveAt(0);
+
+        timePassed = 0;
+    }
+
+    void UpdateTimePassed() =>
+        timePassed += Time.fixedDeltaTime;
+
+    bool NextEnemyReadyToSpawn() =>
+        timePassed >= NextEnemies[PlayerInfo.CurrentRound - 1].Enemies[0].WaitTime;
+
     void FixedUpdate()
     {
-        if (NextEnemies[(PlayerInfo.CurrentRound-1) % (Global.MaxRounds)].Enemies.Count == 0 && GameObject.FindGameObjectsWithTag("Enemy").Length == 0)
-        {
-            Global.RoundInProgress = false;
-            PlayerInfo.CurrentRound++;
-        }
+        if(!Global.RoundInProgress)
+            return;
 
-        if (NextEnemies[(PlayerInfo.CurrentRound - 1) % (Global.MaxRounds)].Enemies.Count == 0)
+        CheckIfRoundIsOver();
+
+        if (NoEnemiesLeftInQueue()) // Dont spawn new enemies if there are none left in the queue
             return;
 
         if (Global.RoundInProgress)
         {
-            timePassed += Time.fixedDeltaTime;
+            UpdateTimePassed();
 
-            if(timePassed >= NextEnemies[PlayerInfo.CurrentRound - 1].Enemies[0].WaitTime)
-            {
-                var enemy = Instantiate(NextEnemies[PlayerInfo.CurrentRound - 1].Enemies[0].Enemy);
-
-                enemy.transform.position = Global.SpawnLocations[0];
-                NextEnemies[PlayerInfo.CurrentRound - 1].Enemies.RemoveAt(0);
-
-                timePassed = 0;
-            }
+            if(NextEnemyReadyToSpawn())
+                SpawnEnemy();
         }
     }
 }

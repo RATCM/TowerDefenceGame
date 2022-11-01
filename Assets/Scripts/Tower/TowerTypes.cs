@@ -18,7 +18,6 @@ namespace TowerTypes
     public interface ILaser
     {
         public void UpdateTemperature();
-        public void UpdateTargets();
     }
     public interface IGunTower : IDefenceTower // Basic tower for shooting projectiles
     {
