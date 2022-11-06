@@ -188,7 +188,10 @@ public abstract class TowerObject : MonoBehaviour, ITower
         
         if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse) && hits.Any(x => x.collider.gameObject == gameObject))
         {
-            UIPanel.SetActive(!UIPanel.activeSelf);
+            // Make all other inactive:
+            bool activate = !UIPanel.activeSelf;
+            GameController.PlayerTowers.ForEach(x => x.UIPanel.SetActive(false));
+            UIPanel.SetActive(activate);
         }
     }
     protected virtual void OnMouseEnter() =>
