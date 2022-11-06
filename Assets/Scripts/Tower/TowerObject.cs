@@ -92,6 +92,16 @@ public abstract class TowerObject : MonoBehaviour, ITower
     [HideInInspector] public int TowerLevel = 1;
     [HideInInspector] protected GameObject UIPanel;
 
+    void Awake()
+    {
+        GameController.PlayerTowers.Add(this);
+    }
+
+    void OnDestroy()
+    {
+        GameController.PlayerTowers.Remove(this);
+    }
+
     /// <summary>
     /// This method should always be called in the Start() method of all inheited Towers inhereited from TowerObject
     /// </summary>

@@ -94,8 +94,8 @@ public class ShootTowerInfoController : TowerInfoController
         if (!Global.RoundInProgress)
         {
             tower.ChangeWorkerCount(value);
-            Count.text = $"Worker count: {tower.WorkerCount}";
         }
+        Count.text = $"Worker count: {tower.WorkerCount}";
     }
 
     // Update is called once per frame
