@@ -8,7 +8,8 @@ public class EnemyController : MonoBehaviour
     internal class EnemyClass
     {
         [SerializeField] internal GameObject Enemy;
-        [SerializeField] internal float WaitTime = 1;
+        [SerializeField] internal float SpawnInterval = 1;
+        [SerializeField] internal long SpawnCount = 1;
     }
     [System.Serializable]
     internal class EnemyList
@@ -17,7 +18,6 @@ public class EnemyController : MonoBehaviour
     }
     [SerializeField] private List<EnemyList> NextEnemies = new List<EnemyList>();
     private List<EnemyList> _nextEnemies;
-
 
     [HideInInspector] private float timePassed = 0;
 
@@ -35,6 +35,7 @@ public class EnemyController : MonoBehaviour
 
     bool NoEnemiesLeftInQueue() =>
         _nextEnemies[(PlayerInfo.CurrentRound - 1) % (Global.MaxRounds)].Enemies.Count == 0;
+
     bool NoEnemiesInScene() =>
         GameObject.FindGameObjectsWithTag("Enemy").Length == 0;
 
@@ -43,7 +44,11 @@ public class EnemyController : MonoBehaviour
         var enemy = Instantiate(_nextEnemies[PlayerInfo.CurrentRound - 1].Enemies[0].Enemy);
 
         enemy.transform.position = Global.SpawnLocations[0];
-        _nextEnemies[PlayerInfo.CurrentRound - 1].Enemies.RemoveAt(0);
+        _nextEnemies[PlayerInfo.CurrentRound - 1].Enemies[0].SpawnCount--;
+        if (_nextEnemies[PlayerInfo.CurrentRound - 1].Enemies[0].SpawnCount == 0)
+        {
+            _nextEnemies[PlayerInfo.CurrentRound - 1].Enemies.RemoveAt(0);
+        }
 
         timePassed = 0;
     }
@@ -52,7 +57,7 @@ public class EnemyController : MonoBehaviour
         timePassed += Time.fixedDeltaTime;
 
     bool NextEnemyReadyToSpawn() =>
-        timePassed >= _nextEnemies[PlayerInfo.CurrentRound - 1].Enemies[0].WaitTime;
+        timePassed >= _nextEnemies[PlayerInfo.CurrentRound - 1].Enemies[0].SpawnInterval;
 
     void FixedUpdate()
     {
