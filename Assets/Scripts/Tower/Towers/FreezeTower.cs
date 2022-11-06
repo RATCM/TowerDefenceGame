@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,12 @@ public class FreezeTower : DefenceTower
     [HideInInspector] Vector3 GunInitPos;
     [HideInInspector] protected override DamageType damageType { get => DamageType.Freeze; }
     [HideInInspector] private LineRenderer radiusIndicator;
+    public override string TowerInfoDisplay =>
+        $"Range: {MathF.Round(Range)} units\n" +
+        $"Duration: {MathF.Round(Gun.actualFreezeDuration,1)} seconds\n" +
+        $"Slowdown value: {(long)(Gun.SlowDownValue*100)}%\n" +
+        $"Upkeep: {(long)(WorkerCount >= MinimumWorkerCount ? UpkeepPerWorker * WorkerCount + TowerUpkeep : 0)}$ per round\n" +
+        $"Is Active: {(WorkerCount >= MinimumWorkerCount ? "Yes" : "No")}";
     void Start()
     {
         InstantiateUIPrefab(TowerUIPrefab.ShootTower);

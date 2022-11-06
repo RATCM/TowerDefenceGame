@@ -11,6 +11,7 @@ public sealed class LaserTowerInfoController : TowerInfoController
 
     private LaserTower tower;
     private TMP_Text Count;
+    private TMP_Text Info;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,8 @@ public sealed class LaserTowerInfoController : TowerInfoController
         toggles.ForEach(x => x.onValueChanged.AddListener(delegate { OnToggleClicked(x); }));
 
         Count = GetComponentsInChildren<TMP_Text>(true).First(x => x.name == "WorkerCount");
+
+        Info = GetComponentsInChildren<TMP_Text>(true).First(x => x.name == "TowerInfo");
 
         GetComponentInChildren<Slider>().onValueChanged.AddListener(OnSliderChanged);
     }
@@ -89,8 +92,14 @@ public sealed class LaserTowerInfoController : TowerInfoController
 
     void UpdateWorkerCount(long value)
     {
-        tower.ChangeWorkerCount(value);
+        if (!Global.RoundInProgress)
+        {
+            tower.ChangeWorkerCount(value);
+        }
         Count.text = $"Worker count: {tower.WorkerCount}";
+        Info.text =
+            $"Tower Info:\n" +
+            tower.TowerInfoDisplay;
     }
     void OnSliderChanged(float arg1)
     {

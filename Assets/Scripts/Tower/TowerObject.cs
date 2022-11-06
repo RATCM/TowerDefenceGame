@@ -92,6 +92,8 @@ public abstract class TowerObject : MonoBehaviour, ITower
     [HideInInspector] public int TowerLevel = 1;
     [HideInInspector] protected GameObject UIPanel;
 
+    [HideInInspector] public abstract string TowerInfoDisplay { get; }
+
     void Awake()
     {
         GameController.PlayerTowers.Add(this);

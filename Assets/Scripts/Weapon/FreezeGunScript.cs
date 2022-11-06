@@ -7,14 +7,18 @@ public class FreezeGunScript : MonoBehaviour
     [SerializeField] GameObject freezeEffect;
     [HideInInspector] GameObject freezeEffectInstance;
     [HideInInspector] Vector3 InitialPos;
-    [HideInInspector] GameObject Parent;
+    [HideInInspector] FreezeTower Parent;
+    [HideInInspector] public float actualFreezeDuration =>
+        Parent.WorkerCount >= Parent.MinimumWorkerCount
+        ? SlowDownDuration * (1 + ((Parent.WorkerCount - Parent.MinimumWorkerCount) * 0.1f))
+        : SlowDownDuration;
     public void Activate(GameObject closest)
     {
         freezeEffectInstance.SetActive(true);
 
         var enemy = closest.GetComponent<EnemyScript>();
 
-        enemy.AddEffect(new TempFreeze(SlowDownValue, SlowDownDuration, enemy.gameObject));
+        enemy.AddEffect(new TempFreeze(SlowDownValue, actualFreezeDuration, enemy.gameObject));
     }
     public void UnActivate()
     {
@@ -23,7 +27,7 @@ public class FreezeGunScript : MonoBehaviour
 
     public void ResetPosition()
     {
-        transform.rotation = Parent.transform.rotation;
+        transform.rotation = Parent.gameObject.transform.rotation;
         transform.localPosition = InitialPos;
     }
     void Start()
@@ -32,6 +36,6 @@ public class FreezeGunScript : MonoBehaviour
         freezeEffectInstance.transform.rotation = transform.rotation;
         freezeEffectInstance.SetActive(false);
         InitialPos = transform.localPosition;
-        Parent = GetComponentInParent<FreezeTower>().gameObject;
+        Parent = GetComponentInParent<FreezeTower>();
     }
 }

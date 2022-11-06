@@ -27,6 +27,16 @@ public class LaserTower : DefenceTower, ILaser
 
     [Tooltip("The energy used by the tower, the lowest value wont increese the temperature while also causing the least damage")]
     [Range(50f, 100f)] [SerializeField] public float EnergyUse = 50f;
+
+    public override string TowerInfoDisplay =>
+        $"Range: {MathF.Round(Range,1)}\n" +
+        $"DPS: {(long)(WorkerCount >= MinimumWorkerCount ? DamagePerSecond : 0)}\n" +
+        $"Minimum Temperature: {(long)MinimumTemperature}\n" +
+        $"Maximum Temperature: {(long)MaximumTemperature}\n" +
+        $"Current Temperature: {(long)CurrentTemprature}\n" +
+        $"Upkeep: {(long)(WorkerCount >= MinimumWorkerCount ? UpkeepPerWorker * WorkerCount + TowerUpkeep : 0)}$ per round\n" +
+        $"Is Active: {(WorkerCount >= MinimumWorkerCount ? "Yes" : "No")}";
+
     void Start()
     {
         InstantiateUIPrefab("LaserTowerInfoPopup");

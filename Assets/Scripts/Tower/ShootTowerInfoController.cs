@@ -13,6 +13,7 @@ public class ShootTowerInfoController : TowerInfoController
     private List<Button> buttons;
 
     private TMP_Text Count;
+    private TMP_Text Info;
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +29,8 @@ public class ShootTowerInfoController : TowerInfoController
         toggles.ForEach(x => x.onValueChanged.AddListener(delegate { OnToggleClicked(x); }));
 
         Count = GetComponentsInChildren<TMP_Text>(true).First(x => x.name == "WorkerCount");
+
+        Info = GetComponentsInChildren<TMP_Text>(true).First(x => x.name == "TowerInfo");
     }
 
     void OnToggleClicked(Toggle toggle)
@@ -44,6 +47,7 @@ public class ShootTowerInfoController : TowerInfoController
     }
     void OnButtonClicked(Button btn)
     {
+        Debug.Log("Button clicked");
         var val = int.Parse(toggles.FirstOrDefault(x => x.isOn).name.Replace("ToggleTimes",""));
 
         var b = buttons.Where(x => x.name.Contains("ButtonUpgrade")).OrderByDescending(x => x.GetComponent<RectTransform>().position.y).ToList();
@@ -96,6 +100,9 @@ public class ShootTowerInfoController : TowerInfoController
             tower.ChangeWorkerCount(value);
         }
         Count.text = $"Worker count: {tower.WorkerCount}";
+        Info.text =
+            $"Tower Info:\n" +
+            tower.TowerInfoDisplay;
     }
 
     // Update is called once per frame

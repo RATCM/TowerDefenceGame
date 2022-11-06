@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -14,7 +15,15 @@ public class CannonTower : DefenceTower
     [HideInInspector] private Vector3 GunInitPos;
     [HideInInspector] protected override DamageType damageType { get => DamageType.Explosion; }
     [HideInInspector] public override List<TowerUpgradePath> upgradePath { get; set; } = new List<TowerUpgradePath>();
-    
+
+    public override string TowerInfoDisplay =>
+        $"Range: {MathF.Round(Range,1)}\n units\n" +
+        $"DPS: {(long)(DamagePerSecond * (WorkerCount >= MinimumWorkerCount ? ReloadTime / currentReloadTime : 0))}\n" +
+        $"Blast Radius: {MathF.Round(DamageRadius,1)} units\n" +
+        $"Upkeep: {(long)(WorkerCount >= MinimumWorkerCount ? UpkeepPerWorker * WorkerCount + TowerUpkeep : 0)}$ per round\n" +
+        $"Is Active: {(WorkerCount >= MinimumWorkerCount ? "Yes" : "No")}";
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -26,15 +35,15 @@ public class CannonTower : DefenceTower
         GunInitPos = Gun.transform.localPosition;
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("(1) Upgrade range 25%", this, 400, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("(2) Upgrade range 25%", this, 800, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("(3) Upgrade range 25%", this, 1600, delegate { Range *= 1.25f; })
+            new TowerUpgrade("(1) +25% Range", this, 400, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(2) +25% Range", this, 800, delegate { Range *= 1.25f; }),
+            new TowerUpgrade("(3) +25% Range", this, 1600, delegate { Range *= 1.25f; })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
             new TowerUpgrade("(1) +25% DPS", this, 2000, delegate { DamagePerSecond *= 1.25f; }),
             new TowerUpgrade("(2) +25% DPS", this, 4000, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("(3) +25% DPS", this, 8000, delegate { DamagePerSecond *= 1.25f; })
+            new TowerUpgrade("(3) +25% Blast Radius", this, 8000, delegate { DamageRadius *= 1.25f; })
             ));
 
         upgradePath.Add(new TowerUpgradePath(

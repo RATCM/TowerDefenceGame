@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -25,6 +26,13 @@ public class ShootTower : DefenceTower
     [HideInInspector] private Vector3 GunInitPos;
     [HideInInspector] protected override DamageType damageType { get => DamageType.Projectiles; }
     [HideInInspector] public override List<TowerUpgradePath> upgradePath { get; set; } = new List<TowerUpgradePath>();
+
+    public override string TowerInfoDisplay =>
+        $"Range: {MathF.Round(Range,1)} units\n" +
+        $"DPS: {(long)(DamagePerSecond * (IsActive ? WaitTime / currentWaitTime : 0))}\n" +
+        $"Upkeep: {(long)(WorkerCount >= MinimumWorkerCount ? UpkeepPerWorker * WorkerCount + TowerUpkeep : 0)}$ per round\n" +
+        $"Is Active: {(WorkerCount >= MinimumWorkerCount ? "Yes" : "No")}";
+
 
     void Start()
     {
