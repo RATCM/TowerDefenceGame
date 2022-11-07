@@ -3070,6 +3070,40 @@ MonoBehaviour:
     - Enemy: {fileID: 1346183334745165369, guid: 91fd359fdb1cc9e469ea3969824583ab, type: 3}
       SpawnInterval: 0.75
       SpawnCount: 3
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      SpawnInterval: 0.4
+      SpawnCount: 10
+    - Enemy: {fileID: 1346183334745165369, guid: 79d32c68d19ca294aa71050479585e63, type: 3}
+      SpawnInterval: 1
+      SpawnCount: 1
+    - Enemy: {fileID: 1346183334745165369, guid: 91fd359fdb1cc9e469ea3969824583ab, type: 3}
+      SpawnInterval: 0.5
+      SpawnCount: 3
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      SpawnInterval: 0.5
+      SpawnCount: 20
+    - Enemy: {fileID: 1346183334745165369, guid: 91fd359fdb1cc9e469ea3969824583ab, type: 3}
+      SpawnInterval: 1
+      SpawnCount: 10
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: 7aa8c4c023cd0d247a8508c6bf3e60db, type: 3}
+      SpawnInterval: 0.25
+      SpawnCount: 30
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      SpawnInterval: 0.5
+      SpawnCount: 20
+    - Enemy: {fileID: 1346183334745165369, guid: 91fd359fdb1cc9e469ea3969824583ab, type: 3}
+      SpawnInterval: 1
+      SpawnCount: 10
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: 79d32c68d19ca294aa71050479585e63, type: 3}
+      SpawnInterval: 1
+      SpawnCount: 1
+    - Enemy: {fileID: 1346183334745165369, guid: 7aa8c4c023cd0d247a8508c6bf3e60db, type: 3}
+      SpawnInterval: 0.15
+      SpawnCount: 50
 --- !u!4 &814677218
 Transform:
   m_ObjectHideFlags: 0

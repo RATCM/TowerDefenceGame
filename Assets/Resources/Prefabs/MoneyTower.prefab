@@ -107,8 +107,8 @@ MonoBehaviour:
   MinimumWorkerCount: 1
   MaximumWorkerCount: 10
   TowerLevel: 1
-  MoneyPerWorkerPerRound: 2
-  PopulationPerRoundMultiplier: 1.05
+  MoneyPerWorkerPerRound: 5
+  PopulationPerRoundMultiplier: 1.2
 --- !u!61 &5510378738497843526
 BoxCollider2D:
   m_ObjectHideFlags: 0

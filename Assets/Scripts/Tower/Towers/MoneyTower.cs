@@ -7,11 +7,24 @@ public class MoneyTower : WorkerTower
 {
     [SerializeField] public float MoneyPerWorkerPerRound = 1;
     [SerializeField] public float PopulationPerRoundMultiplier = 1.2f;
+    [HideInInspector] public float PopulationPerRound
+    {
+        get
+        {
+            float rect = 0f;
+            for(ulong i = 1; i <= WorkerCount; i++)
+            {
+                rect += PopulationPerRoundMultiplier / i; // basically a harmonic series
+                // This is because the population was increesing too fast and making this tower too OP
+            }
+            return rect;
+        }
+    }
     [HideInInspector] public override List<TowerUpgradePath> upgradePath { get; set; } = new List<TowerUpgradePath>();
 
     public override string TowerInfoDisplay =>
         $"Money generation: {(long)(MoneyPerWorkerPerRound * WorkerCount)}$ per round\n" +
-        $"Population generation: {MathF.Round((PopulationPerRoundMultiplier * WorkerCount),1)} per round\n" +
+        $"Population generation: {MathF.Round((PopulationPerRound),1)} per round\n" +
         $"Upkeep: 0$ per round\n" +
         $"Is Active: {(WorkerCount >= MinimumWorkerCount ? "Yes" : "No")}";
 

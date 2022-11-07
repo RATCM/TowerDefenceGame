@@ -178,6 +178,7 @@ public abstract class TowerObject : MonoBehaviour, ITower
         WorkerCount -= value;
 
     }
+    private bool mouseOver = false;
     // The Update() method should genereally only be used here, if overriding, call base.Update()
     protected virtual void Update()
     {
@@ -185,19 +186,33 @@ public abstract class TowerObject : MonoBehaviour, ITower
         // The issue is probably described here http://t-machine.org/index.php/2015/03/14/fix-unity3ds-broken-onmousedown/
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var hits = Physics2D.RaycastAll(mousePos, Vector2.zero);
-        
-        if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse) && hits.Any(x => x.collider.gameObject == gameObject))
+
+        if (hits.Any(x => x.collider.gameObject == gameObject))
         {
-            // Make all other inactive:
-            bool activate = !UIPanel.activeSelf;
-            GameController.PlayerTowers.ForEach(x => x.UIPanel.SetActive(false));
-            UIPanel.SetActive(activate);
+            if (!mouseOver)
+            {
+                MouseOver();
+                mouseOver = true;
+            }
+            if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse))
+            {
+                // Make all other inactive:
+                bool activate = !UIPanel.activeSelf;
+                GameController.PlayerTowers.ForEach(x => x.UIPanel.SetActive(false));
+                UIPanel.SetActive(activate);
+            }
+        }
+        else if (mouseOver)
+        {
+            MouseNotOver();
+            mouseOver = false;
         }
     }
-    protected virtual void OnMouseEnter() =>
+
+    protected virtual void MouseOver() =>
         gameObject.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
 
-    protected virtual void OnMouseExit() =>
+    protected virtual void MouseNotOver() =>
         gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
 }
 
@@ -242,15 +257,15 @@ public abstract class DefenceTower : TowerObject, IDefenceTower
         base.Update();
         RangeIndicator.localScale = Vector3.one * Range * 2;
     }
-    protected override void OnMouseEnter()
+    protected override void MouseOver()
     {
-        base.OnMouseEnter();
+        base.MouseOver();
         RangeIndicator.gameObject.SetActive(true);
     }
 
-    protected override void OnMouseExit()
+    protected override void MouseNotOver()
     {
-        base.OnMouseExit();
+        base.MouseNotOver();
         RangeIndicator.gameObject.SetActive(false);
     }
 

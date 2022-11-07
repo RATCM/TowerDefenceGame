@@ -20,12 +20,14 @@ public static class Global
 
         var moneyTowers = towers.Where(x => x.GetType() == typeof(MoneyTower) && x.IsActive).Select(x => x as MoneyTower).ToList();
 
-        //var moneyTowers = towers.Where(x => x.GetType() == typeof(MoneyTower) && x.IsActive) as List<MoneyTower>;
+        var populationIncrease = PlayerInfo.Civilians * PlayerInfo.PopulationMultiplier;
 
-        if(!moneyTowers.IsNullOrEmpty())
-            sum += (long)moneyTowers.Sum(x => (x as MoneyTower).MoneyPerWorkerPerRound * x.WorkerCount);
+        if (!moneyTowers.IsNullOrEmpty())
+        {
+            sum += (long)moneyTowers.Sum(x => x.MoneyPerWorkerPerRound * x.WorkerCount);
+            populationIncrease += moneyTowers.Sum(x => x.PopulationPerRound);
+        }
 
-        PlayerInfo.Money += sum;
 
 
         RoundInProgress = false;
@@ -36,10 +38,7 @@ public static class Global
             SceneManager.LoadScene("GameOver", LoadSceneMode.Single);
             return;
         }
-        var populationIncrease = PlayerInfo.Civilians * PlayerInfo.PopulationMultiplier;
-
-        if(!moneyTowers.IsNullOrEmpty())
-            populationIncrease += moneyTowers.Sum(x => x.WorkerCount * ((MoneyTower)x).PopulationPerRoundMultiplier);
+        PlayerInfo.Money += sum;
 
         PlayerInfo.Population += populationIncrease;
     }
