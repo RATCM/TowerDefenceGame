@@ -30,7 +30,7 @@ public class TowerPlaceSelectorScript : MonoBehaviour
 
     void CreateRangeIndicator()
     {
-        RangeIndicator.transform.localScale = Vector3.one * (SelectedTower as DefenceTower).Range;
+        RangeIndicator.transform.localScale = Vector3.one * (SelectedTower as DefenceTower).Range * 2;
     }
 
     public void UpdateTower(TowerObject tower)

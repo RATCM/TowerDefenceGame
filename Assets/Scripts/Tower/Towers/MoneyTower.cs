@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class MoneyTower : WorkerTower
 
     public override string TowerInfoDisplay =>
         $"Money generation: {(long)(MoneyPerWorkerPerRound * WorkerCount)}$ per round\n" +
-        $"Population generation: {(long)(PopulationPerRoundMultiplier * WorkerCount)} per round\n" +
+        $"Population generation: {MathF.Round((PopulationPerRoundMultiplier * WorkerCount),1)} per round\n" +
         $"Upkeep: 0$ per round\n" +
         $"Is Active: {(WorkerCount >= MinimumWorkerCount ? "Yes" : "No")}";
 

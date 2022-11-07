@@ -3063,6 +3063,13 @@ MonoBehaviour:
     - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
       SpawnInterval: 1
       SpawnCount: 12
+  - Enemies:
+    - Enemy: {fileID: 1346183334745165369, guid: b3bcae68dd1bfef4cb006050d07b11ec, type: 3}
+      SpawnInterval: 0.5
+      SpawnCount: 8
+    - Enemy: {fileID: 1346183334745165369, guid: 91fd359fdb1cc9e469ea3969824583ab, type: 3}
+      SpawnInterval: 0.75
+      SpawnCount: 3
 --- !u!4 &814677218
 Transform:
   m_ObjectHideFlags: 0

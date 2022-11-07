@@ -240,7 +240,7 @@ public abstract class DefenceTower : TowerObject, IDefenceTower
     protected override void Update()
     {
         base.Update();
-        RangeIndicator.localScale = Vector2.one * Range;
+        RangeIndicator.localScale = Vector3.one * Range * 2;
     }
     protected override void OnMouseEnter()
     {

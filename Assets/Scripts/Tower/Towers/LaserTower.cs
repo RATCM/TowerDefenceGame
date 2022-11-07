@@ -85,20 +85,25 @@ public class LaserTower : DefenceTower, ILaser
             .Where(x => Vector2.Distance(x.transform.position, transform.position) < ((FreezeTower)x).Range);
 
         float decreseMultiplier = 0.005f;
-        decreseMultiplier *= freezeTowers.Count() + 1;
+        decreseMultiplier *= freezeTowers.Count() + 1f;
 
         // more workers makes the temperature increese more slowly
         // This could divide by zero but it wont matter in this case
         float increseMultiplier = decreseMultiplier / (WorkerCount - MinimumWorkerCount + 1);
-        increseMultiplier *= 1 / (freezeTowers.Count() + 1);
+        increseMultiplier *= 1f / (freezeTowers.Count() + 1);
         
         if (laserRay.activeSelf)
         {
             CurrentTemprature += (EnergyUse - OptimalEnergy) * increseMultiplier;
         }
-        else
+        else if(CurrentTemprature > MinimumTemperature)
         {
             CurrentTemprature -= (EnergyUse - OptimalEnergy) * decreseMultiplier;
+        }
+
+        if (IsActive)
+        {
+            var b = "ruh";
         }
         GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.red, CurrentTemprature / MaximumTemperature);
         UpdateLaserStatus();

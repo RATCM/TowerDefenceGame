@@ -21,6 +21,10 @@ public sealed class LaserTowerInfoController : TowerInfoController
         buttons = GetComponentsInChildren<Button>(true).ToList();
         buttons.ForEach(x => x.onClick.AddListener(delegate { OnButtonClicked(x); }));
 
+        var b = buttons.Where(x => x.name.Contains("ButtonUpgrade")).OrderByDescending(x => x.GetComponent<RectTransform>().position.y).ToList();
+        b.ForEach(x => UpdateButtonText(x, b.IndexOf(x)));
+
+
         toggles = GetComponentsInChildren<Toggle>(true).ToList();
         toggles.ForEach(x => x.onValueChanged.AddListener(delegate { OnToggleClicked(x); }));
 

@@ -194,7 +194,7 @@ MonoBehaviour:
   TowerLevel: 1
   DamagePerSecond: 50
   MaxTargetingAngle: 90
-  Range: 10
+  Range: 4
   MaxTargets: 1
   DamageRadius: 2
   ReloadTime: 1

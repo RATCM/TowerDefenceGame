@@ -18,7 +18,9 @@ public static class Global
         var towers = GameController.PlayerTowers;
         var sum = -(long)towers.Where(x => x.IsActive).Sum(x => x.TowerUpkeep + x.UpkeepPerWorker * x.WorkerCount);
 
-        var moneyTowers = towers.Where(x => x.GetType() == typeof(MoneyTower)).Where(x => x.IsActive) as List<MoneyTower>;
+        var moneyTowers = towers.Where(x => x.GetType() == typeof(MoneyTower) && x.IsActive).Select(x => x as MoneyTower).ToList();
+
+        //var moneyTowers = towers.Where(x => x.GetType() == typeof(MoneyTower) && x.IsActive) as List<MoneyTower>;
 
         if(!moneyTowers.IsNullOrEmpty())
             sum += (long)moneyTowers.Sum(x => (x as MoneyTower).MoneyPerWorkerPerRound * x.WorkerCount);
@@ -37,7 +39,7 @@ public static class Global
         var populationIncrease = PlayerInfo.Civilians * PlayerInfo.PopulationMultiplier;
 
         if(!moneyTowers.IsNullOrEmpty())
-            populationIncrease += moneyTowers.Sum(x => x.WorkerCount * x.PopulationPerRoundMultiplier);
+            populationIncrease += moneyTowers.Sum(x => x.WorkerCount * ((MoneyTower)x).PopulationPerRoundMultiplier);
 
         PlayerInfo.Population += populationIncrease;
     }
