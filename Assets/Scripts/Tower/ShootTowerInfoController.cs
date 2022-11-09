@@ -47,7 +47,9 @@ public class ShootTowerInfoController : TowerInfoController
     }
     void OnButtonClicked(Button btn)
     {
-        Debug.Log("Button clicked");
+        if (Global.RoundInProgress)
+            return;
+
         var val = int.Parse(toggles.FirstOrDefault(x => x.isOn).name.Replace("ToggleTimes",""));
 
         var b = buttons.Where(x => x.name.Contains("ButtonUpgrade")).OrderByDescending(x => x.GetComponent<RectTransform>().position.y).ToList();

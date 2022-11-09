@@ -46,15 +46,22 @@ public static class Global
     public static void ResetValues()
     {
         PlayerInfo.CurrentRound = 1;
-        PlayerInfo.Population = 10;
-        PlayerInfo.Money = 500;
+        PlayerInfo.Population = PlayerInfo.StartPopulationCount;
+        PlayerInfo.Money = PlayerInfo.StartMoneyCount;
         RoundInProgress = false;
     }
 }
 
 public static class PlayerInfo
 {
-    // PlayerInfo:
+#if DEBUG
+    public static long StartMoneyCount = 100000;
+    public static long StartPopulationCount = 10000;
+#else
+    public static long StartMoneyCount = 500;
+    public static long StartPopulationCount = 10;
+#endif
+
     public static string Name = "Player Name";
     public static int CurrentRound = 1;
     public static float Population
@@ -76,21 +83,18 @@ public static class PlayerInfo
                 return;
             }
 
-            Debug.Log("Civilians: " + Civilians);
-
             while (GameController.ActiveWorkers > _population)
             {
                 GameController.PlayerTowers.OrderByDescending(x => x.WorkerCount).First().RemoveWorkers(1);
             }
         }
     }
-    public static long Money = 500;
+    public static long Money = StartMoneyCount;
 
-    private static float _population = 10;
+    private static float _population = StartPopulationCount;
 
     public const float PopulationMultiplier = 1.1f; // The amount the population is increesed by every round
 
     //public static ulong WorkerCount { get => (ulong)GameObject.FindGameObjectsWithTag("Tower").Sum(x => x.GetComponent<TowerObject>().WorkerCount); }
-
     public static float Civilians { get => _population - (long)GameController.ActiveWorkers; }
 }

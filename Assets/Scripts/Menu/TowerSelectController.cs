@@ -11,7 +11,7 @@ public partial class TowerInfoController : MonoBehaviour { } // This makes thing
 
 public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-    private List<Button> buttons;
+    private List<Button> towerButtons;
     [HideInInspector] private Dictionary<string, GameObject> towers = new Dictionary<string, GameObject>();
     private GameObject selector;
     private TowerPlaceSelectorScript selectorScript;
@@ -19,11 +19,17 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
     private TMP_Text population;
     private TMP_Text money;
     private TMP_Text day;
+
+    private Button StartButton;
     void Awake()
     {
-        buttons = GetComponentsInChildren<Button>().ToList();
+        var buttons = GetComponentsInChildren<Button>();
+        towerButtons = buttons.Where(x => x.name.Contains("Tower")).ToList();
 
-        buttons.ForEach(x => x.onClick.AddListener(delegate { onClick(x); }));
+        StartButton = buttons.First(x => x.name == "StartButton");
+        StartButton.onClick.AddListener(OnRoundStart);
+
+        towerButtons.ForEach(x => x.onClick.AddListener(delegate { onClick(x); }));
 
         towers = UnityManager.GetAllPrefabsOfTag("Tower").ToDictionary(x => x.name);
 
@@ -42,6 +48,11 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
         UpdateStatus();
     }
 
+    void OnRoundStart()
+    {
+        Global.RoundInProgress = true;
+    }
+
     void onClick(Button btn)
     {
         if (Global.RoundInProgress) return;
@@ -50,7 +61,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             selectorScript.UpdateTower(towers[btn.name.Split(' ')[0]].GetComponent<TowerObject>());
 
-            buttons.ForEach(x => x.GetComponent<Image>().color = new Color(1f,1f,1f,0.4f));
+            towerButtons.ToList().ForEach(x => x.GetComponent<Image>().color = new Color(1f,1f,1f,0.4f));
             btn.GetComponent<Image>().color = new Color(0f, 1f, 0f, 0.7f);
         }
         catch
@@ -117,7 +128,7 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             selector.SetActive(false);
             selectorScript.UpdateTower(null);
-            buttons.ForEach(x => x.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.4f));
+            towerButtons.ForEach(x => x.GetComponent<Image>().color = new Color(1f, 1f, 1f, 0.4f));
 
             GameController.PlayerTowers
                 .Select(x => x.GetComponentInChildren<TowerInfoController>(true).gameObject)
@@ -131,13 +142,27 @@ public class TowerSelectController : MonoBehaviour, IPointerEnterHandler, IPoint
         population.text = $"{((long)PlayerInfo.Population)} in total\n{(long)PlayerInfo.Civilians} avaliable";
         money.text = PlayerInfo.Money.ToString() + "$";
         day.text = $"Day {PlayerInfo.CurrentRound}";
+
+        // This mess is for performance enhancements so we dont use GetComponent when we dont have to
+        if (Global.RoundInProgress && StartButton.enabled)
+        {
+            StartButton.enabled = false;
+            StartButton.GetComponent<Image>().color = new Color32(0x7D, 0x7D, 0x7D, 0x82);
+            StartButton.GetComponentInChildren<TMP_Text>().text = "Round in progress";
+        }
+        else if (!Global.RoundInProgress && !StartButton.enabled)
+        {
+            StartButton.enabled = true;
+            StartButton.GetComponent<Image>().color = new Color32(0x00, 0xFF, 0x0F, 0xD7);
+            StartButton.GetComponentInChildren<TMP_Text>().text = "Start";
+        }
     }
     void Update()
     {
         UpdateStatus();
 
-        if (Input.GetKeyDown(KeyCode.S))
-            Global.RoundInProgress = true;
+        //if (Input.GetKeyDown(KeyCode.S))
+        //    Global.RoundInProgress = true;
 
         TowerSelection();
 

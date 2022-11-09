@@ -28,9 +28,11 @@ public class LaserTower : DefenceTower, ILaser
     [Tooltip("The energy used by the tower, the lowest value wont increese the temperature while also causing the least damage")]
     [Range(50f, 100f)] [SerializeField] public float EnergyUse = 50f;
 
+    private float currentDamagePerSecond => DamagePerSecond * (EnergyUse / MinimumEnergy);
+
     public override string TowerInfoDisplay =>
         $"Range: {MathF.Round(Range,1)} units\n" +
-        $"DPS: {(long)(WorkerCount >= MinimumWorkerCount ? DamagePerSecond : 0)}\n" +
+        $"DPS: {(long)(WorkerCount >= MinimumWorkerCount ? currentDamagePerSecond : 0)}\n" +
         $"Minimum Temperature: {(long)MinimumTemperature}\n" +
         $"Maximum Temperature: {(long)MaximumTemperature}\n" +
         $"Current Temperature: {(long)CurrentTemprature}\n" +
@@ -47,21 +49,21 @@ public class LaserTower : DefenceTower, ILaser
         laserRay.SetActive(false);
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("(1) +25% Range", this, 50, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("(2) +25% Range", this, 100, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("(3) +25% Range", this, 200, delegate { Range *= 1.25f; })
+            new TowerUpgrade("(1) +25% Range", this, 50, delegate { Range *= 1.25f; DefaultTowerColor = Color.green; MouseNotOver(); }),
+            new TowerUpgrade("(2) +25% Range", this, 100, delegate { Range *= 1.25f; DefaultTowerColor = Color.blue; MouseNotOver(); }),
+            new TowerUpgrade("(3) +25% Range", this, 200, delegate { Range *= 1.25f; DefaultTowerColor = Color.red; MouseNotOver(); })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("(1) +25% DPS", this, 100, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("(2) +25% DPS", this, 200, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("(3) +25% DPS", this, 400, delegate { DamagePerSecond *= 1.25f; })
+            new TowerUpgrade("(1) +25% DPS", this, 100, delegate { DamagePerSecond *= 1.25f; DefaultGunColor = Color.green; MouseNotOver(); }),
+            new TowerUpgrade("(2) +25% DPS", this, 200, delegate { DamagePerSecond *= 1.25f; DefaultGunColor = Color.blue; MouseNotOver(); }),
+            new TowerUpgrade("(3) +25% DPS", this, 400, delegate { DamagePerSecond *= 1.25f; DefaultGunColor = Color.red; MouseNotOver(); })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("(1) +50% Tempearture capacity 50%", this, 100, delegate { MaximumTemperature *= 1.5f; }),
-            new TowerUpgrade("(2) +50% Tempearture capacity 50%", this, 200, delegate { MaximumTemperature *= 1.5f; }),
-            new TowerUpgrade("(3) +50% Tempearture capacity 50%", this, 400, delegate { MaximumTemperature *= 1.5f; })
+            new TowerUpgrade("(1) +50% Tempearture capacity 50%", this, 100, delegate { MaximumTemperature *= 1.5f; Gun.gameObject.transform.localScale *= 1.1f; }),
+            new TowerUpgrade("(2) +50% Tempearture capacity 50%", this, 200, delegate { MaximumTemperature *= 1.5f; Gun.gameObject.transform.localScale *= 1.1f; }),
+            new TowerUpgrade("(3) +50% Tempearture capacity 50%", this, 400, delegate { MaximumTemperature *= 1.5f; Gun.gameObject.transform.localScale *= 1.1f; })
             ));
     }
 
@@ -101,7 +103,7 @@ public class LaserTower : DefenceTower, ILaser
             CurrentTemprature -= (EnergyUse - OptimalEnergy) * decreseMultiplier;
         }
 
-        GetComponent<SpriteRenderer>().color = Color.Lerp(Color.white, Color.red, CurrentTemprature / MaximumTemperature);
+        GetComponent<SpriteRenderer>().color = Color.Lerp(DefaultTowerColor, Color.red, CurrentTemprature / MaximumTemperature);
         UpdateLaserStatus();
     }
     void UpdateLaserStatus()
@@ -151,9 +153,9 @@ public class LaserTower : DefenceTower, ILaser
         lr.SetPositions(
             new Vector3[] {
                     Vector3.zero,
-                    Vector3.up * (transform.position-enemy.transform.position).magnitude}); // Update the position of laser
+                    Vector3.up * (transform.position-enemy.transform.position).magnitude * 1f/Gun.transform.localScale.x}); // Update the position of laser
 
-        enemy.Health -= DamagePerSecond / 60f * (EnergyUse / MinimumEnergy); // damage enemy
+        enemy.Health -= currentDamagePerSecond/60f; // damage enemy
     }
 
     void FixedUpdate()

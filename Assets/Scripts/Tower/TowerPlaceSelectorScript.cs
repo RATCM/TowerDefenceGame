@@ -12,7 +12,7 @@ public class TowerPlaceSelectorScript : MonoBehaviour
 
     void Start()
     {
-        LinePrefab = UnityManager.GetPrefab("LaserRay");
+        LinePrefab = UnityManager.GetPrefab("AngleRay");
         RangeIndicator = GetComponentsInChildren<Transform>().First(x => x.name == "RadiusIndicator").gameObject;
 
         Lines.Item1 = Instantiate(LinePrefab, transform);
@@ -23,9 +23,20 @@ public class TowerPlaceSelectorScript : MonoBehaviour
     }
     void CreateAngleLaser()
     {
-
-        lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(((DefenceTower)SelectedTower).MaxTargetingAngle / 2) });
-        lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(-((DefenceTower)SelectedTower).MaxTargetingAngle / 2) });
+        var tower = SelectedTower as DefenceTower;
+        if (Lines.Item1.gameObject.activeSelf)
+        {
+            if(tower.MaxTargetingAngle < 360)
+            {
+                lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, (Vector2.up * tower.Range).Rotate(tower.MaxTargetingAngle / 2) });
+                lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, (Vector2.up * tower.Range).Rotate(-tower.MaxTargetingAngle / 2) });
+            }
+            else
+            {
+                lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, Vector3.zero});
+                lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector3.zero});
+            }
+        }
     }
 
     void CreateRangeIndicator()

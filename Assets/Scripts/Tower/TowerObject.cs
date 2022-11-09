@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TowerTypes;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using System.Linq;
 using System;
+using UnityEngine.EventSystems;
 
 public class TowerUpgrade
 {
@@ -92,14 +93,17 @@ public abstract class TowerObject : MonoBehaviour, ITower
     [HideInInspector] public int TowerLevel = 1;
     [HideInInspector] protected GameObject UIPanel;
 
-    [HideInInspector] public abstract string TowerInfoDisplay { get; }
+    [HideInInspector] protected Color DefaultTowerColor;
+    [HideInInspector] protected Color DefaultGunColor;
 
-    void Awake()
+    [HideInInspector] public abstract string TowerInfoDisplay { get; }
+    protected virtual void Awake()
     {
         GameController.PlayerTowers.Add(this);
+        DefaultTowerColor = GetComponent<SpriteRenderer>().color;
     }
 
-    void OnDestroy()
+    protected virtual void OnDestroy()
     {
         GameController.PlayerTowers.Remove(this);
     }
@@ -187,14 +191,15 @@ public abstract class TowerObject : MonoBehaviour, ITower
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var hits = Physics2D.RaycastAll(mousePos, Vector2.zero);
 
-        if (hits.Any(x => x.collider.gameObject == gameObject))
+        if (hits.Any(x => x.collider.gameObject == gameObject) && !hits.Any(x => x.collider.gameObject.TryGetComponent<Button>(out _)))
         {
             if (!mouseOver)
             {
                 MouseOver();
                 mouseOver = true;
             }
-            if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse))
+
+            if (Input.GetMouseButtonDown((int)UnityEngine.UIElements.MouseButton.LeftMouse))
             {
                 // Make all other inactive:
                 bool activate = !UIPanel.activeSelf;
@@ -210,10 +215,10 @@ public abstract class TowerObject : MonoBehaviour, ITower
     }
 
     protected virtual void MouseOver() =>
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
+        gameObject.GetComponent<SpriteRenderer>().color = DefaultTowerColor * 0.8f;
 
     protected virtual void MouseNotOver() =>
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
+        gameObject.GetComponent<SpriteRenderer>().color = DefaultTowerColor;
 }
 
 public abstract class DefenceTower : TowerObject, IDefenceTower
@@ -240,8 +245,9 @@ public abstract class DefenceTower : TowerObject, IDefenceTower
         }
     }
 
-
     [HideInInspector] private Transform RangeIndicator;
+    [HideInInspector] private GameObject Gun;
+    private (LineRenderer, LineRenderer) Lines;
     protected override void InstantiateUIPrefab(string name)
     {
         base.InstantiateUIPrefab(name);
@@ -256,17 +262,45 @@ public abstract class DefenceTower : TowerObject, IDefenceTower
     {
         base.Update();
         RangeIndicator.localScale = Vector3.one * Range * 2;
+
+        // Probably should be in Awake() or Start() to save on performance, but this is better for future upgrades for MaxTargetingAngle
+        if (Lines.Item1.gameObject.activeSelf && MaxTargetingAngle < 360)
+        {
+            Lines.Item1.SetPositions(new Vector3[] { Vector3.zero, (Vector2.up * Range).Rotate(MaxTargetingAngle / 2) });
+            Lines.Item2.SetPositions(new Vector3[] { Vector3.zero, (Vector2.up * Range).Rotate(-MaxTargetingAngle / 2) });
+        }
     }
     protected override void MouseOver()
     {
         base.MouseOver();
         RangeIndicator.gameObject.SetActive(true);
+        Lines.Item1.gameObject.SetActive(true);
+        Lines.Item2.gameObject.SetActive(true);
+
+        Gun.GetComponent<SpriteRenderer>().color = DefaultGunColor * 0.8f;
     }
 
     protected override void MouseNotOver()
     {
         base.MouseNotOver();
         RangeIndicator.gameObject.SetActive(false);
+        Lines.Item1.gameObject.SetActive(false);
+        Lines.Item2.gameObject.SetActive(false);
+
+        Gun.GetComponent<SpriteRenderer>().color = DefaultGunColor;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        Gun = GetComponentsInChildren<Transform>().First(x => x.name == "Gun").gameObject;
+        DefaultGunColor = Gun.GetComponent<SpriteRenderer>().color;
+
+        var prefab = UnityManager.GetPrefab("AngleRay");
+
+        Lines.Item1 = Instantiate(prefab, transform).GetComponent<LineRenderer>();
+        Lines.Item2 = Instantiate(prefab, transform).GetComponent<LineRenderer>();
     }
 
     protected abstract DamageType damageType { get; }

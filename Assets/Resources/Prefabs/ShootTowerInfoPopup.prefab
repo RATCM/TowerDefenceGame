@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 773642231963387102}
   - component: {fileID: 2373275636254846218}
   - component: {fileID: 1972898512654278392}
+  - component: {fileID: 8665390524401713677}
   m_Layer: 0
   m_Name: ButtonUp
   m_TagString: Untagged
@@ -122,6 +123,32 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!61 &8665390524401713677
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045827425154020487}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.095832825, y: -0.037356377}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 48.32418, y: 23.301348}
+  m_EdgeRadius: 0
 --- !u!1 &1211823848211023599
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,6 +296,7 @@ GameObject:
   - component: {fileID: 5510581416694349811}
   - component: {fileID: 7059333087669716432}
   - component: {fileID: 1254848604618025745}
+  - component: {fileID: 6646677714635859015}
   m_Layer: 0
   m_Name: ButtonDown
   m_TagString: Untagged
@@ -379,6 +407,32 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!61 &6646677714635859015
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1322090999899637737}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.095832825, y: -0.037356377}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 48.32418, y: 23.301348}
+  m_EdgeRadius: 0
 --- !u!1 &1323740693653279035
 GameObject:
   m_ObjectHideFlags: 0
@@ -1012,7 +1066,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
+  m_fontColor: {r: 0, g: 0, b: 0, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -1083,6 +1137,7 @@ GameObject:
   - component: {fileID: 4892694173325754168}
   - component: {fileID: 6001829954377108103}
   - component: {fileID: 1251478203456013415}
+  - component: {fileID: 5572722916449489640}
   m_Layer: 0
   m_Name: ButtonUpgrade3
   m_TagString: Untagged
@@ -1193,6 +1248,32 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!61 &5572722916449489640
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2389746452815604251}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.1089592, y: -0.050909042}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 98.35885, y: 18.41016}
+  m_EdgeRadius: 0
 --- !u!1 &2578016032572334014
 GameObject:
   m_ObjectHideFlags: 0
@@ -1415,6 +1496,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2450182457047901819}
   - component: {fileID: 728549456406975365}
+  - component: {fileID: 7973693984145627145}
   m_Layer: 0
   m_Name: ToggleTimes10
   m_TagString: Untagged
@@ -1492,6 +1574,32 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!61 &7973693984145627145
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2680910891787675760}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -25.078371, y: -0.053358078}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 18.288052, y: 18.181347}
+  m_EdgeRadius: 0
 --- !u!1 &2805411456025730255
 GameObject:
   m_ObjectHideFlags: 0
@@ -1502,6 +1610,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4459377302183129069}
   - component: {fileID: 4627676482472176658}
+  - component: {fileID: 127942974808258618}
   m_Layer: 0
   m_Name: ToggleTimes1
   m_TagString: Untagged
@@ -1579,6 +1688,32 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 1
+--- !u!61 &127942974808258618
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2805411456025730255}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -25.078371, y: -0.053358078}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 18.288052, y: 18.181347}
+  m_EdgeRadius: 0
 --- !u!1 &3847345154826367171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1673,6 +1808,7 @@ GameObject:
   - component: {fileID: 8957534916113794638}
   - component: {fileID: 2162400174507205448}
   - component: {fileID: 8576393956479352069}
+  - component: {fileID: 8411058332338583361}
   m_Layer: 0
   m_Name: ButtonUpgrade2
   m_TagString: Untagged
@@ -1783,6 +1919,32 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!61 &8411058332338583361
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3896036157627382114}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.1089592, y: -0.050909042}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 98.35885, y: 18.41016}
+  m_EdgeRadius: 0
 --- !u!1 &5123133913067334117
 GameObject:
   m_ObjectHideFlags: 0
@@ -2310,6 +2472,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3457768752935941166}
   - component: {fileID: 6862454258649894502}
+  - component: {fileID: 2952688085832100549}
   m_Layer: 0
   m_Name: ToggleTimes100
   m_TagString: Untagged
@@ -2387,6 +2550,32 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!61 &2952688085832100549
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5952318626226142287}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -25.078371, y: -0.053358078}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 18.288052, y: 18.181347}
+  m_EdgeRadius: 0
 --- !u!1 &6087913507388079728
 GameObject:
   m_ObjectHideFlags: 0
@@ -2399,6 +2588,7 @@ GameObject:
   - component: {fileID: 4796436151743165400}
   - component: {fileID: 1887121215726858992}
   - component: {fileID: 1097396412391341813}
+  - component: {fileID: 8406863182692544138}
   m_Layer: 0
   m_Name: ButtonSell
   m_TagString: Untagged
@@ -2509,6 +2699,32 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!61 &8406863182692544138
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6087913507388079728}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.047733307, y: -0.07526159}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 48.28933, y: 18.365639}
+  m_EdgeRadius: 0
 --- !u!1 &6499631503774878534
 GameObject:
   m_ObjectHideFlags: 0
@@ -2598,6 +2814,7 @@ GameObject:
   - component: {fileID: 213095958010787092}
   - component: {fileID: 1034088924381167788}
   - component: {fileID: 8157595951506072619}
+  - component: {fileID: 583164556644797534}
   m_Layer: 0
   m_Name: ButtonUpgrade1
   m_TagString: Untagged
@@ -2708,6 +2925,32 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!61 &583164556644797534
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7128657520597354145}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.1089592, y: -0.050909042}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 98.35885, y: 18.41016}
+  m_EdgeRadius: 0
 --- !u!1 &7716741951857423334
 GameObject:
   m_ObjectHideFlags: 0

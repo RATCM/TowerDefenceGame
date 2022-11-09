@@ -13,6 +13,10 @@ public sealed class LaserTowerInfoController : TowerInfoController
     private TMP_Text Count;
     private TMP_Text Info;
 
+    private Slider Slider;
+    
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -24,7 +28,6 @@ public sealed class LaserTowerInfoController : TowerInfoController
         var b = buttons.Where(x => x.name.Contains("ButtonUpgrade")).OrderByDescending(x => x.GetComponent<RectTransform>().position.y).ToList();
         b.ForEach(x => UpdateButtonText(x, b.IndexOf(x)));
 
-
         toggles = GetComponentsInChildren<Toggle>(true).ToList();
         toggles.ForEach(x => x.onValueChanged.AddListener(delegate { OnToggleClicked(x); }));
 
@@ -32,10 +35,15 @@ public sealed class LaserTowerInfoController : TowerInfoController
 
         Info = GetComponentsInChildren<TMP_Text>(true).First(x => x.name == "TowerInfo");
 
-        GetComponentInChildren<Slider>().onValueChanged.AddListener(OnSliderChanged);
+        Slider = GetComponentInChildren<Slider>();
+
+        Slider.onValueChanged.AddListener(OnSliderChanged);
     }
     void OnButtonClicked(Button btn)
     {
+        if (Global.RoundInProgress)
+            return;
+
         var val = int.Parse(toggles.FirstOrDefault(x => x.isOn).name.Replace("ToggleTimes", ""));
 
         var b = buttons.Where(x => x.name.Contains("ButtonUpgrade")).OrderByDescending(x => x.GetComponent<RectTransform>().position.y).ToList();
@@ -112,6 +120,11 @@ public sealed class LaserTowerInfoController : TowerInfoController
 
     void Update()
     {
+        if (Global.RoundInProgress)
+            Slider.interactable = false;
+        else
+            Slider.interactable = true;
+
         UpdateWorkerCount(0);
     }
 }

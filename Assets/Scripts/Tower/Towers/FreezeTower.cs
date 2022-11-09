@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FreezeTower : DefenceTower
@@ -22,21 +23,21 @@ public class FreezeTower : DefenceTower
         GunInitPos = Gun.gameObject.transform.localPosition;
 
         upgradePath.Add(new TowerUpgradePath(
-           new TowerUpgrade("(1) +25% Range", this, 50, delegate { Range *= 1.25f; }),
-           new TowerUpgrade("(2) +25% Range", this, 100, delegate { Range *= 1.25f; }),
-           new TowerUpgrade("(3) +25% Range", this, 200, delegate { Range *= 1.25f; })
+           new TowerUpgrade("(1) +25% Range", this, 50, delegate { Range *= 1.25f; DefaultTowerColor = Color.green; MouseNotOver(); }), // MouseOver() invocation is to update the sprite
+           new TowerUpgrade("(2) +25% Range", this, 100, delegate { Range *= 1.25f; DefaultTowerColor = Color.blue; MouseNotOver(); }),
+           new TowerUpgrade("(3) +25% Range", this, 200, delegate { Range *= 1.25f; DefaultTowerColor = Color.red; MouseNotOver(); })
            ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("(1) +15% Duration", this, 50, delegate { Gun.SlowDownDuration *= 1.15f; }),
-            new TowerUpgrade("(2) +15% Duration", this, 100, delegate { Gun.SlowDownDuration *= 1.15f; }),
-            new TowerUpgrade("(3) +15% Duration", this, 200, delegate { Gun.SlowDownDuration *= 1.15f; })
+            new TowerUpgrade("(1) +15% Duration", this, 50, delegate { Gun.SlowDownDuration *= 1.15f; DefaultGunColor = Color.green; MouseNotOver(); }),
+            new TowerUpgrade("(2) +15% Duration", this, 100, delegate { Gun.SlowDownDuration *= 1.15f; DefaultGunColor = Color.blue; MouseNotOver(); }),
+            new TowerUpgrade("(3) +15% Duration", this, 200, delegate { Gun.SlowDownDuration *= 1.15f; DefaultGunColor = Color.red; MouseNotOver(); })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("(1) +10% Slowdown", this, 50, delegate { Gun.SlowDownValue *= 0.9f; }),
-            new TowerUpgrade("(2) +10% Slowdown", this, 100, delegate { Gun.SlowDownValue *= 0.9f; }),
-            new TowerUpgrade("(3) +10% Slowdown", this, 200, delegate { Gun.SlowDownValue *= 0.9f; })
+            new TowerUpgrade("(1) +10% Slowdown", this, 50, delegate { Gun.SlowDownValue *= 0.9f; Gun.gameObject.transform.localScale *= 1.1f; }),
+            new TowerUpgrade("(2) +10% Slowdown", this, 100, delegate { Gun.SlowDownValue *= 0.9f; Gun.gameObject.transform.localScale *= 1.1f; }),
+            new TowerUpgrade("(3) +10% Slowdown", this, 200, delegate { Gun.SlowDownValue *= 0.9f; Gun.gameObject.transform.localScale *= 1.1f; })
             ));
     }
 
