@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TowerTypes;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 using System.Linq;
 using System;
+using UnityEngine.EventSystems;
 
 public class TowerUpgrade
 {
@@ -92,6 +93,21 @@ public abstract class TowerObject : MonoBehaviour, ITower
     [HideInInspector] public int TowerLevel = 1;
     [HideInInspector] protected GameObject UIPanel;
 
+    [HideInInspector] protected Color DefaultTowerColor;
+    [HideInInspector] protected Color DefaultGunColor;
+
+    [HideInInspector] public abstract string TowerInfoDisplay { get; }
+    protected virtual void Awake()
+    {
+        GameController.PlayerTowers.Add(this);
+        DefaultTowerColor = GetComponent<SpriteRenderer>().color;
+    }
+
+    protected virtual void OnDestroy()
+    {
+        GameController.PlayerTowers.Remove(this);
+    }
+
     /// <summary>
     /// This method should always be called in the Start() method of all inheited Towers inhereited from TowerObject
     /// </summary>
@@ -166,6 +182,7 @@ public abstract class TowerObject : MonoBehaviour, ITower
         WorkerCount -= value;
 
     }
+    private bool mouseOver = false;
     // The Update() method should genereally only be used here, if overriding, call base.Update()
     protected virtual void Update()
     {
@@ -173,17 +190,35 @@ public abstract class TowerObject : MonoBehaviour, ITower
         // The issue is probably described here http://t-machine.org/index.php/2015/03/14/fix-unity3ds-broken-onmousedown/
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         var hits = Physics2D.RaycastAll(mousePos, Vector2.zero);
-        
-        if (Input.GetMouseButtonDown((int)MouseButton.LeftMouse) && hits.Any(x => x.collider.gameObject == gameObject))
+
+        if (hits.Any(x => x.collider.gameObject == gameObject) && !hits.Any(x => x.collider.gameObject.TryGetComponent<Button>(out _)))
         {
-            UIPanel.SetActive(!UIPanel.activeSelf);
+            if (!mouseOver)
+            {
+                MouseOver();
+                mouseOver = true;
+            }
+
+            if (Input.GetMouseButtonDown((int)UnityEngine.UIElements.MouseButton.LeftMouse))
+            {
+                // Make all other inactive:
+                bool activate = !UIPanel.activeSelf;
+                GameController.PlayerTowers.ForEach(x => x.UIPanel.SetActive(false));
+                UIPanel.SetActive(activate);
+            }
+        }
+        else if (mouseOver)
+        {
+            MouseNotOver();
+            mouseOver = false;
         }
     }
-    protected virtual void OnMouseEnter() =>
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(0.8f, 0.8f, 0.8f);
 
-    protected virtual void OnMouseExit() =>
-        gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f);
+    protected virtual void MouseOver() =>
+        gameObject.GetComponent<SpriteRenderer>().color = DefaultTowerColor * 0.8f;
+
+    protected virtual void MouseNotOver() =>
+        gameObject.GetComponent<SpriteRenderer>().color = DefaultTowerColor;
 }
 
 public abstract class DefenceTower : TowerObject, IDefenceTower
@@ -205,13 +240,14 @@ public abstract class DefenceTower : TowerObject, IDefenceTower
         {
             return GameObject.FindGameObjectsWithTag("Enemy")
                 .Where(x => (x.GetComponent<EnemyScript>().Immunities & damageType) == 0) // Dont include enemies which are immune
-                .Where(x => Vector2.Angle(Direction, gameObject.PointDircetion(x)) <= MaxTargetingAngle/2) // Remove targets outside of tower view
+                .Where(x => Vector2.Angle(Direction, gameObject.PointDirection(x)) <= MaxTargetingAngle/2) // Remove targets outside of tower view
                 .Where(x => Vector2.Distance(x.transform.position, this.transform.position) <= Range).ToList(); // Remove targets outside of tower range
         }
     }
 
-
     [HideInInspector] private Transform RangeIndicator;
+    [HideInInspector] private GameObject Gun;
+    private (LineRenderer, LineRenderer) Lines;
     protected override void InstantiateUIPrefab(string name)
     {
         base.InstantiateUIPrefab(name);
@@ -225,18 +261,46 @@ public abstract class DefenceTower : TowerObject, IDefenceTower
     protected override void Update()
     {
         base.Update();
-        RangeIndicator.localScale = Vector2.one * Range;
+        RangeIndicator.localScale = Vector3.one * Range * 2;
+
+        // Probably should be in Awake() or Start() to save on performance, but this is better for future upgrades for MaxTargetingAngle
+        if (Lines.Item1.gameObject.activeSelf && MaxTargetingAngle < 360)
+        {
+            Lines.Item1.SetPositions(new Vector3[] { Vector3.zero, (Vector2.up * Range).Rotate(MaxTargetingAngle / 2) });
+            Lines.Item2.SetPositions(new Vector3[] { Vector3.zero, (Vector2.up * Range).Rotate(-MaxTargetingAngle / 2) });
+        }
     }
-    protected override void OnMouseEnter()
+    protected override void MouseOver()
     {
-        base.OnMouseEnter();
+        base.MouseOver();
         RangeIndicator.gameObject.SetActive(true);
+        Lines.Item1.gameObject.SetActive(true);
+        Lines.Item2.gameObject.SetActive(true);
+
+        Gun.GetComponent<SpriteRenderer>().color = DefaultGunColor * 0.8f;
     }
 
-    protected override void OnMouseExit()
+    protected override void MouseNotOver()
     {
-        base.OnMouseExit();
+        base.MouseNotOver();
         RangeIndicator.gameObject.SetActive(false);
+        Lines.Item1.gameObject.SetActive(false);
+        Lines.Item2.gameObject.SetActive(false);
+
+        Gun.GetComponent<SpriteRenderer>().color = DefaultGunColor;
+    }
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        Gun = GetComponentsInChildren<Transform>().First(x => x.name == "Gun").gameObject;
+        DefaultGunColor = Gun.GetComponent<SpriteRenderer>().color;
+
+        var prefab = UnityManager.GetPrefab("AngleRay");
+
+        Lines.Item1 = Instantiate(prefab, transform).GetComponent<LineRenderer>();
+        Lines.Item2 = Instantiate(prefab, transform).GetComponent<LineRenderer>();
     }
 
     protected abstract DamageType damageType { get; }

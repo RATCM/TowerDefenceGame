@@ -188,13 +188,13 @@ MonoBehaviour:
   TowerDescription: This tower shoots cannon balls at enemies
   UpkeepPerWorker: 1
   TowerUpkeep: 10
-  Price: 60
+  Price: 100
   MinimumWorkerCount: 1
   MaximumWorkerCount: 10
   TowerLevel: 1
   DamagePerSecond: 50
   MaxTargetingAngle: 90
-  Range: 10
+  Range: 4
   MaxTargets: 1
   DamageRadius: 2
   ReloadTime: 1
@@ -217,7 +217,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 1
@@ -251,7 +251,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2385231556403626929}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.4, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -299,8 +299,8 @@ SpriteRenderer:
   m_SortingLayerID: -1362367111
   m_SortingLayer: 6
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 6080fe4be73120f40a8560e821f1082e, type: 3}
-  m_Color: {r: 1, g: 0.5155815, b: 0, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 8f79deff23e93cd478dd10e7f474e3b0, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1

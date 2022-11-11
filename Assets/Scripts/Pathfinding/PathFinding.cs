@@ -38,6 +38,6 @@ public class PathFinding : MonoBehaviour
         if(dir.magnitude <= 0.2f)
             CurrentWaypoints.RemoveAt(0);
 
-        transform.Translate(CurrentDirection * Time.fixedDeltaTime * Speed);
+        transform.Translate(CurrentDirection * Speed/60);
     }
 }

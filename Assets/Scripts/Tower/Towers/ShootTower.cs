@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -26,6 +27,13 @@ public class ShootTower : DefenceTower
     [HideInInspector] protected override DamageType damageType { get => DamageType.Projectiles; }
     [HideInInspector] public override List<TowerUpgradePath> upgradePath { get; set; } = new List<TowerUpgradePath>();
 
+    public override string TowerInfoDisplay =>
+        $"Range: {MathF.Round(Range,1)} units\n" +
+        $"DPS: {(long)(DamagePerSecond * (WorkerCount >= MinimumWorkerCount ? WaitTime / currentWaitTime : 0))}\n" +
+        $"Upkeep: {(long)(WorkerCount >= MinimumWorkerCount ? UpkeepPerWorker * WorkerCount + TowerUpkeep : 0)}$ per round\n" +
+        $"Is Active: {(WorkerCount >= MinimumWorkerCount ? "Yes" : "No")}";
+
+
     void Start()
     {
         InstantiateUIPrefab("ShootTowerInfoPopup");
@@ -34,21 +42,21 @@ public class ShootTower : DefenceTower
         GunInitPos = Gun.transform.localPosition;
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("(1) +25 Range", this, 200, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("(2) +25 Range", this, 400, delegate { Range *= 1.25f; }),
-            new TowerUpgrade("(3) +25 Range", this, 800, delegate { Range *= 1.25f; })
+            new TowerUpgrade("(1) +25 Range", this, 200, delegate { Range *= 1.25f; DefaultTowerColor = Color.green; MouseNotOver(); }),
+            new TowerUpgrade("(2) +25 Range", this, 400, delegate { Range *= 1.25f; DefaultTowerColor = Color.blue; MouseNotOver(); }),
+            new TowerUpgrade("(3) +25 Range", this, 800, delegate { Range *= 1.25f; DefaultTowerColor = Color.red; MouseNotOver(); })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("(1) +25% DPS", this, 1000, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("(2) +25% DPS", this, 2000, delegate { DamagePerSecond *= 1.25f; }),
-            new TowerUpgrade("(3) +25% DPS", this, 4000, delegate { DamagePerSecond *= 1.25f; })
+            new TowerUpgrade("(1) +25% DPS", this, 1000, delegate { DamagePerSecond *= 1.25f; DefaultGunColor = Color.green; MouseNotOver(); }),
+            new TowerUpgrade("(2) +25% DPS", this, 2000, delegate { DamagePerSecond *= 1.25f; DefaultGunColor = Color.blue; MouseNotOver(); }),
+            new TowerUpgrade("(3) +25% DPS", this, 4000, delegate { DamagePerSecond *= 1.25f; DefaultGunColor = Color.red; MouseNotOver(); })
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("(1) -25% Upkeep", this, 100, delegate { UpkeepPerWorker *= 0.75f; }),
-            new TowerUpgrade("(2) -25% Upkeep", this, 200, delegate { UpkeepPerWorker *= 0.75f; }),
-            new TowerUpgrade("(3) -25% Upkeep", this, 400, delegate { UpkeepPerWorker *= 0.75f; })
+            new TowerUpgrade("(1) -25% Upkeep", this, 100, delegate { UpkeepPerWorker *= 0.75f; Gun.gameObject.transform.localScale *= 1.1f; }),
+            new TowerUpgrade("(2) -25% Upkeep", this, 200, delegate { UpkeepPerWorker *= 0.75f; Gun.gameObject.transform.localScale *= 1.1f; }),
+            new TowerUpgrade("(3) -25% Upkeep", this, 400, delegate { UpkeepPerWorker *= 0.75f; Gun.gameObject.transform.localScale *= 1.1f; })
             ));
     }
 

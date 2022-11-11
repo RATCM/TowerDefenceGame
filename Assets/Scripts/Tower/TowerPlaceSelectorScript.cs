@@ -12,33 +12,36 @@ public class TowerPlaceSelectorScript : MonoBehaviour
 
     void Start()
     {
-        LinePrefab = UnityManager.GetPrefab("LaserRay");
+        LinePrefab = UnityManager.GetPrefab("AngleRay");
         RangeIndicator = GetComponentsInChildren<Transform>().First(x => x.name == "RadiusIndicator").gameObject;
+
+        Lines.Item1 = Instantiate(LinePrefab, transform);
+        Lines.Item2 = Instantiate(LinePrefab, transform);
+
+        lineRenderers.Item1 = Lines.Item1.GetComponent<LineRenderer>();
+        lineRenderers.Item2 = Lines.Item2.GetComponent<LineRenderer>();
     }
     void CreateAngleLaser()
     {
-        var angle = ((DefenceTower)SelectedTower).MaxTargetingAngle;
-        if(Lines.Item1 == null) // instantiate lines
+        var tower = SelectedTower as DefenceTower;
+        if (Lines.Item1.gameObject.activeSelf)
         {
-            Lines.Item1 = Instantiate(LinePrefab, transform);
-            Lines.Item2 = Instantiate(LinePrefab, transform);
-
-            lineRenderers.Item1 = Lines.Item1.GetComponent<LineRenderer>();
-            lineRenderers.Item2 = Lines.Item2.GetComponent<LineRenderer>();
-
-            lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(((DefenceTower)SelectedTower).MaxTargetingAngle/2) });
-            lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(-((DefenceTower)SelectedTower).MaxTargetingAngle/2) });
-        }
-        else // update lines
-        {
-            lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(((DefenceTower)SelectedTower).MaxTargetingAngle / 2) });
-            lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector2.up.Rotate(-((DefenceTower)SelectedTower).MaxTargetingAngle / 2) });
+            if(tower.MaxTargetingAngle < 360)
+            {
+                lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, (Vector2.up * tower.Range).Rotate(tower.MaxTargetingAngle / 2) });
+                lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, (Vector2.up * tower.Range).Rotate(-tower.MaxTargetingAngle / 2) });
+            }
+            else
+            {
+                lineRenderers.Item1.SetPositions(new Vector3[] { Vector3.zero, Vector3.zero});
+                lineRenderers.Item2.SetPositions(new Vector3[] { Vector3.zero, Vector3.zero});
+            }
         }
     }
 
     void CreateRangeIndicator()
     {
-        RangeIndicator.transform.localScale = Vector3.one * (SelectedTower as DefenceTower).Range;
+        RangeIndicator.transform.localScale = Vector3.one * (SelectedTower as DefenceTower).Range * 2;
     }
 
     public void UpdateTower(TowerObject tower)
@@ -51,9 +54,9 @@ public class TowerPlaceSelectorScript : MonoBehaviour
         var hit = Physics2D.RaycastAll(gameObject.transform.position, Vector2.zero);
 
         Color green = Color.green;
-        green.a = 0.5f;
+        green.a = 0.4f;
         Color red = Color.red;
-        red.a = 0.5f;
+        red.a = 0.4f;
         // The colors alpha is adjusted to make it transparent
 
         if (hit.Any(x => x.collider.gameObject.tag == "Tower") || !hit.Any(x => x.collider.gameObject.name == "Placable Area"))
@@ -80,6 +83,17 @@ public class TowerPlaceSelectorScript : MonoBehaviour
         {
             CreateAngleLaser();
             CreateRangeIndicator();
+            lineRenderers.Item1.gameObject.SetActive(true);
+            lineRenderers.Item2.gameObject.SetActive(true);
+            RangeIndicator.SetActive(true);
+        }
+        else
+        {
+            
+            lineRenderers.Item1.gameObject.SetActive(false);
+            lineRenderers.Item2.gameObject.SetActive(false);
+
+            RangeIndicator.SetActive(false);
         }
     }
 }
