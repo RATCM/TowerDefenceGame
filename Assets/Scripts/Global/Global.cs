@@ -93,7 +93,7 @@ public static class PlayerInfo
 
     private static float _population = StartPopulationCount;
 
-    public const float PopulationMultiplier = 1.1f; // The amount the population is increesed by every round
+    public const float PopulationMultiplier = 0.1f; // The amount the population is increesed by every round
 
     //public static ulong WorkerCount { get => (ulong)GameObject.FindGameObjectsWithTag("Tower").Sum(x => x.GetComponent<TowerObject>().WorkerCount); }
     public static float Civilians { get => _population - (long)GameController.ActiveWorkers; }
