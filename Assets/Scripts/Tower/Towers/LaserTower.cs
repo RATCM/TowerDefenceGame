@@ -61,9 +61,9 @@ public class LaserTower : DefenceTower, ILaser
             ));
 
         upgradePath.Add(new TowerUpgradePath(
-            new TowerUpgrade("(1) +50% Tempearture capacity 50%", this, 100, delegate { MaximumTemperature *= 1.5f; Gun.gameObject.transform.localScale *= 1.1f; }),
-            new TowerUpgrade("(2) +50% Tempearture capacity 50%", this, 200, delegate { MaximumTemperature *= 1.5f; Gun.gameObject.transform.localScale *= 1.1f; }),
-            new TowerUpgrade("(3) +50% Tempearture capacity 50%", this, 400, delegate { MaximumTemperature *= 1.5f; Gun.gameObject.transform.localScale *= 1.1f; })
+            new TowerUpgrade("(1) +50% Tempearture capacity", this, 100, delegate { MaximumTemperature *= 1.5f; Gun.gameObject.transform.localScale *= 1.1f; }),
+            new TowerUpgrade("(2) +50% Tempearture capacity", this, 200, delegate { MaximumTemperature *= 1.5f; Gun.gameObject.transform.localScale *= 1.1f; }),
+            new TowerUpgrade("(3) +50% Tempearture capacity", this, 400, delegate { MaximumTemperature *= 1.5f; Gun.gameObject.transform.localScale *= 1.1f; })
             ));
     }
 
